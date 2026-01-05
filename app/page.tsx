@@ -7,182 +7,701 @@ import { fetchMealPlans, saveMeal, removeMeal as removeMealFromDB, syncMealPlan 
 const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 const MEALS = ['Breakfast', 'Lunch', 'Dinner'];
 
-// Recipe database with images, ingredients, instructions, and nutrition
+// Recipe database with images, ingredients, instructions, nutrition, and detailed guides
 const RECIPES: Record<string, {
   name: string;
   image: string;
   time: string;
+  prepTime: string;
+  cookTime: string;
   servings: number;
   calories: number;
   difficulty: 'Easy' | 'Medium' | 'Hard';
   tags: string[];
-  ingredients: string[];
+  ingredients: { item: string; amount: string; calories: number; buyingTip: string }[];
+  prepSteps: string[];
+  cookingSteps: string[];
   instructions: string[];
+  nutritionBreakdown: { protein: number; carbs: number; fat: number; fiber: number };
 }> = {
   'Avocado Toast': {
     name: 'Avocado Toast',
     image: 'https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?w=800&h=600&fit=crop&q=80',
     time: '10 min',
+    prepTime: '5 min',
+    cookTime: '5 min',
     servings: 2,
     calories: 320,
     difficulty: 'Easy',
     tags: ['Vegetarian', 'Quick', 'Healthy'],
-    ingredients: ['2 slices sourdough bread', '1 ripe avocado', '1 tbsp olive oil', 'Salt & pepper', 'Red pepper flakes', '1 egg (optional)', 'Cherry tomatoes'],
-    instructions: ['Toast bread until golden', 'Mash avocado with fork', 'Add olive oil, salt, pepper', 'Spread on toast', 'Top with egg or tomatoes']
+    ingredients: [
+      { item: 'Sourdough bread', amount: '2 slices', calories: 140, buyingTip: 'Choose artisan bakery bread for best texture, look for crusty exterior' },
+      { item: 'Ripe avocado', amount: '1 large', calories: 120, buyingTip: 'Press gently - should yield slightly. Dark green/black skin indicates ripeness' },
+      { item: 'Extra virgin olive oil', amount: '1 tbsp', calories: 40, buyingTip: 'Look for cold-pressed, dark bottle to preserve freshness' },
+      { item: 'Sea salt', amount: '1/4 tsp', calories: 0, buyingTip: 'Flaky sea salt adds texture and flavor burst' },
+      { item: 'Black pepper', amount: 'To taste', calories: 0, buyingTip: 'Freshly ground is more aromatic than pre-ground' },
+      { item: 'Red pepper flakes', amount: '1/4 tsp', calories: 2, buyingTip: 'Korean gochugaru adds smoky depth if available' },
+      { item: 'Cherry tomatoes', amount: '6-8', calories: 18, buyingTip: 'Look for firm, bright red tomatoes on the vine for best flavor' }
+    ],
+    prepSteps: [
+      'Wash cherry tomatoes and pat dry',
+      'Cut avocado in half, remove pit, scoop flesh into bowl',
+      'Slice cherry tomatoes in half',
+      'Gather all seasonings and olive oil'
+    ],
+    cookingSteps: [
+      'Toast bread in toaster or under broiler until golden brown (2-3 min)',
+      'While warm, drizzle each slice with olive oil',
+      'Mash avocado with fork to desired consistency (chunky or smooth)',
+      'Season mashed avocado with salt and pepper',
+      'Spread avocado generously on warm toast',
+      'Top with halved cherry tomatoes',
+      'Finish with red pepper flakes and extra sea salt'
+    ],
+    instructions: ['Toast bread until golden', 'Mash avocado with fork', 'Add olive oil, salt, pepper', 'Spread on toast', 'Top with egg or tomatoes'],
+    nutritionBreakdown: { protein: 6, carbs: 28, fat: 22, fiber: 8 }
   },
   'Overnight Oats': {
     name: 'Overnight Oats',
     image: 'https://images.unsplash.com/photo-1517673400267-0251440c45dc?w=800&h=600&fit=crop&q=80',
     time: '5 min prep',
+    prepTime: '5 min',
+    cookTime: '0 min (overnight rest)',
     servings: 1,
     calories: 380,
     difficulty: 'Easy',
     tags: ['Vegetarian', 'Meal Prep', 'No Cook'],
-    ingredients: ['1/2 cup rolled oats', '1/2 cup milk', '1/4 cup Greek yogurt', '1 tbsp chia seeds', '1 tbsp honey', 'Fresh berries'],
-    instructions: ['Mix oats, milk, yogurt in jar', 'Add chia seeds and honey', 'Refrigerate overnight', 'Top with fresh berries', 'Enjoy cold or warm']
+    ingredients: [
+      { item: 'Rolled oats', amount: '1/2 cup', calories: 150, buyingTip: 'Use old-fashioned rolled oats, not instant - they hold texture better' },
+      { item: 'Milk', amount: '1/2 cup', calories: 60, buyingTip: 'Any milk works - dairy, almond, oat. Oat milk makes it extra creamy' },
+      { item: 'Greek yogurt', amount: '1/4 cup', calories: 35, buyingTip: 'Full-fat plain Greek yogurt adds creaminess and protein' },
+      { item: 'Chia seeds', amount: '1 tbsp', calories: 60, buyingTip: 'Black or white chia both work. Store in cool, dark place' },
+      { item: 'Honey', amount: '1 tbsp', calories: 60, buyingTip: 'Raw local honey has more nutrients. Maple syrup is a vegan alternative' },
+      { item: 'Fresh berries', amount: '1/4 cup', calories: 15, buyingTip: 'Blueberries, raspberries, or strawberries. Frozen work great too' }
+    ],
+    prepSteps: [
+      'Get a mason jar or container with lid (16oz works perfectly)',
+      'Measure out all dry ingredients',
+      'Wash fresh berries if using',
+      'Have your container ready by the fridge'
+    ],
+    cookingSteps: [
+      'Add rolled oats to jar',
+      'Pour in milk and stir',
+      'Add Greek yogurt and mix well',
+      'Sprinkle in chia seeds and stir to distribute',
+      'Drizzle honey and give final stir',
+      'Seal jar and refrigerate overnight (at least 6 hours)',
+      'In morning, stir and top with fresh berries',
+      'Eat cold or microwave 1-2 min if you prefer warm'
+    ],
+    instructions: ['Mix oats, milk, yogurt in jar', 'Add chia seeds and honey', 'Refrigerate overnight', 'Top with fresh berries', 'Enjoy cold or warm'],
+    nutritionBreakdown: { protein: 14, carbs: 52, fat: 10, fiber: 8 }
   },
   'Veggie Omelet': {
     name: 'Veggie Omelet',
     image: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=800&h=600&fit=crop&q=80',
     time: '15 min',
+    prepTime: '8 min',
+    cookTime: '7 min',
     servings: 1,
     calories: 290,
     difficulty: 'Easy',
     tags: ['Vegetarian', 'High Protein', 'Keto'],
-    ingredients: ['3 eggs', '1/4 cup bell peppers', '1/4 cup onions', '2 tbsp cheese', '1 tbsp butter', 'Salt & pepper', 'Fresh herbs'],
-    instructions: ['Whisk eggs with salt & pepper', 'Sauté vegetables in butter', 'Pour eggs over veggies', 'Cook until set, fold in half', 'Top with cheese']
+    ingredients: [
+      { item: 'Large eggs', amount: '3', calories: 210, buyingTip: 'Free-range or pasture-raised have richer yolks and better flavor' },
+      { item: 'Bell peppers', amount: '1/4 cup diced', calories: 8, buyingTip: 'Mix colors for visual appeal - red and yellow are sweeter than green' },
+      { item: 'Yellow onion', amount: '1/4 cup diced', calories: 10, buyingTip: 'Look for firm onions with dry, papery skin and no sprouting' },
+      { item: 'Shredded cheese', amount: '2 tbsp', calories: 45, buyingTip: 'Cheddar, Swiss, or goat cheese work great. Shred fresh for best melt' },
+      { item: 'Butter', amount: '1 tbsp', calories: 100, buyingTip: 'Unsalted butter gives you control over seasoning' },
+      { item: 'Salt & pepper', amount: 'To taste', calories: 0, buyingTip: 'Season eggs before cooking for even distribution' },
+      { item: 'Fresh herbs', amount: '1 tbsp', calories: 2, buyingTip: 'Chives, parsley, or dill add freshness. Use whatever is on hand' }
+    ],
+    prepSteps: [
+      'Dice bell peppers into small, uniform pieces',
+      'Dice onion finely (smaller cooks faster)',
+      'Crack eggs into bowl and whisk until uniform yellow',
+      'Season eggs with salt and pepper',
+      'Shred cheese if using block',
+      'Chop fresh herbs',
+      'Have all ingredients within reach of stove'
+    ],
+    cookingSteps: [
+      'Heat non-stick pan over medium heat',
+      'Add half the butter, let it melt and foam',
+      'Sauté peppers and onions 2-3 min until softened',
+      'Remove veggies to plate, wipe pan clean',
+      'Add remaining butter to pan over medium-low heat',
+      'Pour in beaten eggs, let set 30 seconds',
+      'Gently push edges toward center, tilting pan to let raw egg flow',
+      'When mostly set but still slightly wet on top, add cheese and veggies to one half',
+      'Fold omelet in half, slide onto plate',
+      'Garnish with fresh herbs'
+    ],
+    instructions: ['Whisk eggs with salt & pepper', 'Sauté vegetables in butter', 'Pour eggs over veggies', 'Cook until set, fold in half', 'Top with cheese'],
+    nutritionBreakdown: { protein: 21, carbs: 4, fat: 22, fiber: 1 }
   },
   'Smoothie Bowl': {
     name: 'Smoothie Bowl',
     image: 'https://images.unsplash.com/photo-1590301157890-4810ed352733?w=800&h=600&fit=crop&q=80',
     time: '10 min',
+    prepTime: '5 min',
+    cookTime: '5 min (blending)',
     servings: 1,
     calories: 350,
     difficulty: 'Easy',
     tags: ['Vegan', 'Gluten-Free', 'Refreshing'],
-    ingredients: ['1 frozen banana', '1/2 cup frozen berries', '1/4 cup almond milk', 'Granola', 'Sliced fruits', 'Chia seeds', 'Coconut flakes'],
-    instructions: ['Blend banana & berries with milk', 'Pour into bowl (thick consistency)', 'Top with granola', 'Add sliced fruits', 'Sprinkle seeds & coconut']
+    ingredients: [
+      { item: 'Frozen banana', amount: '1 large', calories: 105, buyingTip: 'Peel ripe bananas, break into chunks, freeze in bags. Riper = sweeter' },
+      { item: 'Frozen mixed berries', amount: '1/2 cup', calories: 35, buyingTip: 'Buy frozen bags - more economical and already frozen at peak ripeness' },
+      { item: 'Almond milk', amount: '1/4 cup', calories: 8, buyingTip: 'Unsweetened works best. Use less for thicker bowl consistency' },
+      { item: 'Granola', amount: '1/4 cup', calories: 120, buyingTip: 'Look for low-sugar varieties or make your own with oats and honey' },
+      { item: 'Sliced fresh fruits', amount: '1/4 cup', calories: 30, buyingTip: 'Kiwi, strawberries, banana slices - whatever is in season' },
+      { item: 'Chia seeds', amount: '1 tsp', calories: 20, buyingTip: 'Small amount adds omega-3s and creates nice texture' },
+      { item: 'Coconut flakes', amount: '1 tbsp', calories: 35, buyingTip: 'Unsweetened coconut chips add tropical flavor and crunch' }
+    ],
+    prepSteps: [
+      'Ensure frozen fruits are solid (not thawed)',
+      'Slice fresh fruits for topping',
+      'Measure out all toppings into small bowls',
+      'Get your favorite bowl ready (wide, shallow works best)'
+    ],
+    cookingSteps: [
+      'Add frozen banana chunks to blender',
+      'Add frozen berries on top',
+      'Pour in almond milk (start with less, add more if needed)',
+      'Blend on high, using tamper to push fruit down',
+      'Blend until thick and creamy - should be thicker than smoothie',
+      'Pour into bowl immediately (melts fast!)',
+      'Arrange granola in a stripe across top',
+      'Add fresh fruit slices in rows',
+      'Sprinkle chia seeds and coconut flakes',
+      'Eat immediately with a spoon'
+    ],
+    instructions: ['Blend banana & berries with milk', 'Pour into bowl (thick consistency)', 'Top with granola', 'Add sliced fruits', 'Sprinkle seeds & coconut'],
+    nutritionBreakdown: { protein: 6, carbs: 58, fat: 12, fiber: 9 }
   },
   'Pancakes': {
     name: 'Fluffy Pancakes',
     image: 'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=800&h=600&fit=crop&q=80',
     time: '20 min',
+    prepTime: '8 min',
+    cookTime: '12 min',
     servings: 4,
     calories: 420,
     difficulty: 'Easy',
     tags: ['Vegetarian', 'Family Favorite', 'Weekend'],
-    ingredients: ['1.5 cups flour', '2 tbsp sugar', '2 tsp baking powder', '1 cup milk', '1 egg', '3 tbsp melted butter', 'Maple syrup'],
-    instructions: ['Mix dry ingredients', 'Whisk wet ingredients separately', 'Combine until just mixed', 'Cook on griddle until bubbles form', 'Flip and cook golden']
+    ingredients: [
+      { item: 'All-purpose flour', amount: '1.5 cups', calories: 220, buyingTip: 'Unbleached flour gives slightly better flavor. Sift for fluffier results' },
+      { item: 'Granulated sugar', amount: '2 tbsp', calories: 50, buyingTip: 'White sugar works best. Can reduce to 1 tbsp for less sweet' },
+      { item: 'Baking powder', amount: '2 tsp', calories: 5, buyingTip: 'Check expiration - old baking powder won\'t rise properly' },
+      { item: 'Whole milk', amount: '1 cup', calories: 150, buyingTip: 'Room temperature milk mixes better. Buttermilk makes tangier pancakes' },
+      { item: 'Large egg', amount: '1', calories: 70, buyingTip: 'Room temperature egg incorporates better into batter' },
+      { item: 'Melted butter', amount: '3 tbsp', calories: 300, buyingTip: 'Unsalted butter preferred. Melt and let cool slightly before adding' },
+      { item: 'Pure maple syrup', amount: 'For serving', calories: 105, buyingTip: 'Real maple syrup (Grade A) is worth it vs pancake syrup' }
+    ],
+    prepSteps: [
+      'Take eggs and milk out of fridge 20 min early',
+      'Melt butter in microwave or small pan, set aside to cool',
+      'Get griddle or large pan ready',
+      'Measure all dry ingredients',
+      'Set out plates and maple syrup for serving'
+    ],
+    cookingSteps: [
+      'In large bowl, whisk flour, sugar, baking powder, and pinch of salt',
+      'Make a well in center of dry ingredients',
+      'In separate bowl, whisk milk, egg, and cooled melted butter',
+      'Pour wet ingredients into well of dry ingredients',
+      'Stir gently until just combined - lumps are okay! Overmixing = tough pancakes',
+      'Heat griddle to 350°F or pan over medium heat',
+      'Lightly butter the cooking surface',
+      'Pour 1/4 cup batter per pancake',
+      'Cook until bubbles form on surface and edges look set (2-3 min)',
+      'Flip and cook until golden brown underneath (1-2 min)',
+      'Keep warm in 200°F oven while cooking remaining batter',
+      'Serve stacked with butter and maple syrup'
+    ],
+    instructions: ['Mix dry ingredients', 'Whisk wet ingredients separately', 'Combine until just mixed', 'Cook on griddle until bubbles form', 'Flip and cook golden'],
+    nutritionBreakdown: { protein: 9, carbs: 52, fat: 18, fiber: 1 }
   },
   'Quinoa Salad': {
     name: 'Mediterranean Quinoa Salad',
     image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&h=600&fit=crop&q=80',
     time: '25 min',
+    prepTime: '10 min',
+    cookTime: '15 min',
     servings: 4,
     calories: 380,
     difficulty: 'Easy',
     tags: ['Vegan', 'Gluten-Free', 'Meal Prep'],
-    ingredients: ['1 cup quinoa', 'Cucumber', 'Cherry tomatoes', 'Red onion', 'Feta cheese', 'Olives', 'Lemon vinaigrette'],
-    instructions: ['Cook quinoa per package', 'Chop all vegetables', 'Let quinoa cool', 'Mix all ingredients', 'Dress with vinaigrette']
+    ingredients: [
+      { item: 'Quinoa', amount: '1 cup dry', calories: 220, buyingTip: 'Pre-rinsed quinoa saves time. White, red, or tri-color all work' },
+      { item: 'English cucumber', amount: '1 medium', calories: 16, buyingTip: 'English cucumbers have fewer seeds. No need to peel' },
+      { item: 'Cherry tomatoes', amount: '1 cup', calories: 27, buyingTip: 'Grape tomatoes work too. Look for firm, bright colored ones' },
+      { item: 'Red onion', amount: '1/4 medium', calories: 11, buyingTip: 'Soak sliced onion in cold water 10 min to mellow sharpness' },
+      { item: 'Feta cheese', amount: '1/2 cup crumbled', calories: 100, buyingTip: 'Block feta crumbled fresh tastes better than pre-crumbled' },
+      { item: 'Kalamata olives', amount: '1/3 cup', calories: 45, buyingTip: 'Buy pitted for convenience. Brine-packed has best flavor' },
+      { item: 'Lemon', amount: '1 large', calories: 5, buyingTip: 'Roll on counter before juicing to get more juice' },
+      { item: 'Extra virgin olive oil', amount: '3 tbsp', calories: 120, buyingTip: 'Good quality oil makes a difference in this simple dressing' }
+    ],
+    prepSteps: [
+      'Rinse quinoa in fine mesh strainer if not pre-rinsed',
+      'Dice cucumber into 1/2 inch pieces',
+      'Halve cherry tomatoes',
+      'Thinly slice red onion, soak in cold water',
+      'Pit and halve olives if not pre-pitted',
+      'Juice lemon, whisk with olive oil, salt and pepper for dressing',
+      'Crumble feta cheese'
+    ],
+    cookingSteps: [
+      'Bring 2 cups water to boil with pinch of salt',
+      'Add quinoa, reduce heat to low, cover',
+      'Simmer 15 minutes until water is absorbed',
+      'Remove from heat, fluff with fork',
+      'Spread on sheet pan to cool quickly (5 min)',
+      'Transfer cooled quinoa to large bowl',
+      'Add cucumber, tomatoes, drained onion, and olives',
+      'Pour dressing over and toss well',
+      'Gently fold in feta cheese',
+      'Season with salt and pepper to taste',
+      'Can serve immediately or refrigerate up to 4 days'
+    ],
+    instructions: ['Cook quinoa per package', 'Chop all vegetables', 'Let quinoa cool', 'Mix all ingredients', 'Dress with vinaigrette'],
+    nutritionBreakdown: { protein: 12, carbs: 38, fat: 18, fiber: 5 }
   },
   'Grilled Chicken Wrap': {
     name: 'Grilled Chicken Wrap',
     image: 'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=800&h=600&fit=crop&q=80',
     time: '20 min',
+    prepTime: '10 min',
+    cookTime: '10 min',
     servings: 2,
     calories: 450,
     difficulty: 'Medium',
     tags: ['High Protein', 'Quick', 'Portable'],
-    ingredients: ['2 chicken breasts', 'Large tortillas', 'Lettuce', 'Tomatoes', 'Greek yogurt sauce', 'Avocado', 'Red onion'],
-    instructions: ['Season and grill chicken', 'Slice into strips', 'Warm tortillas', 'Layer ingredients', 'Roll tightly']
+    ingredients: [
+      { item: 'Chicken breasts', amount: '2 (6 oz each)', calories: 280, buyingTip: 'Look for uniform thickness or pound to even. Fresh > frozen for grilling' },
+      { item: 'Large flour tortillas', amount: '2 (10-inch)', calories: 180, buyingTip: 'Burrito-size tortillas. Warm them for easier rolling' },
+      { item: 'Romaine lettuce', amount: '2 cups shredded', calories: 10, buyingTip: 'Romaine adds crunch. Iceberg works too but less nutritious' },
+      { item: 'Roma tomatoes', amount: '2 medium', calories: 22, buyingTip: 'Roma tomatoes have less liquid, preventing soggy wraps' },
+      { item: 'Greek yogurt', amount: '1/4 cup', calories: 35, buyingTip: 'Full-fat plain Greek yogurt. Mix with garlic for sauce' },
+      { item: 'Ripe avocado', amount: '1', calories: 160, buyingTip: 'Should yield to gentle pressure. Slice just before assembling' },
+      { item: 'Red onion', amount: '1/4 medium', calories: 11, buyingTip: 'Slice thin for milder flavor in wrap' }
+    ],
+    prepSteps: [
+      'Pound chicken breasts to even 1/2 inch thickness',
+      'Season chicken with salt, pepper, garlic powder, paprika',
+      'Let chicken sit 10 min at room temp before grilling',
+      'Shred lettuce into thin strips',
+      'Dice tomatoes, removing excess seeds',
+      'Thinly slice red onion',
+      'Mix Greek yogurt with minced garlic, lemon juice, salt for sauce',
+      'Slice avocado just before assembly'
+    ],
+    cookingSteps: [
+      'Preheat grill or grill pan to medium-high heat',
+      'Oil grates or pan lightly',
+      'Grill chicken 4-5 minutes per side until internal temp reaches 165°F',
+      'Let chicken rest 5 minutes before slicing',
+      'Slice chicken into strips against the grain',
+      'Warm tortillas in dry pan 30 seconds per side',
+      'Spread yogurt sauce down center of each tortilla',
+      'Layer lettuce, then chicken strips',
+      'Add tomatoes, avocado slices, and onion',
+      'Fold bottom up, then fold sides in tightly',
+      'Roll up from bottom to create wrap',
+      'Cut in half diagonally to serve'
+    ],
+    instructions: ['Season and grill chicken', 'Slice into strips', 'Warm tortillas', 'Layer ingredients', 'Roll tightly'],
+    nutritionBreakdown: { protein: 38, carbs: 32, fat: 18, fiber: 6 }
   },
   'Buddha Bowl': {
     name: 'Buddha Bowl',
     image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&h=600&fit=crop&q=80',
     time: '30 min',
+    prepTime: '15 min',
+    cookTime: '25 min',
     servings: 2,
     calories: 520,
     difficulty: 'Medium',
     tags: ['Vegan Option', 'Nutritious', 'Colorful'],
-    ingredients: ['Brown rice', 'Chickpeas', 'Sweet potato', 'Kale', 'Avocado', 'Tahini dressing', 'Seeds'],
-    instructions: ['Cook rice', 'Roast sweet potato & chickpeas', 'Massage kale with oil', 'Arrange in bowl', 'Drizzle with tahini']
+    ingredients: [
+      { item: 'Brown rice', amount: '1 cup dry', calories: 216, buyingTip: 'Short grain is stickier, long grain is fluffier. Both work well' },
+      { item: 'Canned chickpeas', amount: '1 can (15 oz)', calories: 210, buyingTip: 'Drain and rinse well. Low-sodium if available' },
+      { item: 'Sweet potato', amount: '1 large', calories: 112, buyingTip: 'Look for firm, smooth skin without soft spots or sprouts' },
+      { item: 'Lacinato kale', amount: '1 bunch', calories: 33, buyingTip: 'Also called dinosaur kale. Curly kale works too' },
+      { item: 'Ripe avocado', amount: '1', calories: 160, buyingTip: 'Should yield to gentle pressure but not be mushy' },
+      { item: 'Tahini', amount: '3 tbsp', calories: 135, buyingTip: 'Stir well before using - oil separates. Store in fridge after opening' },
+      { item: 'Mixed seeds', amount: '2 tbsp', calories: 90, buyingTip: 'Pumpkin, sunflower, hemp seeds - any combination adds nutrition' }
+    ],
+    prepSteps: [
+      'Preheat oven to 400°F',
+      'Peel and cube sweet potato into 1-inch pieces',
+      'Drain and rinse chickpeas, pat dry with paper towels',
+      'Remove kale leaves from stems, tear into pieces',
+      'Make tahini dressing: whisk tahini with lemon juice, water, garlic, salt',
+      'Slice avocado just before serving'
+    ],
+    cookingSteps: [
+      'Start brown rice: bring 2 cups water to boil, add rice, reduce heat, cover, simmer 25-30 min',
+      'Toss sweet potato cubes with oil, salt, spread on one side of sheet pan',
+      'Toss chickpeas with oil, cumin, paprika, spread on other side of pan',
+      'Roast at 400°F for 25 minutes, flipping halfway',
+      'While roasting, massage kale with 1 tsp olive oil and pinch of salt for 2 min',
+      'This breaks down fibers and makes kale tender and less bitter',
+      'Fluff rice with fork when done',
+      'To assemble: place rice in bottom of wide bowls',
+      'Arrange roasted sweet potato, chickpeas, and massaged kale in sections',
+      'Fan avocado slices on top',
+      'Drizzle tahini dressing generously',
+      'Sprinkle with mixed seeds',
+      'Add hot sauce if desired'
+    ],
+    instructions: ['Cook rice', 'Roast sweet potato & chickpeas', 'Massage kale with oil', 'Arrange in bowl', 'Drizzle with tahini'],
+    nutritionBreakdown: { protein: 18, carbs: 62, fat: 22, fiber: 14 }
   },
   'Salmon & Veggies': {
     name: 'Herb-Crusted Salmon',
     image: 'https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=800&h=600&fit=crop&q=80',
     time: '25 min',
+    prepTime: '10 min',
+    cookTime: '15 min',
     servings: 2,
     calories: 480,
     difficulty: 'Medium',
     tags: ['Omega-3', 'Keto', 'Heart Healthy'],
-    ingredients: ['2 salmon fillets', 'Fresh herbs', 'Lemon', 'Asparagus', 'Cherry tomatoes', 'Olive oil', 'Garlic'],
-    instructions: ['Preheat oven to 400°F', 'Season salmon with herbs', 'Arrange veggies around fish', 'Drizzle with olive oil', 'Bake 15-18 minutes']
+    ingredients: [
+      { item: 'Salmon fillets', amount: '2 (6 oz each)', calories: 280, buyingTip: 'Wild-caught has richer flavor. Look for bright color, no fishy smell' },
+      { item: 'Fresh dill', amount: '2 tbsp chopped', calories: 2, buyingTip: 'Feathery fronds should be vibrant green, not wilted' },
+      { item: 'Fresh parsley', amount: '2 tbsp chopped', calories: 2, buyingTip: 'Flat-leaf (Italian) parsley has better flavor than curly' },
+      { item: 'Lemon', amount: '1 large', calories: 17, buyingTip: 'Heavy lemons have more juice. Zest before juicing' },
+      { item: 'Asparagus', amount: '1 bunch', calories: 27, buyingTip: 'Thin spears are more tender. Snap off woody ends' },
+      { item: 'Cherry tomatoes', amount: '1 cup', calories: 27, buyingTip: 'On the vine have best flavor. Should be firm and bright' },
+      { item: 'Garlic', amount: '3 cloves', calories: 13, buyingTip: 'Fresh garlic should be firm with tight skin, not sprouting' },
+      { item: 'Extra virgin olive oil', amount: '3 tbsp', calories: 120, buyingTip: 'Good quality oil adds flavor to this simple dish' }
+    ],
+    prepSteps: [
+      'Remove salmon from fridge 15 min before cooking',
+      'Pat salmon dry with paper towels - crucial for crispy skin',
+      'Chop herbs finely and mix together',
+      'Zest lemon, then cut into wedges',
+      'Snap woody ends off asparagus',
+      'Mince garlic',
+      'Halve cherry tomatoes'
+    ],
+    cookingSteps: [
+      'Preheat oven to 400°F',
+      'Line baking sheet with parchment paper',
+      'Toss asparagus and tomatoes with 1 tbsp olive oil, salt, pepper',
+      'Arrange vegetables on outer edges of baking sheet',
+      'Place salmon fillets skin-side down in center',
+      'Brush salmon with 1 tbsp olive oil',
+      'Season with salt, pepper, and minced garlic',
+      'Press herb mixture onto top of salmon',
+      'Add lemon zest on top of herbs',
+      'Drizzle remaining olive oil over everything',
+      'Bake 15-18 minutes until salmon flakes easily with fork',
+      'Internal temp should reach 145°F',
+      'Serve immediately with lemon wedges'
+    ],
+    instructions: ['Preheat oven to 400°F', 'Season salmon with herbs', 'Arrange veggies around fish', 'Drizzle with olive oil', 'Bake 15-18 minutes'],
+    nutritionBreakdown: { protein: 40, carbs: 12, fat: 28, fiber: 4 }
   },
   'Pasta Primavera': {
     name: 'Pasta Primavera',
     image: 'https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=800&h=600&fit=crop&q=80',
     time: '30 min',
+    prepTime: '10 min',
+    cookTime: '20 min',
     servings: 4,
     calories: 420,
     difficulty: 'Easy',
     tags: ['Vegetarian', 'Family Favorite', 'Italian'],
-    ingredients: ['1 lb pasta', 'Zucchini', 'Bell peppers', 'Cherry tomatoes', 'Parmesan', 'Olive oil', 'Fresh basil'],
-    instructions: ['Cook pasta al dente', 'Sauté vegetables in olive oil', 'Toss pasta with veggies', 'Add parmesan', 'Garnish with basil']
+    ingredients: [
+      { item: 'Penne pasta', amount: '1 lb', calories: 400, buyingTip: 'Bronze-cut pasta has rougher texture that holds sauce better' },
+      { item: 'Zucchini', amount: '2 medium', calories: 33, buyingTip: 'Look for firm, shiny skin. Smaller zucchini have fewer seeds' },
+      { item: 'Bell peppers', amount: '2 (mixed colors)', calories: 37, buyingTip: 'Red and yellow are sweetest. Heavy peppers have thicker walls' },
+      { item: 'Cherry tomatoes', amount: '1 pint', calories: 27, buyingTip: 'On the vine taste best. Should be firm but yield slightly' },
+      { item: 'Parmesan cheese', amount: '1 cup grated', calories: 220, buyingTip: 'Parmigiano-Reggiano is authentic. Buy wedge and grate fresh' },
+      { item: 'Extra virgin olive oil', amount: '4 tbsp', calories: 160, buyingTip: 'Use good quality oil - it\'s a main flavor in this dish' },
+      { item: 'Fresh basil', amount: '1/2 cup leaves', calories: 1, buyingTip: 'Should be vibrant green without dark spots. Tear, don\'t chop' },
+      { item: 'Garlic', amount: '4 cloves', calories: 18, buyingTip: 'Fresh garlic is essential. Don\'t substitute powder' }
+    ],
+    prepSteps: [
+      'Bring large pot of salted water to boil',
+      'Halve zucchini lengthwise, then slice into half-moons',
+      'Cut bell peppers into strips',
+      'Halve cherry tomatoes',
+      'Mince garlic',
+      'Grate parmesan cheese',
+      'Wash basil and pat dry',
+      'Have all ingredients ready before starting to cook'
+    ],
+    cookingSteps: [
+      'Cook pasta in salted water according to package directions',
+      'Reserve 1 cup pasta water before draining',
+      'While pasta cooks, heat olive oil in large skillet over medium-high',
+      'Add zucchini and bell peppers, season with salt',
+      'Sauté 5-6 minutes until vegetables are tender-crisp',
+      'Add minced garlic, cook 30 seconds until fragrant',
+      'Add cherry tomatoes, cook 2 minutes until slightly softened',
+      'Drain pasta and add to skillet with vegetables',
+      'Add 1/2 cup reserved pasta water',
+      'Toss everything together over low heat',
+      'Add half the parmesan, toss to combine',
+      'Add more pasta water if needed for sauciness',
+      'Tear basil leaves over top',
+      'Serve with remaining parmesan'
+    ],
+    instructions: ['Cook pasta al dente', 'Sauté vegetables in olive oil', 'Toss pasta with veggies', 'Add parmesan', 'Garnish with basil'],
+    nutritionBreakdown: { protein: 16, carbs: 58, fat: 14, fiber: 4 }
   },
   'Stir Fry': {
     name: 'Asian Stir Fry',
     image: 'https://images.unsplash.com/photo-1512058564366-18510be2db19?w=800&h=600&fit=crop&q=80',
     time: '20 min',
+    prepTime: '12 min',
+    cookTime: '8 min',
     servings: 4,
     calories: 380,
     difficulty: 'Easy',
     tags: ['Quick', 'High Protein', 'Asian'],
-    ingredients: ['Chicken or tofu', 'Broccoli', 'Snap peas', 'Carrots', 'Soy sauce', 'Ginger', 'Garlic', 'Sesame oil'],
-    instructions: ['Prep all ingredients', 'Heat wok very hot', 'Cook protein first, set aside', 'Stir fry vegetables', 'Add sauce and protein back']
+    ingredients: [
+      { item: 'Chicken breast or firm tofu', amount: '1 lb', calories: 185, buyingTip: 'For tofu: extra-firm, pressed. For chicken: cut against the grain' },
+      { item: 'Broccoli florets', amount: '2 cups', calories: 55, buyingTip: 'Cut into uniform bite-sized pieces for even cooking' },
+      { item: 'Snap peas', amount: '1 cup', calories: 26, buyingTip: 'Should snap crisply. Remove strings from both edges' },
+      { item: 'Carrots', amount: '2 medium', calories: 52, buyingTip: 'Cut into thin coins or julienne for quick cooking' },
+      { item: 'Soy sauce', amount: '3 tbsp', calories: 27, buyingTip: 'Low-sodium soy sauce lets you control saltiness. Tamari is gluten-free' },
+      { item: 'Fresh ginger', amount: '1 inch piece', calories: 5, buyingTip: 'Should be firm with smooth skin. Grate with microplane for best texture' },
+      { item: 'Garlic', amount: '4 cloves', calories: 18, buyingTip: 'Fresh only - this dish is all about aromatics' },
+      { item: 'Sesame oil', amount: '1 tbsp', calories: 40, buyingTip: 'Toasted sesame oil has stronger flavor. Use as finisher, not for frying' }
+    ],
+    prepSteps: [
+      'THIS IS CRUCIAL: Have everything prepped before heating wok',
+      'Slice chicken into thin strips against the grain (or cube tofu)',
+      'Cut broccoli into small, uniform florets',
+      'String and halve snap peas',
+      'Slice carrots into thin coins or matchsticks',
+      'Mince garlic and grate ginger',
+      'Make sauce: whisk soy sauce, 2 tbsp water, 1 tsp cornstarch',
+      'Arrange all ingredients within arm\'s reach of stove'
+    ],
+    cookingSteps: [
+      'Heat wok or large skillet over HIGH heat until smoking',
+      'Add 1 tbsp vegetable oil, swirl to coat',
+      'Add chicken/tofu in single layer, don\'t stir for 1 minute',
+      'Stir fry 2-3 minutes until cooked through, remove to plate',
+      'Add another 1 tbsp oil to hot wok',
+      'Add carrots first (they take longest), stir fry 1 minute',
+      'Add broccoli, stir fry 2 minutes',
+      'Add snap peas, stir fry 1 minute',
+      'Push veggies to sides, add garlic and ginger to center',
+      'Stir aromatics 30 seconds until fragrant',
+      'Return protein to wok',
+      'Pour sauce over, toss everything together',
+      'Cook 1 minute until sauce thickens and coats everything',
+      'Remove from heat, drizzle with sesame oil',
+      'Serve immediately over rice'
+    ],
+    instructions: ['Prep all ingredients', 'Heat wok very hot', 'Cook protein first, set aside', 'Stir fry vegetables', 'Add sauce and protein back'],
+    nutritionBreakdown: { protein: 28, carbs: 18, fat: 14, fiber: 4 }
   },
   'Tacos Night': {
     name: 'Street-Style Tacos',
     image: 'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=800&h=600&fit=crop&q=80',
     time: '25 min',
+    prepTime: '10 min',
+    cookTime: '15 min',
     servings: 4,
     calories: 380,
     difficulty: 'Easy',
     tags: ['Mexican', 'Family Favorite', 'Customizable'],
-    ingredients: ['1 lb ground beef or chicken', 'Corn tortillas', 'Onion', 'Cilantro', 'Lime', 'Salsa', 'Taco seasoning'],
-    instructions: ['Brown meat with seasoning', 'Warm tortillas', 'Dice onion and cilantro', 'Assemble tacos', 'Squeeze lime on top']
+    ingredients: [
+      { item: 'Ground beef (80/20)', amount: '1 lb', calories: 280, buyingTip: '80/20 blend has enough fat for flavor. Ground chicken or turkey also works' },
+      { item: 'Corn tortillas', amount: '12 small', calories: 210, buyingTip: 'Fresh from Mexican grocery is best. Double up for sturdier tacos' },
+      { item: 'White onion', amount: '1 medium', calories: 44, buyingTip: 'White onion is traditional. Should be firm with dry papery skin' },
+      { item: 'Fresh cilantro', amount: '1 bunch', calories: 4, buyingTip: 'Bright green leaves, no yellowing. Some people taste soap - skip if that\'s you' },
+      { item: 'Limes', amount: '3', calories: 60, buyingTip: 'Should feel heavy for size. Roll before cutting to release more juice' },
+      { item: 'Fresh salsa', amount: '1 cup', calories: 36, buyingTip: 'Pico de gallo style is traditional. Or make your own with tomatoes, onion, jalapeño' },
+      { item: 'Taco seasoning', amount: '3 tbsp', calories: 30, buyingTip: 'Make your own: chili powder, cumin, paprika, garlic powder, oregano' }
+    ],
+    prepSteps: [
+      'Finely dice onion - you want small pieces',
+      'Roughly chop cilantro leaves and tender stems',
+      'Cut limes into wedges',
+      'If making fresh salsa: dice tomatoes, mince jalapeño, mix with lime juice',
+      'Set up taco bar: bowls for each topping',
+      'Have paper towels ready for draining meat'
+    ],
+    cookingSteps: [
+      'Heat large skillet over medium-high heat',
+      'Add ground beef, break up with spatula',
+      'Cook 5-7 minutes, breaking into small crumbles',
+      'Drain excess fat if desired',
+      'Add taco seasoning and 1/4 cup water',
+      'Simmer 3-4 minutes until liquid reduces',
+      'Taste and adjust seasoning',
+      'Meanwhile, heat tortillas: dry skillet over high heat',
+      'Cook each tortilla 30 seconds per side until slightly charred',
+      'Stack tortillas and wrap in clean towel to keep warm',
+      'Double up tortillas for serving (street-style)',
+      'Spoon meat into tortillas',
+      'Top with onion and cilantro',
+      'Squeeze fresh lime over top',
+      'Add salsa as desired'
+    ],
+    instructions: ['Brown meat with seasoning', 'Warm tortillas', 'Dice onion and cilantro', 'Assemble tacos', 'Squeeze lime on top'],
+    nutritionBreakdown: { protein: 22, carbs: 28, fat: 16, fiber: 4 }
   },
   'Pizza Night': {
     name: 'Homemade Pizza',
     image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=600&fit=crop&q=80',
     time: '45 min',
+    prepTime: '20 min',
+    cookTime: '15 min',
     servings: 4,
     calories: 520,
     difficulty: 'Medium',
     tags: ['Italian', 'Family Favorite', 'Fun'],
-    ingredients: ['Pizza dough', 'Tomato sauce', 'Mozzarella', 'Pepperoni', 'Bell peppers', 'Mushrooms', 'Fresh basil'],
-    instructions: ['Preheat oven to 475°F', 'Roll out dough', 'Spread sauce', 'Add cheese and toppings', 'Bake 12-15 minutes']
+    ingredients: [
+      { item: 'Pizza dough', amount: '1 lb', calories: 260, buyingTip: 'Buy from pizzeria or grocery deli. Or make ahead and refrigerate' },
+      { item: 'San Marzano tomato sauce', amount: '1/2 cup', calories: 35, buyingTip: 'San Marzano tomatoes make best sauce. Or use quality marinara' },
+      { item: 'Fresh mozzarella', amount: '8 oz', calories: 170, buyingTip: 'Fresh mozzarella packed in water melts beautifully. Slice and drain' },
+      { item: 'Pepperoni', amount: '3 oz', calories: 150, buyingTip: 'Cup-and-char style curls up when cooked. Or skip for cheese pizza' },
+      { item: 'Bell peppers', amount: '1', calories: 24, buyingTip: 'Slice thin so they cook through. Any color works' },
+      { item: 'Cremini mushrooms', amount: '4 oz', calories: 22, buyingTip: 'Slice thin. Sauté briefly first if you don\'t like raw mushrooms' },
+      { item: 'Fresh basil', amount: '8-10 leaves', calories: 1, buyingTip: 'Add AFTER baking - it burns easily. Tear, don\'t chop' },
+      { item: 'Olive oil', amount: '2 tbsp', calories: 80, buyingTip: 'Drizzle on crust edges for golden, crispy finish' }
+    ],
+    prepSteps: [
+      'Remove dough from fridge 30 min before using',
+      'Preheat oven to 475°F (or as high as it goes) with pizza stone if you have one',
+      'Slice fresh mozzarella, lay on paper towels to drain',
+      'Slice bell peppers into thin rings',
+      'Slice mushrooms thin',
+      'Prep all toppings in separate bowls',
+      'Flour your work surface generously',
+      'Have parchment paper ready for transferring'
+    ],
+    cookingSteps: [
+      'Stretch dough with hands - don\'t use rolling pin (compresses air)',
+      'Start from center, work outward, leaving edge thicker for crust',
+      'Transfer to floured parchment paper',
+      'Spread thin layer of sauce, leaving 1-inch border',
+      'Less is more with sauce - don\'t make it soggy',
+      'Arrange mozzarella slices evenly',
+      'Add pepperoni (curls up into little cups)',
+      'Scatter peppers and mushrooms',
+      'Drizzle olive oil on crust edges',
+      'Transfer pizza (on parchment) to hot stone or baking sheet',
+      'Bake 12-15 minutes until crust is golden and cheese bubbles',
+      'Remove from oven, let rest 2 minutes',
+      'Top with fresh torn basil',
+      'Slice and serve immediately'
+    ],
+    instructions: ['Preheat oven to 475°F', 'Roll out dough', 'Spread sauce', 'Add cheese and toppings', 'Bake 12-15 minutes'],
+    nutritionBreakdown: { protein: 22, carbs: 48, fat: 24, fiber: 3 }
   },
   'Sushi Night': {
     name: 'Homemade Sushi Rolls',
     image: 'https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=800&h=600&fit=crop&q=80',
     time: '45 min',
+    prepTime: '25 min',
+    cookTime: '20 min',
     servings: 4,
     calories: 350,
     difficulty: 'Hard',
     tags: ['Japanese', 'Healthy', 'Date Night'],
-    ingredients: ['Sushi rice', 'Nori sheets', 'Fresh salmon or tuna', 'Cucumber', 'Avocado', 'Rice vinegar', 'Soy sauce', 'Wasabi'],
-    instructions: ['Cook and season rice', 'Prep fish and vegetables', 'Place nori on bamboo mat', 'Spread rice, add fillings', 'Roll tightly and slice']
+    ingredients: [
+      { item: 'Sushi rice', amount: '2 cups', calories: 200, buyingTip: 'Short-grain Japanese rice is essential. Calrose rice is good substitute' },
+      { item: 'Nori sheets', amount: '8 sheets', calories: 40, buyingTip: 'Should be dark green/black, crispy. Store in airtight container' },
+      { item: 'Sushi-grade salmon', amount: '8 oz', calories: 200, buyingTip: 'MUST be sushi-grade/sashimi-grade from reputable fishmonger. Ask for freshest' },
+      { item: 'English cucumber', amount: '1', calories: 16, buyingTip: 'English cucumbers have fewer seeds. Cut into long strips' },
+      { item: 'Ripe avocado', amount: '2', calories: 320, buyingTip: 'Should yield to gentle pressure. Not too soft or it will mush' },
+      { item: 'Rice vinegar', amount: '1/4 cup', calories: 8, buyingTip: 'Seasoned rice vinegar or plain with sugar added' },
+      { item: 'Soy sauce', amount: 'For dipping', calories: 10, buyingTip: 'Low-sodium recommended. Japanese brands are best' },
+      { item: 'Wasabi paste', amount: 'To taste', calories: 5, buyingTip: 'Real wasabi is expensive and rare. Most is horseradish-based, which is fine' }
+    ],
+    prepSteps: [
+      'Rinse rice in cold water until water runs clear (5-6 times)',
+      'Cook rice in rice cooker or pot with equal water',
+      'While rice cooks, prep vegetables',
+      'Cut cucumber into long thin strips',
+      'Slice avocado into thin strips',
+      'Slice fish into long strips (about 1/2 inch thick)',
+      'Mix rice vinegar with 2 tbsp sugar, 1 tsp salt, heat until dissolved',
+      'Prepare bowl of water with splash of vinegar for wetting hands',
+      'Set up bamboo rolling mat wrapped in plastic wrap'
+    ],
+    cookingSteps: [
+      'When rice is done, transfer to wide bowl',
+      'Pour vinegar mixture over rice in thin stream',
+      'Use cutting motion with paddle to mix (don\'t mash)',
+      'Fan rice while mixing to cool and create shine',
+      'Cover with damp towel until ready to use',
+      'Place nori sheet shiny-side down on mat',
+      'Wet hands in vinegar water',
+      'Spread thin layer of rice on nori, leaving 1-inch strip at top',
+      'Add strip of fish, cucumber, and avocado across center',
+      'Lift bottom of mat, roll over fillings',
+      'Squeeze gently to shape, then continue rolling',
+      'Use damp knife to cut roll into 6-8 pieces',
+      'Clean knife between cuts for clean edges',
+      'Serve with soy sauce, wasabi, and pickled ginger'
+    ],
+    instructions: ['Cook and season rice', 'Prep fish and vegetables', 'Place nori on bamboo mat', 'Spread rice, add fillings', 'Roll tightly and slice'],
+    nutritionBreakdown: { protein: 18, carbs: 42, fat: 14, fiber: 4 }
   },
   'Chicken Curry': {
     name: 'Creamy Chicken Curry',
     image: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=800&h=600&fit=crop&q=80',
     time: '40 min',
+    prepTime: '15 min',
+    cookTime: '25 min',
     servings: 4,
     calories: 450,
     difficulty: 'Medium',
     tags: ['Indian', 'Comfort Food', 'Spicy'],
-    ingredients: ['1.5 lbs chicken thighs', 'Coconut milk', 'Curry paste', 'Onion', 'Garlic', 'Ginger', 'Rice', 'Cilantro'],
-    instructions: ['Sauté onion, garlic, ginger', 'Add curry paste, cook 1 min', 'Add chicken, brown slightly', 'Pour in coconut milk', 'Simmer 25 min, serve over rice']
+    ingredients: [
+      { item: 'Chicken thighs', amount: '1.5 lbs boneless', calories: 275, buyingTip: 'Thighs stay juicier than breast in curry. Trim excess fat' },
+      { item: 'Full-fat coconut milk', amount: '1 can (14 oz)', calories: 280, buyingTip: 'Full-fat is creamier. Shake can well before opening' },
+      { item: 'Curry paste or powder', amount: '3 tbsp', calories: 30, buyingTip: 'Red curry paste is milder, green is spicier. Or use garam masala' },
+      { item: 'Yellow onion', amount: '1 large', calories: 44, buyingTip: 'Dice small for faster cooking. Sweet onion also works' },
+      { item: 'Garlic', amount: '4 cloves', calories: 18, buyingTip: 'Fresh garlic is essential. Mince finely or use garlic press' },
+      { item: 'Fresh ginger', amount: '2 inch piece', calories: 10, buyingTip: 'Should be firm with smooth skin. Grate with microplane' },
+      { item: 'Basmati rice', amount: '1.5 cups', calories: 240, buyingTip: 'Rinse until water runs clear for fluffy, separate grains' },
+      { item: 'Fresh cilantro', amount: '1/4 cup', calories: 1, buyingTip: 'For garnish. Skip if you have the soap-taste gene' }
+    ],
+    prepSteps: [
+      'Cut chicken into 1.5 inch pieces',
+      'Season chicken with salt and turmeric',
+      'Dice onion finely',
+      'Mince garlic and grate ginger',
+      'Shake coconut milk can vigorously',
+      'Rinse basmati rice 3-4 times until water runs clear',
+      'Measure out curry paste/powder',
+      'Roughly chop cilantro for garnish'
+    ],
+    cookingSteps: [
+      'Start rice: 1.5 cups rice with 2.25 cups water, bring to boil, reduce to low, cover 15 min',
+      'Heat large skillet or Dutch oven over medium-high heat',
+      'Add 2 tbsp oil, brown chicken in batches 2-3 min per side',
+      'Don\'t move chicken too much - let it develop color',
+      'Remove chicken to plate (it will finish cooking in sauce)',
+      'Reduce heat to medium, add diced onion',
+      'Sauté 5-6 minutes until golden and soft',
+      'Add garlic and ginger, cook 1 minute until fragrant',
+      'Add curry paste/powder, stir 30 seconds to bloom spices',
+      'Pour in coconut milk, stir to combine with spices',
+      'Return chicken to pan with any juices',
+      'Simmer 15-20 minutes until chicken is cooked through',
+      'Sauce should thicken - if too thick, add splash of water',
+      'Taste and adjust salt, add pinch of sugar if needed',
+      'Fluff rice with fork',
+      'Serve curry over rice, garnish with cilantro'
+    ],
+    instructions: ['Sauté onion, garlic, ginger', 'Add curry paste, cook 1 min', 'Add chicken, brown slightly', 'Pour in coconut milk', 'Simmer 25 min, serve over rice'],
+    nutritionBreakdown: { protein: 32, carbs: 28, fat: 24, fiber: 2 }
   },
 };
 
@@ -249,25 +768,29 @@ function ProgressBar({ filled, total }: { filled: number; total: number }) {
   );
 }
 
-// Recipe Modal
-function RecipeModal({ recipe, onClose, onAddToMeal }: { 
-  recipe: typeof RECIPES[string] | null; 
+// Recipe Modal with tabs for detailed info
+function RecipeModal({ recipe, onClose, onAddToMeal }: {
+  recipe: typeof RECIPES[string] | null;
   onClose: () => void;
   onAddToMeal: (name: string) => void;
 }) {
+  const [activeTab, setActiveTab] = useState<'ingredients' | 'prep' | 'cooking' | 'nutrition'>('ingredients');
+
   if (!recipe) return null;
-  
+
+  const totalIngredientCalories = recipe.ingredients.reduce((sum, ing) => sum + ing.calories, 0);
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onClose}>
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
-      <div 
-        className="relative bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto animate-modal-in"
+      <div
+        className="relative bg-white rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto animate-modal-in"
         onClick={e => e.stopPropagation()}
       >
         {/* Recipe Image */}
-        <div className="relative h-64 w-full">
-          <Image src={recipe.image} alt={recipe.name} fill className="object-cover rounded-t-2xl" sizes="700px" />
-          <button 
+        <div className="relative h-72 w-full">
+          <Image src={recipe.image} alt={recipe.name} fill className="object-cover rounded-t-2xl" sizes="800px" />
+          <button
             onClick={onClose}
             className="absolute top-4 right-4 w-10 h-10 bg-white/90 rounded-full flex items-center justify-center shadow-lg hover:bg-white transition-colors"
           >
@@ -275,7 +798,7 @@ function RecipeModal({ recipe, onClose, onAddToMeal }: {
           </button>
           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
             <h2 className="text-3xl font-bold text-white">{recipe.name}</h2>
-            <div className="flex gap-2 mt-2">
+            <div className="flex gap-2 mt-2 flex-wrap">
               {recipe.tags.map((tag, idx) => (
                 <span key={idx} className="px-2 py-1 bg-white/20 rounded-full text-xs text-white">{tag}</span>
               ))}
@@ -285,61 +808,209 @@ function RecipeModal({ recipe, onClose, onAddToMeal }: {
 
         {/* Recipe Info */}
         <div className="p-6">
-          <div className="grid grid-cols-4 gap-4 mb-6">
+          {/* Quick Stats */}
+          <div className="grid grid-cols-5 gap-3 mb-6">
             <div className="text-center p-3 bg-orange-50 rounded-xl">
-              <p className="text-2xl">⏱️</p>
-              <p className="text-sm font-semibold text-gray-800">{recipe.time}</p>
+              <p className="text-xl">⏱️</p>
+              <p className="text-xs font-semibold text-gray-800">{recipe.time}</p>
+            </div>
+            <div className="text-center p-3 bg-yellow-50 rounded-xl">
+              <p className="text-xl">🔪</p>
+              <p className="text-xs font-semibold text-gray-800">Prep {recipe.prepTime}</p>
+            </div>
+            <div className="text-center p-3 bg-red-50 rounded-xl">
+              <p className="text-xl">🍳</p>
+              <p className="text-xs font-semibold text-gray-800">Cook {recipe.cookTime}</p>
             </div>
             <div className="text-center p-3 bg-green-50 rounded-xl">
-              <p className="text-2xl">👥</p>
-              <p className="text-sm font-semibold text-gray-800">{recipe.servings} servings</p>
+              <p className="text-xl">👥</p>
+              <p className="text-xs font-semibold text-gray-800">{recipe.servings} servings</p>
             </div>
             <div className="text-center p-3 bg-blue-50 rounded-xl">
-              <p className="text-2xl">🔥</p>
-              <p className="text-sm font-semibold text-gray-800">{recipe.calories} cal</p>
-            </div>
-            <div className="text-center p-3 bg-purple-50 rounded-xl">
-              <p className="text-2xl">{recipe.difficulty === 'Easy' ? '😊' : recipe.difficulty === 'Medium' ? '👨‍🍳' : '🏆'}</p>
-              <p className="text-sm font-semibold text-gray-800">{recipe.difficulty}</p>
+              <p className="text-xl">🔥</p>
+              <p className="text-xs font-semibold text-gray-800">{recipe.calories} cal</p>
             </div>
           </div>
 
-          {/* Ingredients */}
-          <div className="mb-6">
-            <h3 className="text-lg font-bold text-gray-800 mb-3 flex items-center gap-2">
-              🥗 Ingredients
-            </h3>
-            <ul className="grid grid-cols-2 gap-2">
-              {recipe.ingredients.map((ing, idx) => (
-                <li key={idx} className="flex items-center gap-2 text-gray-600 text-sm">
-                  <span className="w-2 h-2 bg-orange-400 rounded-full"></span>
-                  {ing}
-                </li>
-              ))}
-            </ul>
+          {/* Tabs */}
+          <div className="flex gap-2 mb-4 border-b border-gray-200 pb-2 overflow-x-auto">
+            {[
+              { id: 'ingredients', label: '🛒 Ingredients & Buying', icon: '🛒' },
+              { id: 'prep', label: '🔪 Prep Steps', icon: '🔪' },
+              { id: 'cooking', label: '👨‍🍳 Cooking', icon: '👨‍🍳' },
+              { id: 'nutrition', label: '📊 Nutrition', icon: '📊' },
+            ].map(tab => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id as typeof activeTab)}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${
+                  activeTab === tab.id
+                    ? 'bg-orange-500 text-white'
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
           </div>
 
-          {/* Instructions */}
-          <div className="mb-6">
-            <h3 className="text-lg font-bold text-gray-800 mb-3 flex items-center gap-2">
-              📝 Instructions
-            </h3>
-            <ol className="space-y-3">
-              {recipe.instructions.map((step, idx) => (
-                <li key={idx} className="flex gap-3 text-gray-600 text-sm">
-                  <span className="flex-shrink-0 w-6 h-6 bg-orange-500 text-white rounded-full flex items-center justify-center text-xs font-bold">
-                    {idx + 1}
-                  </span>
-                  {step}
-                </li>
-              ))}
-            </ol>
+          {/* Tab Content */}
+          <div className="min-h-[300px]">
+            {/* Ingredients Tab */}
+            {activeTab === 'ingredients' && (
+              <div className="space-y-4">
+                <div className="bg-amber-50 p-3 rounded-xl mb-4">
+                  <p className="text-sm text-amber-800">
+                    <strong>🛍️ Shopping Tip:</strong> Check your pantry first! Items marked with buying tips help you select the best quality.
+                  </p>
+                </div>
+                {recipe.ingredients.map((ing, idx) => (
+                  <div key={idx} className="border border-gray-100 rounded-xl p-4 hover:border-orange-200 transition-colors">
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2">
+                          <span className="w-2 h-2 bg-orange-400 rounded-full flex-shrink-0"></span>
+                          <span className="font-medium text-gray-800">{ing.item}</span>
+                          <span className="text-sm text-gray-500">({ing.amount})</span>
+                        </div>
+                        <p className="text-xs text-gray-500 mt-1 ml-4">💡 {ing.buyingTip}</p>
+                      </div>
+                      <span className="text-sm font-semibold text-orange-600 bg-orange-50 px-2 py-1 rounded-lg whitespace-nowrap">
+                        {ing.calories} cal
+                      </span>
+                    </div>
+                  </div>
+                ))}
+                <div className="bg-gray-100 p-4 rounded-xl mt-4">
+                  <p className="text-sm font-semibold text-gray-700">
+                    Total Ingredient Calories: <span className="text-orange-600">{totalIngredientCalories} cal</span>
+                    <span className="text-gray-500 font-normal ml-2">({Math.round(totalIngredientCalories / recipe.servings)} per serving)</span>
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* Prep Steps Tab */}
+            {activeTab === 'prep' && (
+              <div>
+                <div className="bg-blue-50 p-3 rounded-xl mb-4">
+                  <p className="text-sm text-blue-800">
+                    <strong>🔪 Prep Time:</strong> {recipe.prepTime} - Complete these steps before you start cooking!
+                  </p>
+                </div>
+                <ol className="space-y-3">
+                  {recipe.prepSteps.map((step, idx) => (
+                    <li key={idx} className="flex gap-3 p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
+                      <span className="flex-shrink-0 w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                        {idx + 1}
+                      </span>
+                      <p className="text-gray-700 pt-1">{step}</p>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            )}
+
+            {/* Cooking Tab */}
+            {activeTab === 'cooking' && (
+              <div>
+                <div className="bg-red-50 p-3 rounded-xl mb-4">
+                  <p className="text-sm text-red-800">
+                    <strong>🍳 Cooking Time:</strong> {recipe.cookTime} - Follow these steps carefully for best results!
+                  </p>
+                </div>
+                <ol className="space-y-3">
+                  {recipe.cookingSteps.map((step, idx) => (
+                    <li key={idx} className="flex gap-3 p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
+                      <span className="flex-shrink-0 w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                        {idx + 1}
+                      </span>
+                      <p className="text-gray-700 pt-1">{step}</p>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            )}
+
+            {/* Nutrition Tab */}
+            {activeTab === 'nutrition' && (
+              <div>
+                <div className="bg-green-50 p-3 rounded-xl mb-4">
+                  <p className="text-sm text-green-800">
+                    <strong>📊 Per Serving:</strong> {recipe.calories} calories ({recipe.servings} servings per recipe)
+                  </p>
+                </div>
+
+                {/* Macro Breakdown */}
+                <div className="grid grid-cols-4 gap-4 mb-6">
+                  <div className="text-center p-4 bg-blue-50 rounded-xl">
+                    <p className="text-3xl font-bold text-blue-600">{recipe.nutritionBreakdown.protein}g</p>
+                    <p className="text-sm text-gray-600">Protein</p>
+                    <div className="w-full bg-blue-200 rounded-full h-2 mt-2">
+                      <div className="bg-blue-500 h-2 rounded-full" style={{ width: `${Math.min(100, recipe.nutritionBreakdown.protein * 2)}%` }}></div>
+                    </div>
+                  </div>
+                  <div className="text-center p-4 bg-amber-50 rounded-xl">
+                    <p className="text-3xl font-bold text-amber-600">{recipe.nutritionBreakdown.carbs}g</p>
+                    <p className="text-sm text-gray-600">Carbs</p>
+                    <div className="w-full bg-amber-200 rounded-full h-2 mt-2">
+                      <div className="bg-amber-500 h-2 rounded-full" style={{ width: `${Math.min(100, recipe.nutritionBreakdown.carbs)}%` }}></div>
+                    </div>
+                  </div>
+                  <div className="text-center p-4 bg-red-50 rounded-xl">
+                    <p className="text-3xl font-bold text-red-600">{recipe.nutritionBreakdown.fat}g</p>
+                    <p className="text-sm text-gray-600">Fat</p>
+                    <div className="w-full bg-red-200 rounded-full h-2 mt-2">
+                      <div className="bg-red-500 h-2 rounded-full" style={{ width: `${Math.min(100, recipe.nutritionBreakdown.fat * 1.5)}%` }}></div>
+                    </div>
+                  </div>
+                  <div className="text-center p-4 bg-green-50 rounded-xl">
+                    <p className="text-3xl font-bold text-green-600">{recipe.nutritionBreakdown.fiber}g</p>
+                    <p className="text-sm text-gray-600">Fiber</p>
+                    <div className="w-full bg-green-200 rounded-full h-2 mt-2">
+                      <div className="bg-green-500 h-2 rounded-full" style={{ width: `${Math.min(100, recipe.nutritionBreakdown.fiber * 5)}%` }}></div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Calorie Breakdown by Ingredient */}
+                <h4 className="font-bold text-gray-800 mb-3">Calorie Breakdown by Ingredient</h4>
+                <div className="space-y-2">
+                  {recipe.ingredients
+                    .filter(ing => ing.calories > 0)
+                    .sort((a, b) => b.calories - a.calories)
+                    .map((ing, idx) => (
+                      <div key={idx} className="flex items-center gap-3">
+                        <span className="text-sm text-gray-600 w-32 truncate">{ing.item}</span>
+                        <div className="flex-1 bg-gray-200 rounded-full h-4 overflow-hidden">
+                          <div
+                            className="bg-gradient-to-r from-orange-400 to-amber-400 h-full rounded-full transition-all"
+                            style={{ width: `${(ing.calories / totalIngredientCalories) * 100}%` }}
+                          ></div>
+                        </div>
+                        <span className="text-sm font-semibold text-gray-700 w-16 text-right">{ing.calories} cal</span>
+                      </div>
+                    ))}
+                </div>
+
+                {/* Daily Value Context */}
+                <div className="mt-6 p-4 bg-gray-100 rounded-xl">
+                  <h5 className="font-semibold text-gray-800 mb-2">Daily Value Context (per serving)</h5>
+                  <div className="grid grid-cols-2 gap-2 text-sm text-gray-600">
+                    <p>Calories: {Math.round((recipe.calories / 2000) * 100)}% of 2000 cal diet</p>
+                    <p>Protein: {Math.round((recipe.nutritionBreakdown.protein / 50) * 100)}% of 50g DV</p>
+                    <p>Carbs: {Math.round((recipe.nutritionBreakdown.carbs / 300) * 100)}% of 300g DV</p>
+                    <p>Fiber: {Math.round((recipe.nutritionBreakdown.fiber / 25) * 100)}% of 25g DV</p>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Add to Meal Plan */}
           <button
             onClick={() => onAddToMeal(recipe.name)}
-            className="w-full bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2"
+            className="w-full bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 mt-6"
           >
             ➕ Add to Meal Plan
           </button>
