@@ -12,7 +12,6 @@ const SCREENSHOTS = {
 };
 
 export default function LandingPage() {
-  const [email, setEmail] = useState('');
   const [showDemo, setShowDemo] = useState(false);
 
   return (
@@ -178,7 +177,7 @@ export default function LandingPage() {
               <div>
                 <h3 className="font-bold text-xl text-gray-900 mb-2">Get Your Personalized Weekly Plan</h3>
                 <p className="text-gray-600">
-                  We generate 21 meals that work for everyone. Don't like something?
+                  We generate 21 meals that work for everyone. Don&apos;t like something?
                   Swap it with one tap. Lock your favorites to repeat weekly.
                 </p>
               </div>
@@ -201,7 +200,7 @@ export default function LandingPage() {
                 <h3 className="font-bold text-xl text-gray-900 mb-2">Cook With Confidence</h3>
                 <p className="text-gray-600">
                   Each recipe has step-by-step instructions, prep times, and nutritional info.
-                  Add to your calendar so you never forget what's for dinner.
+                  Add to your calendar so you never forget what&apos;s for dinner.
                 </p>
               </div>
             </div>
@@ -299,7 +298,7 @@ export default function LandingPage() {
       <section className="py-16 px-4 bg-white">
         <div className="max-w-3xl mx-auto">
           <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
-            Questions? We've Got Answers
+            Questions? We&apos;ve Got Answers
           </h2>
 
           <div className="space-y-4">
@@ -310,7 +309,7 @@ export default function LandingPage() {
               </summary>
               <p className="mt-4 text-gray-600">
                 Those apps are great for individuals. BestMealMate is built for <strong>families with mixed diets</strong>.
-                Dad's doing keto, Mom's vegetarian, kids are picky? We create ONE dinner plan that satisfies everyone,
+                Dad&apos;s doing keto, Mom&apos;s vegetarian, kids are picky? We create ONE dinner plan that satisfies everyone,
                 not separate plans you have to merge yourself.
               </p>
             </details>
@@ -321,7 +320,7 @@ export default function LandingPage() {
                 <span className="text-orange-500 group-open:rotate-180 transition-transform">▼</span>
               </summary>
               <p className="mt-4 text-gray-600">
-                Our AI learns from rejections. Mark a meal as "didn't work" and we'll stop suggesting it -
+                Our AI learns from rejections. Mark a meal as &quot;didn&apos;t work&quot; and we&apos;ll stop suggesting it -
                 plus find similar alternatives they might actually eat. Over time, your plan gets smarter.
               </p>
             </details>
@@ -333,7 +332,7 @@ export default function LandingPage() {
               </summary>
               <p className="mt-4 text-gray-600">
                 Yes! Add any custom recipe with ingredients, instructions, and dietary tags.
-                They'll appear in your suggestions just like our built-in recipes.
+                They&apos;ll appear in your suggestions just like our built-in recipes.
               </p>
             </details>
 
@@ -355,7 +354,7 @@ export default function LandingPage() {
       <section className="py-16 px-4 bg-gradient-to-r from-orange-500 to-amber-500">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Stop Asking "What's For Dinner?"
+            Stop Asking &quot;What&apos;s For Dinner?&quot;
           </h2>
           <p className="text-xl text-white/90 mb-8">
             Join families who save 3-5 hours every week with smarter meal planning.

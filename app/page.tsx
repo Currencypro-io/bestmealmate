@@ -2,7 +2,11 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
 import { fetchMealPlans, saveMeal, removeMeal as removeMealFromDB, syncMealPlan } from '@/lib/meal-service';
+
+// Dynamically import FoodScanner to avoid SSR issues with camera
+const FoodScanner = dynamic(() => import('@/components/FoodScanner'), { ssr: false });
 
 const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 const MEALS = ['Breakfast', 'Lunch', 'Dinner'];
@@ -1073,6 +1077,7 @@ export default function Home() {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [selectedRecipe, setSelectedRecipe] = useState<typeof RECIPES[string] | null>(null);
   const [darkMode, setDarkMode] = useState(false);
+  const [showScanner, setShowScanner] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const mainContentRef = useRef<HTMLDivElement>(null);
 
@@ -1293,6 +1298,19 @@ END:VEVENT
       {/* Recipe Modal */}
       <RecipeModal recipe={selectedRecipe} onClose={() => setSelectedRecipe(null)} onAddToMeal={addRecipeToMeal} />
 
+      {/* Food Scanner Modal */}
+      {showScanner && (
+        <FoodScanner
+          onClose={() => setShowScanner(false)}
+          onAddToMealPlan={(mealName) => {
+            setMealInput(mealName);
+            setShowScanner(false);
+            inputRef.current?.focus();
+            showToast(`${mealName} added! Select day and meal type.`, 'success');
+          }}
+        />
+      )}
+
       {/* Navigation Header - Mobile Optimized */}
       <nav className="fixed top-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md shadow-sm safe-top">
         <div className="max-w-6xl mx-auto px-3 md:px-4 py-2 md:py-3 flex items-center justify-between">
@@ -1356,7 +1374,10 @@ END:VEVENT
 
       {/* Feature Cards - Horizontal scroll on mobile */}
       <section className="max-w-6xl mx-auto px-4 py-8 md:py-12 -mt-16 md:-mt-20 relative z-10">
-        <div className="flex gap-3 overflow-x-auto pb-4 md:pb-0 md:grid md:grid-cols-5 md:gap-4 swipe-container -mx-4 px-4 md:mx-0">
+        <div className="flex gap-3 overflow-x-auto pb-4 md:pb-0 md:grid md:grid-cols-6 md:gap-4 swipe-container -mx-4 px-4 md:mx-0">
+          <div className="swipe-item min-w-[140px] md:min-w-0">
+            <FeatureCard icon="📷" title="AI Scanner" description="Scan ingredients" onClick={() => setShowScanner(true)} imageSrc={FOOD_GALLERY.groceries} />
+          </div>
           <div className="swipe-item min-w-[140px] md:min-w-0">
             <FeatureCard icon="📝" title="Quick Add" description="Smart suggestions" onClick={() => inputRef.current?.focus()} imageSrc={FOOD_GALLERY.healthyFood} />
           </div>
