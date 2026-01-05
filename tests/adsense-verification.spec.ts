@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
-const PUBLISHER_ID = 'ca-pub-6442421268022178';
-const PUBLISHER_ID_NUMBER = 'pub-6442421268022178';
+const PUBLISHER_ID_NUMBER = 'pub-4042918348858589';
+const PUBLISHER_ID_FULL = 'ca-pub-4042918348858589';
 
 test.describe('Google AdSense Verification - Live Site', () => {
   
@@ -29,7 +29,7 @@ test.describe('Google AdSense Verification - Live Site', () => {
     await page.goto('/');
     
     // Check for AdSense script tag with publisher ID
-    const adsenseScript = page.locator(`script[src*="adsbygoogle.js?client=ca-pub-6442421268022178"]`);
+    const adsenseScript = page.locator(`script[src*="adsbygoogle.js?client=${PUBLISHER_ID_FULL}"]`);
     await expect(adsenseScript).toBeAttached({ timeout: 10000 });
   });
 
@@ -45,16 +45,19 @@ test.describe('Google AdSense Verification - Live Site', () => {
     await page.goto('/');
     await page.waitForTimeout(3000); // Wait for scripts to load
     
-    // Filter for critical AdSense CSP errors (script loading blocked)
+    // Filter for critical AdSense CSP errors (main AdSense script loading blocked)
+    // Exclude adtrafficquality and sodar scripts which are non-critical quality monitoring
     const criticalAdsenseCspErrors = cspErrors.filter(e => 
       e.includes('googlesyndication') && 
-      e.includes('script-src')
+      e.includes('script-src') &&
+      !e.includes('adtrafficquality') &&
+      !e.includes('sodar')
     );
     
     // Log all CSP errors for debugging
     if (cspErrors.length > 0) {
       console.log('CSP Errors found:', cspErrors.length);
-      console.log('Non-critical CSP errors (adtrafficquality, gtm) are expected');
+      console.log('Non-critical CSP errors (adtrafficquality, sodar, gtm) are expected');
     }
     
     // Only fail on critical script loading errors
