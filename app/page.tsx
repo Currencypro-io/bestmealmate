@@ -855,9 +855,13 @@ END:VEVENT
               <span className="font-bold text-orange-600">BestMealMate</span>
               <span className="text-gray-400 text-xs md:text-sm">© 2026</span>
             </div>
-            <div className="flex items-center gap-4 text-xs md:text-sm text-gray-400">
+            <div className="flex items-center gap-3 text-xs md:text-sm text-gray-400">
               {isSyncing && <span className="flex items-center gap-1 text-orange-500"><span className="animate-spin">⟳</span> Syncing...</span>}
               <span className="text-green-500">● {filledSlots} meals</span>
+              <span className="hidden md:inline">|</span>
+              <a href="/privacy" className="hover:text-orange-500 hidden md:inline">Privacy</a>
+              <a href="/terms" className="hover:text-orange-500 hidden md:inline">Terms</a>
+              <a href="https://x.com/bestmealmate" target="_blank" rel="noopener noreferrer" className="hover:text-orange-500" aria-label="X">𝕏</a>
             </div>
           </div>
         </footer>
