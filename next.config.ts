@@ -3,6 +3,14 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: true,
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+    ],
+  },
   async headers() {
     return [
       {
@@ -17,7 +25,7 @@ const nextConfig: NextConfig = {
               "img-src 'self' data: https: blob:",
               "style-src 'self' 'unsafe-inline'",
               "font-src 'self' data:",
-              "connect-src 'self' https://pagead2.googlesyndication.com https://www.google-analytics.com",
+              "connect-src 'self' https://pagead2.googlesyndication.com https://www.google-analytics.com https://*.adtrafficquality.google https://*.doubleclick.net",
             ].join("; "),
           },
         ],

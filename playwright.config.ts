@@ -8,7 +8,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: 'html',
   use: {
-    baseURL: 'https://bestmealmate.com',
+    baseURL: process.env.CI ? 'https://bestmealmate.com' : 'http://localhost:3000',
     trace: 'on-first-retry',
   },
   projects: [
@@ -17,4 +17,11 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'] },
     },
   ],
+  /* Run local server before tests using production build */
+  webServer: process.env.CI ? undefined : {
+    command: 'npm run build && npm run start',
+    url: 'http://localhost:3000',
+    reuseExistingServer: true,
+    timeout: 180 * 1000,
+  },
 });
