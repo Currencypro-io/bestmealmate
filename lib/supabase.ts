@@ -7,15 +7,35 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 let _supabase: SupabaseClient | null = null;
 
 export function getSupabaseClient(): SupabaseClient | null {
-  if (!supabaseUrl || !supabaseAnonKey || supabaseUrl === 'your-supabase-url') {
+  if (!supabaseUrl || !supabaseAnonKey || supabaseUrl === 'your-supabase-url' || supabaseAnonKey === 'your-supabase-anon-key') {
     return null;
   }
-  
+
   if (!_supabase) {
-    _supabase = createClient(supabaseUrl, supabaseAnonKey);
+    _supabase = createClient(supabaseUrl, supabaseAnonKey, {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+      },
+      global: {
+        headers: {
+          'x-application-name': 'bestmealmate',
+        },
+      },
+    });
   }
-  
+
   return _supabase;
+}
+
+// Check if Supabase is properly configured
+export function isSupabaseConfigured(): boolean {
+  return getSupabaseClient() !== null;
+}
+
+// Get Supabase URL for storage
+export function getSupabaseUrl(): string {
+  return supabaseUrl;
 }
 
 // For backwards compatibility
@@ -32,7 +52,22 @@ export const supabase = {
       };
     }
     return client.from(table);
-  }
+  },
+  storage: {
+    from: (bucket: string) => {
+      const client = getSupabaseClient();
+      if (!client) {
+        return {
+          upload: () => Promise.resolve({ data: null, error: { message: 'Supabase not configured' } }),
+          download: () => Promise.resolve({ data: null, error: { message: 'Supabase not configured' } }),
+          getPublicUrl: () => ({ data: { publicUrl: '' } }),
+          list: () => Promise.resolve({ data: [], error: null }),
+          remove: () => Promise.resolve({ data: null, error: null }),
+        };
+      }
+      return client.storage.from(bucket);
+    },
+  },
 };
 
 // Database types for meal plans
