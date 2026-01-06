@@ -13,11 +13,19 @@ const SCREENSHOTS = {
 
 export default function LandingPage() {
   const [showDemo, setShowDemo] = useState(false);
+  const [spotsLeft] = useState(47); // Update this as users sign up
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50">
+      {/* Early Adopter Sticky Banner */}
+      <div className="fixed top-0 left-0 right-0 z-[60] bg-gradient-to-r from-green-600 to-emerald-600 text-white py-2 px-4 text-center text-sm">
+        🎁 <strong>First 100 Users:</strong> Get Family Plan FREE for 6 months ($90 value) • 
+        <span className="font-bold ml-1">{spotsLeft} spots left</span>
+        <Link href="/" className="ml-2 underline hover:no-underline">Claim Yours →</Link>
+      </div>
+
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md shadow-sm">
+      <nav className="fixed top-8 left-0 right-0 z-50 bg-white/95 backdrop-blur-md shadow-sm">
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="text-2xl">🍽️</span>
@@ -34,7 +42,7 @@ export default function LandingPage() {
       </nav>
 
       {/* Hero Section */}
-      <header className="pt-24 pb-16 px-4">
+      <header className="pt-32 pb-16 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
             Plan Tonight&apos;s Dinner in{' '}
@@ -303,6 +311,68 @@ export default function LandingPage() {
           <Link href="/" className="inline-block bg-orange-500 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-orange-600 transition-all shadow-lg">
             Try It Free - No Signup Required →
           </Link>
+        </div>
+      </section>
+
+      {/* Honest Comparison Table */}
+      <section className="py-16 px-4 bg-white">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-3xl font-bold text-center text-gray-900 mb-4">
+            How We Compare (Honestly)
+          </h2>
+          <p className="text-center text-gray-600 mb-8">
+            We&apos;re new. They&apos;re proven. Here&apos;s the honest truth:
+          </p>
+
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse">
+              <thead>
+                <tr className="bg-gray-50">
+                  <th className="text-left p-4 border-b-2 border-gray-200 font-bold text-gray-900">Feature</th>
+                  <th className="text-center p-4 border-b-2 border-orange-400 font-bold text-orange-600 bg-orange-50">BestMealMate</th>
+                  <th className="text-center p-4 border-b-2 border-gray-200 font-bold text-gray-700">Mealime</th>
+                  <th className="text-center p-4 border-b-2 border-gray-200 font-bold text-gray-700">MyFitnessPal</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="p-4 border-b border-gray-100 text-gray-600">Users</td>
+                  <td className="p-4 border-b border-gray-100 text-center bg-orange-50 text-orange-700">&lt;100 (just launched!)</td>
+                  <td className="p-4 border-b border-gray-100 text-center text-gray-600">500,000+</td>
+                  <td className="p-4 border-b border-gray-100 text-center text-gray-600">100M+</td>
+                </tr>
+                <tr>
+                  <td className="p-4 border-b border-gray-100 text-gray-600">Setup time</td>
+                  <td className="p-4 border-b border-gray-100 text-center bg-orange-50 font-bold text-green-600">90 seconds ✓</td>
+                  <td className="p-4 border-b border-gray-100 text-center text-gray-600">5 minutes</td>
+                  <td className="p-4 border-b border-gray-100 text-center text-gray-600">10+ minutes</td>
+                </tr>
+                <tr>
+                  <td className="p-4 border-b border-gray-100 text-gray-600">Mixed-diet families</td>
+                  <td className="p-4 border-b border-gray-100 text-center bg-orange-50 font-bold text-green-600">Built for this ✓</td>
+                  <td className="p-4 border-b border-gray-100 text-center text-gray-500">Limited</td>
+                  <td className="p-4 border-b border-gray-100 text-center text-gray-400">✗</td>
+                </tr>
+                <tr>
+                  <td className="p-4 border-b border-gray-100 text-gray-600">Free tier</td>
+                  <td className="p-4 border-b border-gray-100 text-center bg-orange-50 font-bold text-green-600">Full meal planning ✓</td>
+                  <td className="p-4 border-b border-gray-100 text-center text-gray-500">Limited recipes</td>
+                  <td className="p-4 border-b border-gray-100 text-center text-gray-500">Ads + upsells</td>
+                </tr>
+                <tr>
+                  <td className="p-4 text-gray-600">Focus</td>
+                  <td className="p-4 text-center bg-orange-50 font-bold text-orange-600">Family meal planning</td>
+                  <td className="p-4 text-center text-gray-600">Fitness + meals</td>
+                  <td className="p-4 text-center text-gray-600">Calorie tracking</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p className="text-center text-gray-600 mt-8 p-4 bg-gray-50 rounded-xl">
+            <strong>Bottom line:</strong> They&apos;re established. We&apos;re new.
+            We do <span className="text-orange-600 font-bold">ONE thing really well</span>: help families plan meals fast.
+          </p>
         </div>
       </section>
 
