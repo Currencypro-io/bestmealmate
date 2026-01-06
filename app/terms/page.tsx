@@ -11,13 +11,15 @@ export default function TermsOfService() {
       {/* Navigation */}
       <nav className="bg-white/95 backdrop-blur-md shadow-sm">
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
+          <Link href="/landing" className="flex items-center gap-2">
             <span className="text-2xl">🍽️</span>
             <span className="font-bold text-xl text-orange-600">BestMealMate</span>
           </Link>
-          <Link href="/" className="text-orange-600 hover:text-orange-700 font-medium">
-            ← Back to App
-          </Link>
+          <div className="flex items-center gap-4">
+            <Link href="/" className="text-orange-600 hover:text-orange-700 font-medium">
+              Open App
+            </Link>
+          </div>
         </div>
       </nav>
 

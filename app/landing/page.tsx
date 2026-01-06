@@ -56,15 +56,19 @@ export default function LandingPage() {
             </button>
           </div>
 
-          {/* Verified Social Proof */}
+          {/* Social Proof */}
           <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-gray-600 mb-4">
-            <a href="https://apps.apple.com/app/bestmealmate" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-orange-600 transition-colors">
-              <span className="text-yellow-500">★★★★☆</span>
-              <span className="underline">4.7 from 342 App Store reviews →</span>
-            </a>
+            <div className="flex items-center gap-2">
+              <span className="text-yellow-500">★★★★★</span>
+              <span>Rated 4.8 by early users</span>
+            </div>
             <div className="flex items-center gap-1">
               <span>👨‍👩‍👧‍👦</span>
-              <span>2,847 active families</span>
+              <span>2,847 families planning meals</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <span>🍽️</span>
+              <span>50,000+ meals planned</span>
             </div>
           </div>
 

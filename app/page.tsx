@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { fetchMealPlans, saveMeal, removeMeal as removeMealFromDB, syncMealPlan } from '@/lib/meal-service';
 
@@ -1576,11 +1577,12 @@ END:VEVENT
       {/* Navigation Header - Mobile Optimized */}
       <nav className="fixed top-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md shadow-sm safe-top">
         <div className="max-w-6xl mx-auto px-3 md:px-4 py-2 md:py-3 flex items-center justify-between">
-          <div className="flex items-center gap-2">
+          <Link href="/landing" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
             <span className="text-xl md:text-2xl">🍽️</span>
             <span className="font-bold text-lg md:text-xl text-orange-600">BestMealMate</span>
-          </div>
+          </Link>
           <div className="flex items-center gap-2 md:gap-4">
+            <Link href="/pricing" className="text-sm text-gray-600 hover:text-orange-600 hidden md:block">Pricing</Link>
             <button onClick={() => setDarkMode(!darkMode)} className="p-2 rounded-full hover:bg-gray-100 active:bg-gray-200 transition-colors" title="Toggle dark mode">
               {darkMode ? '☀️' : '🌙'}
             </button>

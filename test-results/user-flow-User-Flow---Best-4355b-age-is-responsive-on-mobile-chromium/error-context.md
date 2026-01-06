@@ -1,0 +1,736 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - link "Skip to main content" [ref=e3] [cursor=pointer]:
+      - /url: "#main-content"
+    - link "Skip to navigation" [ref=e4] [cursor=pointer]:
+      - /url: "#main-nav"
+  - status [ref=e5]
+  - main [ref=e6]:
+    - generic [ref=e7]:
+      - navigation [ref=e8]:
+        - generic [ref=e10]:
+          - link "BestMealMate BestMealMate" [ref=e11] [cursor=pointer]:
+            - /url: /
+            - img "BestMealMate" [ref=e12]
+            - generic [ref=e13]: BestMealMate
+          - button [ref=e14] [cursor=pointer]:
+            - img [ref=e15]
+      - generic [ref=e19]:
+        - generic [ref=e20]:
+          - generic [ref=e21]:
+            - generic [ref=e22]:
+              - img [ref=e23]
+              - text: AI-Powered Meal Planning
+            - heading "Never stress about \"What's for dinner?\" again" [level=1] [ref=e26]
+            - paragraph [ref=e27]: AI creates meal plans your whole family will actually eat. Dad's keto, kid's picky, grandma's low-sodium — all handled in 2 minutes.
+            - generic [ref=e29]:
+              - img "Happy family cooking together in kitchen" [ref=e30]
+              - paragraph [ref=e33]: Cooking made easy for the whole family
+          - generic [ref=e34]:
+            - generic [ref=e35]:
+              - img [ref=e37]
+              - generic [ref=e42]:
+                - heading "Family Profiles" [level=3] [ref=e43]
+                - paragraph [ref=e44]: Dad's keto, kid's allergies, grandma's low-sodium — all in one plan
+            - generic [ref=e45]:
+              - img [ref=e47]
+              - generic [ref=e49]:
+                - heading "Smart Pantry" [level=3] [ref=e50]
+                - paragraph [ref=e51]: Know what's expiring and never waste food again
+            - generic [ref=e52]:
+              - img [ref=e54]
+              - generic [ref=e56]:
+                - heading "AI Chef" [level=3] [ref=e57]
+                - paragraph [ref=e58]: Smart recipes that understand your whole family's needs
+            - generic [ref=e59]:
+              - img [ref=e61]
+              - generic [ref=e65]:
+                - heading "Smart Grocery List" [level=3] [ref=e66]
+                - paragraph [ref=e67]: Intelligently merged lists organized by aisle
+          - generic [ref=e68]:
+            - generic [ref=e69]:
+              - img "Happy family member 1" [ref=e71]
+              - img "Happy family member 2" [ref=e73]
+              - img "Happy family member 3" [ref=e75]
+              - img "Happy family member 4" [ref=e77]
+              - img "Happy family member 5" [ref=e79]
+            - generic [ref=e80]:
+              - generic [ref=e81]:
+                - img [ref=e82]
+                - img [ref=e84]
+                - img [ref=e86]
+                - img [ref=e88]
+                - img [ref=e90]
+              - paragraph [ref=e92]: Trusted by families everywhere
+        - generic [ref=e94]:
+          - paragraph [ref=e99]: Step 1 of 3
+          - generic [ref=e100]:
+            - generic [ref=e101]:
+              - img [ref=e103]
+              - heading "How many people?" [level=3] [ref=e108]
+              - paragraph [ref=e109]: We'll adjust portion sizes
+            - generic [ref=e110]:
+              - button "-" [ref=e111] [cursor=pointer]
+              - generic [ref=e112]:
+                - text: "4"
+                - paragraph [ref=e113]: people
+              - button "+" [ref=e114] [cursor=pointer]
+            - generic [ref=e115]:
+              - generic [ref=e116]: 👨
+              - generic [ref=e117]: 👩
+              - generic [ref=e118]: 👧
+              - generic [ref=e119]: 👧
+          - button "Continue" [ref=e121] [cursor=pointer]:
+            - text: Continue
+            - img [ref=e122]
+          - paragraph [ref=e124]:
+            - text: Already have an account?
+            - link "Log in" [ref=e125] [cursor=pointer]:
+              - /url: /login
+      - generic [ref=e127]:
+        - generic [ref=e128]:
+          - generic [ref=e129]:
+            - img [ref=e130]
+            - text: See It In Action
+          - heading "A peek inside the app" [level=2] [ref=e133]
+          - paragraph [ref=e134]: Real screenshots from BestMealMate — simple, beautiful, and designed for busy families
+        - generic [ref=e135]:
+          - generic [ref=e136]:
+            - generic [ref=e143]: bestmealmate.com/dashboard
+            - generic [ref=e144]:
+              - generic [ref=e145]:
+                - generic [ref=e146]: This Week's Meals
+                - generic [ref=e147]: 21 planned
+              - generic [ref=e148]:
+                - generic [ref=e149]:
+                  - generic [ref=e150]: Mon
+                  - generic [ref=e151]:
+                    - generic [ref=e152]: Oatmeal
+                    - generic [ref=e153]: Salad
+                    - generic [ref=e154]: Pasta
+                - generic [ref=e155]:
+                  - generic [ref=e156]: Tue
+                  - generic [ref=e157]:
+                    - generic [ref=e158]: Pancakes
+                    - generic [ref=e159]: Wrap
+                    - generic [ref=e160]: Tacos
+                - generic [ref=e161]:
+                  - generic [ref=e162]: Wed
+                  - generic [ref=e163]:
+                    - generic [ref=e164]: Smoothie
+                    - generic [ref=e165]: Soup
+                    - generic [ref=e166]: Stir-fry
+              - generic [ref=e167]:
+                - generic [ref=e168]: Generate List
+                - generic [ref=e169]: Share Plan
+            - paragraph [ref=e171]: Weekly Meal Planner
+          - generic [ref=e172]:
+            - generic [ref=e179]: bestmealmate.com/pantry
+            - generic [ref=e180]:
+              - generic [ref=e181]:
+                - generic [ref=e182]: ⚠️
+                - generic [ref=e183]:
+                  - paragraph [ref=e184]: 3 items expiring soon
+                  - paragraph [ref=e185]: Tap to get recipe ideas
+              - generic [ref=e186]:
+                - generic [ref=e187]:
+                  - generic [ref=e189]: Chicken Breast
+                  - generic [ref=e190]: 2 days
+                - generic [ref=e191]:
+                  - generic [ref=e193]: Milk
+                  - generic [ref=e194]: 3 days
+                - generic [ref=e195]:
+                  - generic [ref=e197]: Eggs (12)
+                  - generic [ref=e198]: 7 days
+                - generic [ref=e199]:
+                  - generic [ref=e201]: Broccoli
+                  - generic [ref=e202]: Today!
+              - generic [ref=e203]:
+                - img [ref=e204]
+                - text: Generate Meal Ideas
+            - paragraph [ref=e208]: Smart Pantry Tracker
+          - generic [ref=e209]:
+            - generic [ref=e216]: bestmealmate.com/grocery
+            - generic [ref=e217]:
+              - generic [ref=e218]:
+                - generic [ref=e219]: Shopping List
+                - generic [ref=e220]: 12 items
+              - generic [ref=e221]:
+                - generic [ref=e222]: Produce
+                - generic [ref=e225]: Spinach
+                - generic [ref=e228]: Tomatoes
+                - generic [ref=e231]: Avocados (2)
+              - generic [ref=e232]:
+                - generic [ref=e233]: Dairy
+                - generic [ref=e236]: Greek Yogurt
+                - generic [ref=e239]: Cheddar Cheese
+              - generic [ref=e240]:
+                - generic [ref=e241]: Share List
+                - generic [ref=e242]: Print
+            - paragraph [ref=e244]: Auto-Generated Grocery List
+        - generic [ref=e245]:
+          - link "Try It Free" [ref=e246] [cursor=pointer]:
+            - /url: /onboarding
+            - text: Try It Free
+            - img [ref=e247]
+          - paragraph [ref=e249]: No credit card required
+      - generic [ref=e252]:
+        - generic [ref=e253]:
+          - paragraph [ref=e254]: 5+
+          - paragraph [ref=e255]: Family Profiles
+        - generic [ref=e256]:
+          - paragraph [ref=e257]: "21"
+          - paragraph [ref=e258]: Meals Per Week
+        - generic [ref=e259]:
+          - paragraph [ref=e260]: 2 min
+          - paragraph [ref=e261]: AI Planning Time
+        - generic [ref=e262]:
+          - paragraph [ref=e263]: 14 day
+          - paragraph [ref=e264]: Free Trial
+      - generic [ref=e266]:
+        - generic [ref=e267]:
+          - heading "Built for real family challenges" [level=2] [ref=e268]
+          - paragraph [ref=e269]: Common problems we solve every day
+        - generic [ref=e270]:
+          - generic [ref=e271]:
+            - img [ref=e273]
+            - heading "Multiple Diets" [level=3] [ref=e278]
+            - paragraph [ref=e279]: Dad&apos;s on keto, kid has a nut allergy, grandma needs low-sodium? Create one unified meal plan that works for everyone.
+          - generic [ref=e280]:
+            - img [ref=e282]
+            - heading "Food Waste" [level=3] [ref=e284]
+            - paragraph [ref=e285]: Chicken expiring tomorrow? Our smart pantry alerts you and suggests recipes to use it before it goes bad.
+          - generic [ref=e286]:
+            - img [ref=e288]
+            - heading "Grocery Chaos" [level=3] [ref=e292]
+            - paragraph [ref=e293]: No more wandering the store. Get organized lists by aisle, with items automatically combined from all your meals.
+        - paragraph [ref=e295]: We're actively building based on user feedback. Try it free and help shape the future of family meal planning!
+      - generic [ref=e297]:
+        - generic [ref=e298]:
+          - heading "Delicious meals for every taste" [level=2] [ref=e299]
+          - paragraph [ref=e300]: From quick weeknight dinners to weekend brunch favorites
+        - generic [ref=e302]:
+          - generic [ref=e303]:
+            - img "Fresh Salads" [ref=e304]
+            - generic [ref=e306]: Fresh Salads
+          - generic [ref=e307]:
+            - img "Italian Pasta" [ref=e308]
+            - generic [ref=e310]: Italian Pasta
+          - generic [ref=e311]:
+            - img "Mexican Tacos" [ref=e312]
+            - generic [ref=e314]: Mexican Tacos
+          - generic [ref=e315]:
+            - img "Japanese Sushi" [ref=e316]
+            - generic [ref=e318]: Japanese Sushi
+          - generic [ref=e319]:
+            - img "Homemade Pizza" [ref=e320]
+            - generic [ref=e322]: Homemade Pizza
+          - generic [ref=e323]:
+            - img "Indian Curry" [ref=e324]
+            - generic [ref=e326]: Indian Curry
+          - generic [ref=e327]:
+            - img "Grilled Salmon" [ref=e328]
+            - generic [ref=e330]: Grilled Salmon
+          - generic [ref=e331]:
+            - img "Perfect Steak" [ref=e332]
+            - generic [ref=e334]: Perfect Steak
+          - generic [ref=e335]:
+            - img "Fresh Salads" [ref=e336]
+            - generic [ref=e338]: Fresh Salads
+          - generic [ref=e339]:
+            - img "Italian Pasta" [ref=e340]
+            - generic [ref=e342]: Italian Pasta
+          - generic [ref=e343]:
+            - img "Mexican Tacos" [ref=e344]
+            - generic [ref=e346]: Mexican Tacos
+          - generic [ref=e347]:
+            - img "Japanese Sushi" [ref=e348]
+            - generic [ref=e350]: Japanese Sushi
+        - generic [ref=e352]:
+          - generic [ref=e353]:
+            - img "Smoothie Bowls" [ref=e354]
+            - generic [ref=e356]: Smoothie Bowls
+          - generic [ref=e357]:
+            - img "Avocado Toast" [ref=e358]
+            - generic [ref=e360]: Avocado Toast
+          - generic [ref=e361]:
+            - img "Gourmet Burgers" [ref=e362]
+            - generic [ref=e364]: Gourmet Burgers
+          - generic [ref=e365]:
+            - img "Hearty Soups" [ref=e366]
+            - generic [ref=e368]: Hearty Soups
+          - generic [ref=e369]:
+            - img "Healthy Breakfast" [ref=e370]
+            - generic [ref=e372]: Healthy Breakfast
+          - generic [ref=e373]:
+            - img "Family Dinners" [ref=e374]
+            - generic [ref=e376]: Family Dinners
+          - generic [ref=e377]:
+            - img "Fresh Veggies" [ref=e378]
+            - generic [ref=e380]: Fresh Veggies
+          - generic [ref=e381]:
+            - img "Fresh Fruits" [ref=e382]
+            - generic [ref=e384]: Fresh Fruits
+          - generic [ref=e385]:
+            - img "Smoothie Bowls" [ref=e386]
+            - generic [ref=e388]: Smoothie Bowls
+          - generic [ref=e389]:
+            - img "Avocado Toast" [ref=e390]
+            - generic [ref=e392]: Avocado Toast
+          - generic [ref=e393]:
+            - img "Gourmet Burgers" [ref=e394]
+            - generic [ref=e396]: Gourmet Burgers
+          - generic [ref=e397]:
+            - img "Hearty Soups" [ref=e398]
+            - generic [ref=e400]: Hearty Soups
+      - generic [ref=e402]:
+        - generic [ref=e403]:
+          - heading "Cooking together, eating together" [level=2] [ref=e404]
+          - paragraph [ref=e405]: BestMealMate brings families together in the kitchen
+        - generic [ref=e406]:
+          - img "Family cooking together" [ref=e408]
+          - img "Mom and daughter cooking" [ref=e411]
+          - img "Dad cooking with kids" [ref=e414]
+          - img "Family breakfast" [ref=e417]
+          - img "Grandparents in kitchen" [ref=e420]
+      - generic [ref=e423]:
+        - generic [ref=e424]:
+          - heading "Fuel your active lifestyle" [level=2] [ref=e425]
+          - paragraph [ref=e426]: Good nutrition powers every part of your day
+        - generic [ref=e427]:
+          - generic [ref=e428] [cursor=pointer]:
+            - img "Stay Flexible" [ref=e429]
+            - generic [ref=e432]: Stay Flexible
+          - generic [ref=e433] [cursor=pointer]:
+            - img "Stay Active" [ref=e434]
+            - generic [ref=e437]: Stay Active
+          - generic [ref=e438] [cursor=pointer]:
+            - img "Eat Fresh" [ref=e439]
+            - generic [ref=e442]: Eat Fresh
+          - generic [ref=e443] [cursor=pointer]:
+            - img "Fuel Up" [ref=e444]
+            - generic [ref=e447]: Fuel Up
+          - generic [ref=e448] [cursor=pointer]:
+            - img "Family Fitness" [ref=e449]
+            - generic [ref=e452]: Family Fitness
+          - generic [ref=e453] [cursor=pointer]:
+            - img "Feel Great" [ref=e454]
+            - generic [ref=e457]: Feel Great
+        - paragraph [ref=e459]: Whether you're training for a marathon, chasing kids around the park, or just want more energy — the right meals make all the difference.
+      - generic [ref=e461]:
+        - generic [ref=e462]:
+          - heading "Great food, even better moments" [level=2] [ref=e463]
+          - paragraph [ref=e464]: Because the best part of any meal is who you share it with
+        - generic [ref=e465]:
+          - generic [ref=e466]:
+            - img "Friends enjoying dinner together" [ref=e467]
+            - generic [ref=e469]:
+              - paragraph [ref=e470]: Dinner with friends
+              - paragraph [ref=e471]: Made easy with planned meals
+          - generic [ref=e472]:
+            - generic [ref=e473]:
+              - img "Date Night" [ref=e474]
+              - paragraph [ref=e477]: Date Night
+            - generic [ref=e478]:
+              - img "Family Time" [ref=e479]
+              - paragraph [ref=e482]: Family Time
+            - generic [ref=e483]:
+              - img "Kids Love It" [ref=e484]
+              - paragraph [ref=e487]: Kids Love It
+            - generic [ref=e488]:
+              - img "Special Occasions" [ref=e489]
+              - paragraph [ref=e492]: Special Occasions
+      - generic [ref=e495]:
+        - generic [ref=e496]: "Fresh ingredients from:"
+        - generic [ref=e497]:
+          - img "Local Markets" [ref=e499]
+          - generic [ref=e500]: Local Markets
+        - generic [ref=e501]:
+          - img "Organic Farms" [ref=e503]
+          - generic [ref=e504]: Organic Farms
+        - generic [ref=e505]:
+          - img "Herb Gardens" [ref=e507]
+          - generic [ref=e508]: Herb Gardens
+        - generic [ref=e509]:
+          - img "World Spices" [ref=e511]
+          - generic [ref=e512]: World Spices
+      - generic [ref=e514]:
+        - generic [ref=e515]:
+          - generic [ref=e516]:
+            - img [ref=e517]
+            - text: Powerful Features
+          - heading "Everything you need for stress-free meals" [level=2] [ref=e519]
+          - paragraph [ref=e520]: From AI recipe suggestions to smart grocery lists, we've got every aspect of meal planning covered.
+        - generic [ref=e521]:
+          - generic [ref=e522]:
+            - img "Family Diet Profiles" [ref=e524]
+            - generic [ref=e526]:
+              - img [ref=e528]
+              - heading "Family Diet Profiles" [level=3] [ref=e533]
+              - paragraph [ref=e534]: Create unique profiles for each family member with their specific dietary needs and preferences.
+          - generic [ref=e535]:
+            - img "AI Recipe Matching" [ref=e537]
+            - generic [ref=e539]:
+              - img [ref=e541]
+              - heading "AI Recipe Matching" [level=3] [ref=e544]
+              - paragraph [ref=e545]: Our AI suggests recipes that work for everyone, considering all dietary restrictions at once.
+          - generic [ref=e546]:
+            - img "Smart Pantry" [ref=e548]
+            - generic [ref=e550]:
+              - img [ref=e552]
+              - heading "Smart Pantry" [level=3] [ref=e554]
+              - paragraph [ref=e555]: Track what you have, get expiry alerts, and use ingredients before they go bad.
+          - generic [ref=e556]:
+            - img "Auto Grocery Lists" [ref=e558]
+            - generic [ref=e560]:
+              - img [ref=e562]
+              - heading "Auto Grocery Lists" [level=3] [ref=e566]
+              - paragraph [ref=e567]: Ingredients automatically merge and organize by aisle for efficient shopping trips.
+          - generic [ref=e568]:
+            - img "Save Favorites" [ref=e570]
+            - generic [ref=e572]:
+              - img [ref=e574]
+              - heading "Save Favorites" [level=3] [ref=e576]
+              - paragraph [ref=e577]: Build your family cookbook with recipes everyone loves for easy repeat planning.
+          - generic [ref=e578]:
+            - img "Zero Food Waste" [ref=e580]
+            - generic [ref=e582]:
+              - img [ref=e584]
+              - heading "Zero Food Waste" [level=3] [ref=e587]
+              - paragraph [ref=e588]: Track waste, get suggestions to use expiring items, and see your impact over time.
+      - generic [ref=e590]:
+        - generic [ref=e591]:
+          - heading "Why families switch to BestMealMate" [level=2] [ref=e592]
+          - paragraph [ref=e593]: Built specifically for real families with diverse dietary needs
+        - table [ref=e596]:
+          - rowgroup [ref=e597]:
+            - row "Feature BestMealMate Mealime MyFitnessPal" [ref=e598]:
+              - columnheader "Feature" [ref=e599]
+              - columnheader "BestMealMate" [ref=e600]
+              - columnheader "Mealime" [ref=e601]
+              - columnheader "MyFitnessPal" [ref=e602]
+          - rowgroup [ref=e603]:
+            - row "Multiple diet profiles" [ref=e604]:
+              - cell "Multiple diet profiles" [ref=e605]
+              - cell [ref=e606]:
+                - img [ref=e607]
+              - cell [ref=e609]:
+                - img [ref=e610]
+              - cell [ref=e613]:
+                - img [ref=e614]
+            - row "AI meal suggestions" [ref=e617]:
+              - cell "AI meal suggestions" [ref=e618]
+              - cell [ref=e619]:
+                - img [ref=e620]
+              - cell [ref=e622]:
+                - img [ref=e623]
+              - cell [ref=e626]:
+                - img [ref=e627]
+            - row "Family-focused planning Limited" [ref=e630]:
+              - cell "Family-focused planning" [ref=e631]
+              - cell [ref=e632]:
+                - img [ref=e633]
+              - cell "Limited" [ref=e635]
+              - cell [ref=e636]:
+                - img [ref=e637]
+            - row "Smart grocery lists" [ref=e640]:
+              - cell "Smart grocery lists" [ref=e641]
+              - cell [ref=e642]:
+                - img [ref=e643]
+              - cell [ref=e645]:
+                - img [ref=e646]
+              - cell [ref=e648]:
+                - img [ref=e649]
+            - row "Pantry tracking" [ref=e652]:
+              - cell "Pantry tracking" [ref=e653]
+              - cell [ref=e654]:
+                - img [ref=e655]
+              - cell [ref=e657]:
+                - img [ref=e658]
+              - cell [ref=e661]:
+                - img [ref=e662]
+            - row "Handles picky eaters" [ref=e665]:
+              - cell "Handles picky eaters" [ref=e666]
+              - cell [ref=e667]:
+                - img [ref=e668]
+              - cell [ref=e670]:
+                - img [ref=e671]
+              - cell [ref=e674]:
+                - img [ref=e675]
+            - row "Cost per meal tracking" [ref=e678]:
+              - cell "Cost per meal tracking" [ref=e679]
+              - cell [ref=e680]:
+                - img [ref=e681]
+              - cell [ref=e683]:
+                - img [ref=e684]
+              - cell [ref=e687]:
+                - img [ref=e688]
+        - paragraph [ref=e691]: Comparison based on publicly available features as of 2024
+      - generic [ref=e693]:
+        - generic [ref=e694]:
+          - heading "How it works" [level=2] [ref=e695]
+          - paragraph [ref=e696]: Get started in 3 simple steps and enjoy stress-free meal planning.
+        - generic [ref=e697]:
+          - generic [ref=e698]:
+            - generic [ref=e699]:
+              - img "Tell us about your family" [ref=e700]
+              - generic [ref=e702]: "1"
+            - heading "Tell us about your family" [level=3] [ref=e703]
+            - paragraph [ref=e704]: Add profiles for each family member with their dietary needs and preferences.
+          - generic [ref=e705]:
+            - generic [ref=e706]:
+              - img "Get personalized meal plans" [ref=e707]
+              - generic [ref=e709]: "2"
+            - heading "Get personalized meal plans" [level=3] [ref=e710]
+            - paragraph [ref=e711]: Our AI creates weekly meal plans that work for everyone in your household.
+          - generic [ref=e712]:
+            - generic [ref=e713]:
+              - img "Shop and cook with ease" [ref=e714]
+              - generic [ref=e716]: "3"
+            - heading "Shop and cook with ease" [level=3] [ref=e717]
+            - paragraph [ref=e718]: Get organized grocery lists and step-by-step recipes delivered to you.
+      - generic [ref=e720]:
+        - generic [ref=e721]:
+          - heading "Simple, transparent pricing" [level=2] [ref=e722]
+          - paragraph [ref=e723]: Start free, upgrade when you need more. No hidden fees.
+        - generic [ref=e724]:
+          - generic [ref=e725]:
+            - heading "Free" [level=3] [ref=e726]
+            - generic [ref=e727]: $0/month
+            - list [ref=e728]:
+              - listitem [ref=e729]:
+                - img [ref=e730]
+                - text: 2 family profiles
+              - listitem [ref=e732]:
+                - img [ref=e733]
+                - text: Weekly meal plans
+              - listitem [ref=e735]:
+                - img [ref=e736]
+                - text: Basic grocery lists
+              - listitem [ref=e738]:
+                - img [ref=e739]
+                - text: 5 AI suggestions/week
+            - link "Start Planning Free" [ref=e741] [cursor=pointer]:
+              - /url: /onboarding
+          - generic [ref=e742]:
+            - generic [ref=e743]: Most Popular
+            - heading "Premium" [level=3] [ref=e744]
+            - generic [ref=e745]: $9.99/month
+            - list [ref=e746]:
+              - listitem [ref=e747]:
+                - img [ref=e748]
+                - text: 5 family profiles
+              - listitem [ref=e750]:
+                - img [ref=e751]
+                - text: Unlimited meal plans
+              - listitem [ref=e753]:
+                - img [ref=e754]
+                - text: Smart pantry tracking
+              - listitem [ref=e756]:
+                - img [ref=e757]
+                - text: Unlimited AI suggestions
+              - listitem [ref=e759]:
+                - img [ref=e760]
+                - text: Recipe import
+            - link "Start Free Trial" [ref=e762] [cursor=pointer]:
+              - /url: /onboarding?plan=premium
+          - generic [ref=e763]:
+            - heading "Family" [level=3] [ref=e764]
+            - generic [ref=e765]: $14.99/month
+            - list [ref=e766]:
+              - listitem [ref=e767]:
+                - img [ref=e768]
+                - text: Unlimited profiles
+              - listitem [ref=e770]:
+                - img [ref=e771]
+                - text: Everything in Premium
+              - listitem [ref=e773]:
+                - img [ref=e774]
+                - text: Share login with family
+              - listitem [ref=e776]:
+                - img [ref=e777]
+                - text: CSV/PDF export
+              - listitem [ref=e779]:
+                - img [ref=e780]
+                - text: Priority email support
+            - link "Start Free Trial" [ref=e782] [cursor=pointer]:
+              - /url: /onboarding?plan=family
+        - generic [ref=e783]:
+          - heading "Detailed Feature Comparison" [level=3] [ref=e784]
+          - table [ref=e787]:
+            - rowgroup [ref=e788]:
+              - row "Feature Free Premium Family" [ref=e789]:
+                - columnheader "Feature" [ref=e790]
+                - columnheader "Free" [ref=e791]
+                - columnheader "Premium" [ref=e792]
+                - columnheader "Family" [ref=e793]
+            - rowgroup [ref=e794]:
+              - row "Family Profiles 2 5 Unlimited" [ref=e795]:
+                - cell "Family Profiles" [ref=e796]
+                - cell "2" [ref=e797]
+                - cell "5" [ref=e798]
+                - cell "Unlimited" [ref=e799]
+              - row "Weekly Meal Plans" [ref=e800]:
+                - cell "Weekly Meal Plans" [ref=e801]
+                - cell [ref=e802]:
+                  - img [ref=e803]
+                - cell [ref=e805]:
+                  - img [ref=e806]
+                - cell [ref=e808]:
+                  - img [ref=e809]
+              - row "AI Meal Suggestions 5/week Unlimited Unlimited" [ref=e811]:
+                - cell "AI Meal Suggestions" [ref=e812]
+                - cell "5/week" [ref=e813]
+                - cell "Unlimited" [ref=e814]
+                - cell "Unlimited" [ref=e815]
+              - row "Grocery List Generation Basic By aisle By aisle" [ref=e816]:
+                - cell "Grocery List Generation" [ref=e817]
+                - cell "Basic" [ref=e818]
+                - cell "By aisle" [ref=e819]
+                - cell "By aisle" [ref=e820]
+              - row "Smart Pantry Tracking" [ref=e821]:
+                - cell "Smart Pantry Tracking" [ref=e822]
+                - cell [ref=e823]:
+                  - img [ref=e824]
+                - cell [ref=e827]:
+                  - img [ref=e828]
+                - cell [ref=e830]:
+                  - img [ref=e831]
+              - row "Expiring Item Alerts" [ref=e833]:
+                - cell "Expiring Item Alerts" [ref=e834]
+                - cell [ref=e835]:
+                  - img [ref=e836]
+                - cell [ref=e839]:
+                  - img [ref=e840]
+                - cell [ref=e842]:
+                  - img [ref=e843]
+              - row "Generate Meals from Pantry" [ref=e845]:
+                - cell "Generate Meals from Pantry" [ref=e846]
+                - cell [ref=e847]:
+                  - img [ref=e848]
+                - cell [ref=e851]:
+                  - img [ref=e852]
+                - cell [ref=e854]:
+                  - img [ref=e855]
+              - row "Recipe Import (URL)" [ref=e857]:
+                - cell "Recipe Import (URL)" [ref=e858]
+                - cell [ref=e859]:
+                  - img [ref=e860]
+                - cell [ref=e863]:
+                  - img [ref=e864]
+                - cell [ref=e866]:
+                  - img [ref=e867]
+              - row "Barcode Scanning" [ref=e869]:
+                - cell "Barcode Scanning" [ref=e870]
+                - cell [ref=e871]:
+                  - img [ref=e872]
+                - cell [ref=e875]:
+                  - img [ref=e876]
+                - cell [ref=e878]:
+                  - img [ref=e879]
+              - row "Nutrition Info Basic Full macros Full macros" [ref=e881]:
+                - cell "Nutrition Info" [ref=e882]
+                - cell "Basic" [ref=e883]
+                - cell "Full macros" [ref=e884]
+                - cell "Full macros" [ref=e885]
+              - row "Shopping List Sharing" [ref=e886]:
+                - cell "Shopping List Sharing" [ref=e887]
+                - cell [ref=e888]:
+                  - img [ref=e889]
+                - cell [ref=e892]:
+                  - img [ref=e893]
+                - cell [ref=e895]:
+                  - img [ref=e896]
+              - row "Share Login with Family" [ref=e898]:
+                - cell "Share Login with Family" [ref=e899]
+                - cell [ref=e900]:
+                  - img [ref=e901]
+                - cell [ref=e904]:
+                  - img [ref=e905]
+                - cell [ref=e908]:
+                  - img [ref=e909]
+              - row "CSV/PDF Export" [ref=e911]:
+                - cell "CSV/PDF Export" [ref=e912]
+                - cell [ref=e913]:
+                  - img [ref=e914]
+                - cell [ref=e917]:
+                  - img [ref=e918]
+                - cell [ref=e921]:
+                  - img [ref=e922]
+              - row "Priority Email Support" [ref=e924]:
+                - cell "Priority Email Support" [ref=e925]
+                - cell [ref=e926]:
+                  - img [ref=e927]
+                - cell [ref=e930]:
+                  - img [ref=e931]
+                - cell [ref=e934]:
+                  - img [ref=e935]
+          - paragraph [ref=e937]: All paid plans include a 14-day free trial. Cancel anytime.
+      - generic [ref=e939]:
+        - generic [ref=e940]:
+          - heading "Frequently Asked Questions" [level=2] [ref=e941]
+          - paragraph [ref=e942]: Got questions? We've got answers.
+        - generic [ref=e943]:
+          - group [ref=e945]:
+            - generic "How does the AI meal planning work? ▼" [ref=e946] [cursor=pointer]:
+              - text: How does the AI meal planning work?
+              - generic [ref=e947]: ▼
+          - group [ref=e949]:
+            - generic "Can I customize the meal plans? ▼" [ref=e950] [cursor=pointer]:
+              - text: Can I customize the meal plans?
+              - generic [ref=e951]: ▼
+          - group [ref=e953]:
+            - generic "Is there a free trial? ▼" [ref=e954] [cursor=pointer]:
+              - text: Is there a free trial?
+              - generic [ref=e955]: ▼
+          - group [ref=e957]:
+            - generic "How do I cancel my subscription? ▼" [ref=e958] [cursor=pointer]:
+              - text: How do I cancel my subscription?
+              - generic [ref=e959]: ▼
+      - generic [ref=e960]:
+        - img "Family cooking together" [ref=e962]
+        - generic [ref=e967]:
+          - heading "Ready to simplify meal time?" [level=2] [ref=e968]
+          - paragraph [ref=e969]: Discover the joy of stress-free meal planning. Start your free 14-day trial today.
+          - generic [ref=e970]:
+            - link "Start Free Trial" [ref=e971] [cursor=pointer]:
+              - /url: /onboarding
+              - text: Start Free Trial
+              - img [ref=e972]
+            - link "Log In" [ref=e974] [cursor=pointer]:
+              - /url: /login
+          - paragraph [ref=e975]: No credit card required • Free 14-day trial • Cancel anytime
+      - generic [ref=e978]:
+        - generic [ref=e979]:
+          - img "BestMealMate" [ref=e980]
+          - generic [ref=e981]: BestMealMate
+        - generic [ref=e982]:
+          - link "About" [ref=e983] [cursor=pointer]:
+            - /url: /about
+          - link "Privacy" [ref=e984] [cursor=pointer]:
+            - /url: /privacy
+          - link "Terms" [ref=e985] [cursor=pointer]:
+            - /url: /terms
+          - link "Contact" [ref=e986] [cursor=pointer]:
+            - /url: /contact
+          - link "Help" [ref=e987] [cursor=pointer]:
+            - /url: /help
+        - paragraph [ref=e988]: © 2026 BestMealMate. All rights reserved.
+  - generic [ref=e991]:
+    - paragraph [ref=e993]:
+      - text: We use cookies to improve your experience, analyze site traffic, and personalize content.
+      - link "Learn more" [ref=e994] [cursor=pointer]:
+        - /url: /cookies
+    - generic [ref=e995]:
+      - button "Customize" [ref=e996] [cursor=pointer]:
+        - img [ref=e997]
+        - text: Customize
+      - button "Reject All" [ref=e1000] [cursor=pointer]
+      - button "Accept All" [ref=e1001] [cursor=pointer]
+  - button "Open Next.js Dev Tools" [ref=e1007] [cursor=pointer]:
+    - img [ref=e1008]
+  - alert [ref=e1011]
+```

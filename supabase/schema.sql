@@ -40,8 +40,11 @@ CREATE TABLE IF NOT EXISTS user_profiles (
   user_id TEXT UNIQUE NOT NULL,
   email TEXT,
   display_name TEXT,
-  subscription_status TEXT DEFAULT 'free', -- 'free', 'premium', 'family'
+  subscription_status TEXT DEFAULT 'free', -- 'free', 'premium', 'canceled', 'past_due'
   stripe_customer_id TEXT,
+  subscription_id TEXT,
+  subscription_period_end TIMESTAMPTZ,
+  cancel_at_period_end BOOLEAN DEFAULT false,
   dietary_preferences JSONB DEFAULT '[]'::jsonb,
   family_members JSONB DEFAULT '[]'::jsonb,
   created_at TIMESTAMPTZ DEFAULT NOW(),
@@ -50,6 +53,7 @@ CREATE TABLE IF NOT EXISTS user_profiles (
 
 CREATE INDEX IF NOT EXISTS idx_user_profiles_user_id ON user_profiles(user_id);
 CREATE INDEX IF NOT EXISTS idx_user_profiles_stripe ON user_profiles(stripe_customer_id);
+CREATE INDEX IF NOT EXISTS idx_user_profiles_subscription ON user_profiles(subscription_id);
 
 ALTER TABLE user_profiles ENABLE ROW LEVEL SECURITY;
 
