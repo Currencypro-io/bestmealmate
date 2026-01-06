@@ -24,14 +24,22 @@ export default function PricingPage() {
   const [plans, setPlans] = useState<Plans | null>(null);
   const [loading, setLoading] = useState<string | null>(null);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [email, setEmail] = useState('');
+  const [showEmailInput, setShowEmailInput] = useState(false);
 
   useEffect(() => {
     // Check URL params for success/cancel
     const params = new URLSearchParams(window.location.search);
     if (params.get('success')) {
-      setMessage({ type: 'success', text: 'Welcome to Premium! Your subscription is now active.' });
+      setMessage({ 
+        type: 'success', 
+        text: '🎉 Welcome to Premium! Your subscription is now active. Check your email for a receipt.' 
+      });
+      // Clear URL params
+      window.history.replaceState({}, '', '/pricing');
     } else if (params.get('canceled')) {
       setMessage({ type: 'error', text: 'Checkout was canceled. No charges were made.' });
+      window.history.replaceState({}, '', '/pricing');
     }
 
     // Fetch plans
@@ -47,6 +55,19 @@ export default function PricingPage() {
       return;
     }
 
+    // Check if email is provided
+    if (!email) {
+      setShowEmailInput(true);
+      setMessage({ type: 'error', text: 'Please enter your email address to continue.' });
+      return;
+    }
+
+    // Basic email validation
+    if (!email.includes('@') || !email.includes('.')) {
+      setMessage({ type: 'error', text: 'Please enter a valid email address.' });
+      return;
+    }
+
     setLoading(priceId);
     setMessage(null);
 
@@ -56,7 +77,9 @@ export default function PricingPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           priceId,
-          // Add userId and email if user is authenticated
+          email,
+          // Generate a simple userId if not authenticated
+          userId: `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
         }),
       });
 
@@ -72,7 +95,10 @@ export default function PricingPage() {
       }
     } catch (error) {
       console.error('Checkout error:', error);
-      setMessage({ type: 'error', text: 'Failed to start checkout. Please try again.' });
+      setMessage({ 
+        type: 'error', 
+        text: error instanceof Error ? error.message : 'Failed to start checkout. Please try again.' 
+      });
     } finally {
       setLoading(null);
     }
@@ -107,6 +133,22 @@ export default function PricingPage() {
             }`}
           >
             {message.text}
+          </div>
+        )}
+
+        {/* Email Input */}
+        {(showEmailInput || email) && (
+          <div className="max-w-md mx-auto mb-8">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Email address (for your receipt and account)
+            </label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@example.com"
+              className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+            />
           </div>
         )}
 

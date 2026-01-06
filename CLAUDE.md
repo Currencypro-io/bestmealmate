@@ -3,14 +3,27 @@
 ## Project Overview
 Best Meal Mate is an AI-powered meal planning assistant built with Next.js 16 (App Router).
 
+**Brand:** BestMealMate
 **Live Site:** https://bestmealmate.com
+
+## Key Features
+- 📅 **Weekly Meal Planning** - 7-day calendar with breakfast/lunch/dinner slots
+- 🍳 **15+ Built-in Recipes** - Click any recipe image for full details
+- 🛒 **Grocery List Generator** - Auto-generate shopping lists from meal plan
+- 📖 **Recipe Book** - Browse recipes with cooking time, calories, ingredients
+- 👨‍👩‍👧‍👦 **Family Favorites** - Quick-add commonly made meals
+- 🎲 **Random Meal Picker** - Get spontaneous meal suggestions
+- 📤 **Share & Print** - Share meal plan or print for offline use
+- 🌙 **Dark Mode Toggle** - UI preference
+- ☁️ **Cloud Sync** - Supabase backend with localStorage fallback
 
 ## Tech Stack
 - **Framework:** Next.js 16.1.1 (App Router)
 - **React:** 19.2.3
 - **Styling:** Tailwind CSS v4
+- **Database:** Supabase (@supabase/supabase-js ^2.89.0)
 - **TypeScript:** v5
-- **Testing:** Playwright (E2E)
+- **Testing:** Playwright (E2E) - 18 tests
 
 ## Key Configurations
 
