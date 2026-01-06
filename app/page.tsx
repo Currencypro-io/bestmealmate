@@ -1062,6 +1062,236 @@ function FeatureCard({ icon, title, description, onClick, imageSrc }: { icon: st
   );
 }
 
+// 90-Second Onboarding Flow Component
+const CUISINE_OPTIONS = [
+  { id: 'american', label: '🍔 American', recipes: ['Grilled Chicken Salad', 'BBQ Salmon', 'Overnight Oats'] },
+  { id: 'italian', label: '🍝 Italian', recipes: ['Pasta Primavera', 'Caprese Salad', 'Greek Salad'] },
+  { id: 'mexican', label: '🌮 Mexican', recipes: ['Taco Night', 'Veggie Stir Fry', 'Quinoa Bowl'] },
+  { id: 'asian', label: '🍜 Asian', recipes: ['Veggie Stir Fry', 'Salmon Poke Bowl', 'Quinoa Bowl'] },
+  { id: 'healthy', label: '🥗 Healthy', recipes: ['Grilled Chicken Salad', 'Overnight Oats', 'Avocado Toast'] },
+  { id: 'quick', label: '⚡ Quick & Easy', recipes: ['Avocado Toast', 'Greek Salad', 'Overnight Oats'] },
+];
+
+function OnboardingFlow({ onComplete }: { onComplete: (selectedRecipes: string[]) => void }) {
+  const [step, setStep] = useState(1);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [selectedCuisine, setSelectedCuisine] = useState<string | null>(null);
+  const [selectedRecipes, setSelectedRecipes] = useState<string[]>([]);
+
+  const cuisineRecipes = selectedCuisine 
+    ? CUISINE_OPTIONS.find(c => c.id === selectedCuisine)?.recipes || []
+    : [];
+
+  const handleCuisineSelect = (cuisineId: string) => {
+    setSelectedCuisine(cuisineId);
+    setStep(3);
+  };
+
+  const handleRecipeSelect = (recipe: string) => {
+    if (selectedRecipes.includes(recipe)) {
+      setSelectedRecipes(prev => prev.filter(r => r !== recipe));
+    } else if (selectedRecipes.length < 3) {
+      setSelectedRecipes(prev => [...prev, recipe]);
+    }
+  };
+
+  const handleComplete = () => {
+    // Save to localStorage
+    localStorage.setItem('onboardingComplete', 'true');
+    localStorage.setItem('userName', name);
+    localStorage.setItem('userEmail', email);
+    localStorage.setItem('preferredCuisine', selectedCuisine || '');
+    onComplete(selectedRecipes);
+  };
+
+  return (
+    <div className="fixed inset-0 bg-gradient-to-br from-orange-50 to-amber-50 z-50 flex items-center justify-center p-4">
+      <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8">
+        {/* Progress indicator - 2 steps only */}
+        <div className="flex gap-2 mb-2">
+          {[1, 2].map((s) => (
+            <div
+              key={s}
+              className={`h-2 flex-1 rounded-full transition-all ${
+                (step === 1 && s === 1) || (step >= 2 && s <= 2) ? 'bg-orange-500' : 'bg-gray-200'
+              }`}
+            />
+          ))}
+        </div>
+        <p className="text-xs text-gray-400 text-center mb-6">
+          Step {step === 1 ? '1' : '2'} of 2
+        </p>
+
+        {/* Step 1: Name & Email */}
+        {step === 1 && (
+          <div className="text-center">
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">Welcome! 👋</h2>
+            <p className="text-gray-600 mb-6">Let&apos;s get you cooking in 60 seconds</p>
+            
+            <div className="space-y-4 mb-6">
+              <input
+                type="text"
+                placeholder="Your first name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                autoFocus
+              />
+              <input
+                type="email"
+                placeholder="Email (to save your plan)"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+              />
+            </div>
+
+            <button
+              onClick={() => setStep(2)}
+              disabled={!name.trim()}
+              className="w-full bg-orange-500 text-white py-3 rounded-lg font-semibold hover:bg-orange-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Continue →
+            </button>
+            
+            <p className="text-xs text-gray-500 mt-4">No credit card required</p>
+          </div>
+        )}
+
+        {/* Step 2: Cuisine Preference */}
+        {step === 2 && (
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2 text-center">
+              What sounds good, {name}?
+            </h2>
+            <p className="text-gray-600 mb-6 text-center">Pick your favorite style</p>
+            
+            <div className="grid grid-cols-2 gap-3">
+              {CUISINE_OPTIONS.map((cuisine) => (
+                <button
+                  key={cuisine.id}
+                  onClick={() => handleCuisineSelect(cuisine.id)}
+                  className="p-4 border-2 border-gray-200 rounded-xl hover:border-orange-500 hover:bg-orange-50 transition-all text-left"
+                >
+                  <span className="text-2xl block mb-1">{cuisine.label.split(' ')[0]}</span>
+                  <span className="text-sm text-gray-700">{cuisine.label.split(' ').slice(1).join(' ')}</span>
+                </button>
+              ))}
+            </div>
+
+            <button
+              onClick={() => setStep(1)}
+              className="w-full mt-4 text-gray-500 text-sm hover:text-gray-700"
+            >
+              ← Back
+            </button>
+          </div>
+        )}
+
+        {/* Step 3: First Win - Pick Your Recipes */}
+        {step === 3 && (
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2 text-center">
+              🎉 Here are 3 recipes for you!
+            </h2>
+            <p className="text-gray-600 mb-6 text-center">
+              Pick the ones you want to cook this week
+            </p>
+            
+            <div className="space-y-3 mb-6">
+              {cuisineRecipes.map((recipe) => {
+                const recipeData = RECIPES[recipe];
+                const isSelected = selectedRecipes.includes(recipe);
+                return (
+                  <button
+                    key={recipe}
+                    onClick={() => handleRecipeSelect(recipe)}
+                    className={`w-full p-4 border-2 rounded-xl transition-all text-left flex items-center gap-4 ${
+                      isSelected 
+                        ? 'border-orange-500 bg-orange-50' 
+                        : 'border-gray-200 hover:border-orange-300'
+                    }`}
+                  >
+                    {recipeData?.image && (
+                      <Image
+                        src={recipeData.image}
+                        alt={recipe}
+                        width={60}
+                        height={60}
+                        className="rounded-lg object-cover"
+                      />
+                    )}
+                    <div className="flex-1">
+                      <span className="font-semibold text-gray-900 block">{recipe}</span>
+                      <span className="text-sm text-gray-500">
+                        {recipeData?.time} • {recipeData?.calories} cal
+                      </span>
+                    </div>
+                    <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
+                      isSelected ? 'bg-orange-500 border-orange-500' : 'border-gray-300'
+                    }`}>
+                      {isSelected && <span className="text-white text-sm">✓</span>}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+
+            <button
+              onClick={handleComplete}
+              disabled={selectedRecipes.length === 0}
+              className="w-full bg-orange-500 text-white py-3 rounded-lg font-semibold hover:bg-orange-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {selectedRecipes.length > 0 
+                ? `Start Planning with ${selectedRecipes.length} Recipe${selectedRecipes.length > 1 ? 's' : ''} →`
+                : 'Select at least 1 recipe'
+              }
+            </button>
+
+            <button
+              onClick={() => setStep(2)}
+              className="w-full mt-4 text-gray-500 text-sm hover:text-gray-700"
+            >
+              ← Back
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// First Win Banner Component - Shows after onboarding
+function FirstWinBanner({ recipes, onDismiss, onViewRecipe }: { 
+  recipes: string[]; 
+  onDismiss: () => void;
+  onViewRecipe: (recipe: string) => void;
+}) {
+  return (
+    <div className="bg-gradient-to-r from-green-500 to-emerald-500 text-white p-4 mb-4 rounded-xl">
+      <div className="flex items-start justify-between mb-3">
+        <div>
+          <h3 className="font-bold text-lg">🎉 You&apos;re all set!</h3>
+          <p className="text-green-100 text-sm">Here are {recipes.length} recipes you can cook TODAY</p>
+        </div>
+        <button onClick={onDismiss} className="text-green-200 hover:text-white">✕</button>
+      </div>
+      <div className="flex gap-2 flex-wrap">
+        {recipes.map((recipe) => (
+          <button
+            key={recipe}
+            onClick={() => onViewRecipe(recipe)}
+            className="bg-white/20 hover:bg-white/30 px-3 py-1 rounded-full text-sm font-medium transition-all"
+          >
+            {recipe}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function Home() {
   const [mealPlan, setMealPlan] = useState<Record<string, Record<string, string>>>({});
   const [currentDay, setCurrentDay] = useState('Monday');
@@ -1078,6 +1308,10 @@ export default function Home() {
   const [selectedRecipe, setSelectedRecipe] = useState<typeof RECIPES[string] | null>(null);
   const [darkMode, setDarkMode] = useState(false);
   const [showScanner, setShowScanner] = useState(false);
+  // Onboarding state
+  const [showOnboarding, setShowOnboarding] = useState(false);
+  const [firstWinRecipes, setFirstWinRecipes] = useState<string[]>([]);
+  const [showFirstWinBanner, setShowFirstWinBanner] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const mainContentRef = useRef<HTMLDivElement>(null);
 
@@ -1098,6 +1332,31 @@ export default function Home() {
       }
     };
     loadMealPlan();
+    
+    // Check onboarding status
+    const onboardingComplete = localStorage.getItem('onboardingComplete');
+    if (!onboardingComplete) {
+      setShowOnboarding(true);
+    }
+  }, []);
+
+  // Handle onboarding completion
+  const handleOnboardingComplete = useCallback((selectedRecipes: string[]) => {
+    setShowOnboarding(false);
+    setFirstWinRecipes(selectedRecipes);
+    setShowFirstWinBanner(true);
+    
+    // Auto-add first recipe to today's dinner to give immediate value
+    if (selectedRecipes.length > 0) {
+      const today = new Date().toLocaleDateString('en-US', { weekday: 'long' });
+      const validDay = DAYS.includes(today) ? today : 'Monday';
+      
+      setMealPlan(prev => ({
+        ...prev,
+        [validDay]: { ...prev[validDay], 'Dinner': selectedRecipes[0] }
+      }));
+      saveMeal(validDay, 'Dinner', selectedRecipes[0]);
+    }
   }, []);
 
   // Save meal plan
@@ -1289,6 +1548,9 @@ END:VEVENT
 
   return (
     <div className={`min-h-screen transition-colors ${darkMode ? 'bg-gray-900' : 'bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50'}`}>
+      {/* 90-Second Onboarding Flow */}
+      {showOnboarding && <OnboardingFlow onComplete={handleOnboardingComplete} />}
+
       {/* Skip link */}
       <a href="#main-content" className="skip-link focus-ring">Skip to main content</a>
 
@@ -1437,6 +1699,20 @@ END:VEVENT
 
         {/* Main Content */}
         <main id="main-content" ref={mainContentRef} className="grid gap-6 md:grid-cols-3 md:gap-8">
+          {/* First Win Banner - Shows after onboarding */}
+          {showFirstWinBanner && firstWinRecipes.length > 0 && (
+            <div className="md:col-span-3">
+              <FirstWinBanner 
+                recipes={firstWinRecipes} 
+                onDismiss={() => setShowFirstWinBanner(false)}
+                onViewRecipe={(recipe) => {
+                  const recipeData = RECIPES[recipe];
+                  if (recipeData) setSelectedRecipe(recipeData);
+                }}
+              />
+            </div>
+          )}
+
           {/* Add Meal Form */}
           <section className="bg-white p-4 md:p-6 rounded-2xl shadow-lg border-t-4 border-orange-400 order-1 md:order-none">
             <h2 className="text-lg md:text-xl font-bold text-gray-800 mb-4">➕ Add Meal</h2>
