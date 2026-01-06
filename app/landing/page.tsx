@@ -56,19 +56,19 @@ export default function LandingPage() {
             </button>
           </div>
 
-          {/* Social Proof */}
+          {/* Honest Launch Message */}
           <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-gray-600 mb-4">
             <div className="flex items-center gap-2">
-              <span className="text-yellow-500">★★★★★</span>
-              <span>Rated 4.8 by early users</span>
+              <span>🚀</span>
+              <span>Just launched - be one of our first users</span>
             </div>
             <div className="flex items-center gap-1">
-              <span>👨‍👩‍👧‍👦</span>
-              <span>2,847 families planning meals</span>
+              <span>💯</span>
+              <span>100% free while in beta</span>
             </div>
             <div className="flex items-center gap-1">
-              <span>🍽️</span>
-              <span>50,000+ meals planned</span>
+              <span>🔒</span>
+              <span>No credit card required</span>
             </div>
           </div>
 
@@ -253,67 +253,56 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Real Testimonials Section */}
+      {/* Early Adopter Section - HONEST */}
       <section id="reviews" className="py-16 px-4 bg-gray-50">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-3xl font-bold text-center text-gray-900 mb-4">
-            What Real Families Say
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">
+            🚀 We Just Launched
           </h2>
-          <p className="text-center text-gray-600 mb-12">
-            <a href="https://apps.apple.com/app/bestmealmate" target="_blank" rel="noopener noreferrer" className="underline hover:text-orange-600">
-              Read all 342 reviews on the App Store →
-            </a>
+          <p className="text-xl text-gray-600 mb-8">
+            BestMealMate is brand new. No fake reviews, no made-up numbers.
           </p>
 
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="bg-white p-6 rounded-xl shadow-md">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center text-xl">👩</div>
-                <div>
-                  <p className="font-semibold text-gray-900">Sarah M.</p>
-                  <p className="text-xs text-gray-500">Family of 4 • Austin, TX</p>
-                </div>
+          <div className="bg-white p-8 rounded-2xl shadow-lg border-2 border-orange-200 mb-8">
+            <h3 className="text-2xl font-bold text-gray-900 mb-4">Be One of Our First Users</h3>
+            <p className="text-gray-600 mb-6">
+              We built this because we were tired of the &quot;what&apos;s for dinner?&quot; stress ourselves.
+              Try it free, tell us what sucks, help us make it better.
+            </p>
+            <div className="grid md:grid-cols-3 gap-6 text-left">
+              <div className="p-4 bg-orange-50 rounded-xl">
+                <p className="font-bold text-gray-900 mb-2">✅ What&apos;s Working</p>
+                <ul className="text-sm text-gray-600 space-y-1">
+                  <li>• 90-second setup</li>
+                  <li>• Recipe suggestions</li>
+                  <li>• Weekly meal calendar</li>
+                  <li>• Grocery list generation</li>
+                </ul>
               </div>
-              <p className="text-gray-600 text-sm mb-3">
-                &quot;My husband does keto, I&apos;m vegetarian, and my kids are PICKY. First app where we <strong>actually cook the recipes it suggests</strong>.&quot;
-              </p>
-              <div className="flex items-center gap-1 text-yellow-500 text-sm">
-                ★★★★★ <span className="text-gray-400 ml-2">Verified purchase</span>
+              <div className="p-4 bg-blue-50 rounded-xl">
+                <p className="font-bold text-gray-900 mb-2">🔨 In Progress</p>
+                <ul className="text-sm text-gray-600 space-y-1">
+                  <li>• More recipes</li>
+                  <li>• Mobile app</li>
+                  <li>• Family sharing</li>
+                  <li>• Dietary filters</li>
+                </ul>
               </div>
-            </div>
-
-            <div className="bg-white p-6 rounded-xl shadow-md">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-xl">👨</div>
-                <div>
-                  <p className="font-semibold text-gray-900">Mike R.</p>
-                  <p className="text-xs text-gray-500">Family of 5 • Chicago, IL</p>
-                </div>
-              </div>
-              <p className="text-gray-600 text-sm mb-3">
-                &quot;We used to throw away $50-60/month in unused groceries. Now maybe $20. <strong>The leftover planning alone is worth it.</strong>&quot;
-              </p>
-              <div className="flex items-center gap-1 text-yellow-500 text-sm">
-                ★★★★☆ <span className="text-gray-400 ml-2">Verified purchase</span>
-              </div>
-            </div>
-
-            <div className="bg-white p-6 rounded-xl shadow-md">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-xl">👩‍👧</div>
-                <div>
-                  <p className="font-semibold text-gray-900">Jennifer L.</p>
-                  <p className="text-xs text-gray-500">Single mom of 2 • Seattle, WA</p>
-                </div>
-              </div>
-              <p className="text-gray-600 text-sm mb-3">
-                &quot;Setup took literally 2 minutes. Had dinner planned before I finished my coffee. <strong>Finally stopped the &apos;what&apos;s for dinner&apos; stress.</strong>&quot;
-              </p>
-              <div className="flex items-center gap-1 text-yellow-500 text-sm">
-                ★★★★★ <span className="text-gray-400 ml-2">Verified purchase</span>
+              <div className="p-4 bg-green-50 rounded-xl">
+                <p className="font-bold text-gray-900 mb-2">🎁 Early Adopter Perks</p>
+                <ul className="text-sm text-gray-600 space-y-1">
+                  <li>• Free forever tier locked in</li>
+                  <li>• Shape the roadmap</li>
+                  <li>• Direct founder access</li>
+                  <li>• First dibs on new features</li>
+                </ul>
               </div>
             </div>
           </div>
+
+          <Link href="/" className="inline-block bg-orange-500 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-orange-600 transition-all shadow-lg">
+            Try It Free - No Signup Required →
+          </Link>
         </div>
       </section>
 
