@@ -28,7 +28,7 @@ Best Meal Mate is an AI-powered meal planning assistant built with Next.js 16 (A
 ## Key Configurations
 
 ### Google AdSense
-- **Publisher ID:** `ca-pub-6442421268022178`
+- **Publisher ID:** `ca-pub-1194948930656889`
 - **Script Location:** `app/layout.tsx` (via `next/script`)
 - **ads.txt:** `public/ads.txt`
 
