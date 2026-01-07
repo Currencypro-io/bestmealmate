@@ -20,7 +20,7 @@ export default function LandingPage() {
       {/* Early Adopter Sticky Banner */}
       <div className="fixed top-0 left-0 right-0 z-[60] bg-gradient-to-r from-green-600 to-emerald-600 text-white py-2 px-4 text-center text-sm">
         🎁 <strong>First 100 Users:</strong> Get Family Plan FREE for 6 months ($90 value) • 
-        <span className="font-bold ml-1">{spotsLeft} spots left</span>
+        <span className="font-bold ml-1">{spotsLeft} spots left</span> <span className="text-white/70">(updated daily)</span>
         <Link href="/" className="ml-2 underline hover:no-underline">Claim Yours →</Link>
       </div>
 
@@ -60,7 +60,7 @@ export default function LandingPage() {
               onClick={() => setShowDemo(true)}
               className="bg-white text-orange-600 px-8 py-4 rounded-full font-bold text-lg border-2 border-orange-200 hover:border-orange-400 transition-all"
             >
-              See Demo (No Signup)
+              See Quick Preview
             </button>
           </div>
 
@@ -146,8 +146,8 @@ export default function LandingPage() {
               <button className="w-20 h-20 bg-orange-500 rounded-full flex items-center justify-center mb-4 hover:bg-orange-600 transition-all hover:scale-110 shadow-lg">
                 <span className="text-3xl ml-1">▶</span>
               </button>
-              <p className="text-lg font-semibold">Watch Demo (No Signup Required)</p>
-              <p className="text-sm text-gray-400 mt-2">1:32 • See signup → cuisine pick → 3 recipes → shopping list</p>
+              <p className="text-lg font-semibold">See How It Works</p>
+              <p className="text-sm text-gray-400 mt-2">1:32 • Signup → Pick cuisine → 3 recipes → List</p>
             </div>
             {/* Placeholder thumbnail */}
             <Image 
@@ -205,7 +205,7 @@ export default function LandingPage() {
                 <strong> Save 3+ hours per week</strong> with smart leftover planning.
               </p>
               <p className="text-xs text-gray-400 mt-3">
-                💡 Batch cooking mode available on Growing Family plan.
+                💡 Batch cooking mode available on Pro plan.
               </p>
             </div>
           </div>
@@ -309,7 +309,7 @@ export default function LandingPage() {
           </div>
 
           <Link href="/" className="inline-block bg-orange-500 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-orange-600 transition-all shadow-lg">
-            Try It Free - No Signup Required →
+            Start Free (Just Name + Email) →
           </Link>
         </div>
       </section>
@@ -338,7 +338,7 @@ export default function LandingPage() {
                 <tr>
                   <td className="p-4 border-b border-gray-100 text-gray-600">Users</td>
                   <td className="p-4 border-b border-gray-100 text-center bg-orange-50 text-orange-700">&lt;100 (just launched!)</td>
-                  <td className="p-4 border-b border-gray-100 text-center text-gray-600">500,000+</td>
+                  <td className="p-4 border-b border-gray-100 text-center text-gray-600">4M+</td>
                   <td className="p-4 border-b border-gray-100 text-center text-gray-600">100M+</td>
                 </tr>
                 <tr>
@@ -438,10 +438,10 @@ export default function LandingPage() {
               </Link>
             </div>
 
-            {/* Pro */}
+            {/* Growing Family */}
             <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-200">
               <div className="text-center mb-6">
-                <h3 className="text-xl font-bold text-gray-900 mb-1">Pro</h3>
+                <h3 className="text-xl font-bold text-gray-900 mb-1">Growing Family</h3>
                 <p className="text-sm text-gray-500">For large families + batch cookers</p>
                 <div className="mt-4">
                   <span className="text-4xl font-bold text-gray-900">$9.99</span>

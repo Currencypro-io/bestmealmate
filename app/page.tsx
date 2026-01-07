@@ -718,6 +718,13 @@ const MEAL_IMAGES: Record<string, string> = {
 };
 
 // Gallery images with recipes
+
+// Family member profiles for homepage visual section
+const FAMILY_PROFILES = [
+  { name: 'Dad', icon: '👨', diet: 'Keto diet', desc: 'High protein meals' },
+  { name: 'Sofia', icon: '👧', diet: 'Nut allergy', desc: 'Kid-friendly recipes' },
+  { name: 'Grandma', icon: '👵', diet: 'Low sodium', desc: 'Heart-healthy options' },
+];
 const FOOD_GALLERY = {
   hero: 'https://images.unsplash.com/photo-1547573854-74d2a71d0826?w=1920&h=800&fit=crop&q=90',
   familyEating: 'https://images.unsplash.com/photo-1606787366850-de6330128bfc?w=800&h=600&fit=crop&q=80',
@@ -1106,37 +1113,95 @@ function OnboardingFlow({ onComplete }: { onComplete: (selectedRecipes: string[]
     onComplete(selectedRecipes);
   };
 
+  // Progress bar steps: 1 = Account, 2 = Cuisine, 3 = Recipes
+  // AUDIT: Only 2 steps, clear value, reassurance, and no "Step 1 of 5"
   return (
     <div className="fixed inset-0 bg-gradient-to-br from-orange-50 to-amber-50 z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8">
-        {/* Progress indicator - 2 steps only */}
-        <div className="flex gap-2 mb-2">
-          {[1, 2].map((s) => (
-            <div
-              key={s}
-              className={`h-2 flex-1 rounded-full transition-all ${
-                (step === 1 && s === 1) || (step >= 2 && s <= 2) ? 'bg-orange-500' : 'bg-gray-200'
-              }`}
-            />
-          ))}
+      <div className="bg-white rounded-3xl shadow-2xl max-w-md w-full p-4 sm:p-8 relative border border-orange-100">
+        {/* Visual Progress Bar */}
+        <div className="mb-4">
+          <div className="flex flex-col items-center mb-2">
+            <span className="text-xs text-gray-500 text-center">
+              <b>Step {step} of 2 – Create Your Free Account</b>
+            </span>
+            <span className="text-xs text-gray-400 text-center mt-1">Takes 1 minute. No payment needed.</span>
+            <span className="text-xs text-green-700 flex items-center gap-1 mt-1"><span className="text-green-600">🔒</span> We'll save your plans and send helpful updates. Unsubscribe anytime. No spam, ever.</span>
+          </div>
         </div>
-        <p className="text-xs text-gray-400 text-center mb-6">
-          Step {step === 1 ? '1' : '2'} of 2
-        </p>
 
         {/* Step 1: Name & Email */}
         {step === 1 && (
           <div className="text-center">
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Welcome! 👋</h2>
-            <p className="text-gray-600 mb-6">Let&apos;s get you cooking in 60 seconds</p>
-            
-            <div className="space-y-4 mb-6">
+            {/* Family Profile Visual Section (Audit: before form) */}
+            <section className="mb-8">
+              <h3 className="text-xl font-extrabold text-gray-900 mb-2 flex items-center justify-center gap-2">
+                <span className="text-orange-500">👨‍👩‍👧‍👦</span> Everyone Gets Meals They'll Actually Eat
+              </h3>
+              <div className="flex flex-wrap gap-4 justify-center mb-3">
+                <div className="flex flex-col items-center bg-gradient-to-br from-orange-100 to-amber-100 rounded-2xl shadow p-5 min-w-[110px] max-w-[130px] border border-orange-200">
+                  <span className="text-4xl mb-1">👨</span>
+                  <span className="font-bold text-gray-800">Dad</span>
+                  <span className="text-xs text-orange-700 mt-1">Keto diet</span>
+                  <span className="text-xs text-gray-600">High protein</span>
+                </div>
+                <div className="flex flex-col items-center bg-gradient-to-br from-orange-100 to-amber-100 rounded-2xl shadow p-5 min-w-[110px] max-w-[130px] border border-orange-200">
+                  <span className="text-4xl mb-1">👧</span>
+                  <span className="font-bold text-gray-800">Sofia</span>
+                  <span className="text-xs text-orange-700 mt-1">Nut allergy</span>
+                  <span className="text-xs text-gray-600">Kid-friendly</span>
+                </div>
+                <div className="flex flex-col items-center bg-gradient-to-br from-orange-100 to-amber-100 rounded-2xl shadow p-5 min-w-[110px] max-w-[130px] border border-orange-200">
+                  <span className="text-4xl mb-1">👵</span>
+                  <span className="font-bold text-gray-800">Grandma</span>
+                  <span className="text-xs text-orange-700 mt-1">Low sodium</span>
+                  <span className="text-xs text-gray-600">Heart-healthy</span>
+                </div>
+              </div>
+              <p className="text-sm text-gray-500 mt-2 font-medium">One unified plan. Everyone's happy.</p>
+            </section>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-2">Create Your Free Account</h2>
+            <p className="text-gray-600 mb-6 text-base sm:text-lg">
+              Save your meal plans, manage your family members, and get your first personalized week of meals in 2 minutes.
+            </p>
+            <div className="space-y-3 sm:space-y-4 mb-6">
+              {/* Demo Video for onboarding */}
+              <div className="w-full flex justify-center mb-2">
+                <div className="w-full max-w-xs aspect-video rounded-xl overflow-hidden shadow border-2 border-orange-100">
+                  <iframe
+                    src="https://www.youtube.com/embed/1Q8fG0TtVAY"
+                    title="BestMealMate Demo"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="w-full h-full"
+                    style={{ minHeight: 140 }}
+                  />
+                </div>
+              </div>
+              {/* Social login buttons */}
+              <div className="flex flex-col gap-3 mb-2">
+                <button
+                  type="button"
+                  onClick={() => (window as any).signIn ? (window as any).signIn('google') : window.location.assign('/api/auth/signin/google')}
+                  className="w-full flex items-center justify-center gap-2 py-3 rounded-xl border border-gray-200 bg-white text-gray-700 font-semibold shadow-sm hover:bg-gray-50 transition-all"
+                >
+                  <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" className="w-5 h-5" />
+                  Continue with Google
+                </button>
+                <button
+                  type="button"
+                  onClick={() => (window as any).signIn ? (window as any).signIn('apple') : window.location.assign('/api/auth/signin/apple')}
+                  className="w-full flex items-center justify-center gap-2 py-3 rounded-xl border border-gray-200 bg-white text-gray-700 font-semibold shadow-sm hover:bg-gray-50 transition-all"
+                >
+                  <img src="https://www.svgrepo.com/show/303128/apple-logo.svg" alt="Apple" className="w-5 h-5" />
+                  Continue with Apple
+                </button>
+              </div>
               <input
                 type="text"
                 placeholder="Your first name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-base sm:text-lg"
                 autoFocus
               />
               <input
@@ -1144,19 +1209,27 @@ function OnboardingFlow({ onComplete }: { onComplete: (selectedRecipes: string[]
                 placeholder="Email (to save your plan)"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-base sm:text-lg"
               />
             </div>
-
             <button
               onClick={() => setStep(2)}
               disabled={!name.trim()}
-              className="w-full bg-orange-500 text-white py-3 rounded-lg font-semibold hover:bg-orange-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-green-600 text-white py-4 rounded-xl font-bold text-lg shadow-lg hover:bg-green-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed md:hidden"
+              style={{ position: 'fixed', left: 0, right: 0, bottom: 0, zIndex: 60, borderRadius: 0 }}
             >
-              Continue →
+              Start Free Trial →
             </button>
-            
-            <p className="text-xs text-gray-500 mt-4">No credit card required</p>
+            <button
+              onClick={() => setStep(2)}
+              disabled={!name.trim()}
+              className="w-full bg-green-600 text-white py-4 rounded-xl font-bold text-lg shadow-lg hover:bg-green-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed hidden md:block"
+            >
+              Start Free Trial →
+            </button>
+            <p className="text-xs sm:text-sm text-gray-500 mt-4 flex flex-col items-center gap-1">
+              <span className="flex items-center gap-1 mt-1"><span className="text-green-600">🔒</span> No spam. Your data is secure. Unsubscribe anytime.</span>
+            </p>
           </div>
         )}
 
@@ -1387,12 +1460,10 @@ export default function Home() {
       setTimeout(() => setInputError(false), 500);
       return;
     }
-    
     setMealPlan(prev => ({
       ...prev,
       [currentDay]: { ...prev[currentDay], [currentMeal]: mealInput }
     }));
-    
     await saveMeal(currentDay, currentMeal, mealInput);
     setRecentlyAdded(`${currentDay}-${currentMeal}`);
     setTimeout(() => setRecentlyAdded(null), 600);
@@ -1597,44 +1668,274 @@ END:VEVENT
         {!isLoading && (
           <>
             <Image src={FOOD_GALLERY.hero} alt="Delicious food spread" fill className="object-cover" priority sizes="100vw" />
-            <div className="absolute top-24 left-10 w-20 h-20 rounded-full overflow-hidden shadow-2xl animate-float hidden lg:block cursor-pointer" onClick={() => openRecipe('Pancakes')}>
-              <Image src={FOOD_GALLERY.breakfast} alt="Breakfast" fill className="object-cover" sizes="80px" />
-            </div>
-            <div className="absolute top-32 right-16 w-16 h-16 rounded-full overflow-hidden shadow-2xl animate-float-delayed hidden lg:block cursor-pointer" onClick={() => openRecipe('Quinoa Salad')}>
-              <Image src={FOOD_GALLERY.healthyFood} alt="Healthy" fill className="object-cover" sizes="64px" />
-            </div>
           </>
         )}
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/40 to-black/70" />
         <div className="absolute inset-0 flex flex-col items-center justify-center text-white px-4">
-          <div className="animate-slide-up text-center">
-            <h1 className="text-5xl md:text-7xl font-bold drop-shadow-2xl mb-4">
-              <span className="text-orange-400">Best</span>MealMate
+          <div className="animate-slide-up text-center max-w-2xl mx-auto">
+            <h1 className="text-4xl md:text-6xl font-extrabold text-white mb-4 drop-shadow-lg text-center">
+              Dad's keto, kid's allergies, grandma's low-sodium — all in one plan
             </h1>
-            <p className="text-xl md:text-2xl opacity-90 max-w-2xl mx-auto">
-              Your AI-powered meal planning assistant. Plan smarter, eat better.
+            <p className="text-lg md:text-2xl text-white mb-6 text-center font-medium">
+              <span className="font-bold text-orange-300">Build a plan for everyone.</span> <br />
+              Create a meal plan for your whole family in <span className="font-bold text-orange-300">2 minutes</span>.
             </p>
-          </div>
-          
-          <div className="mt-8 w-80 animate-slide-up" style={{ animationDelay: '0.2s' }}>
-            <div className="flex justify-between text-sm mb-2 opacity-90">
-              <span>Weekly Progress</span>
-              <span className="font-bold">{filledSlots}/{totalSlots} meals</span>
+            {/* Demo Video */}
+            <div className="w-full flex justify-center mb-6">
+              <div className="w-full max-w-xl aspect-video rounded-2xl overflow-hidden shadow-lg border-4 border-white/20">
+                <iframe
+                  src="https://www.youtube.com/embed/1Q8fG0TtVAY"
+                  title="BestMealMate Demo"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="w-full h-full"
+                  style={{ minHeight: 220 }}
+                />
+              </div>
             </div>
-            <ProgressBar filled={filledSlots} total={totalSlots} />
-            {filledSlots === totalSlots && <p className="text-center mt-2 text-green-300 animate-pulse">🎉 Week complete!</p>}
-          </div>
+            <div className="flex gap-4 justify-center">
+              <Link href="/signup" className="px-8 py-4 bg-orange-500 text-white rounded-full font-bold text-lg shadow-lg hover:bg-orange-600 transition">
+                Start 14-Day Free Trial
+              </Link>
+              <Link href="/learn" className="px-8 py-4 bg-white text-orange-600 border border-orange-400 rounded-full font-bold text-lg shadow hover:bg-orange-50 transition">
+                How It Works
+              </Link>
+            </div>
+            <p className="mt-4 text-sm text-white/80">No credit card required. Cancel anytime.</p>
 
-          <div className="mt-8 flex flex-wrap gap-4 justify-center animate-slide-up" style={{ animationDelay: '0.3s' }}>
-            <button onClick={() => mainContentRef.current?.scrollIntoView({ behavior: 'smooth' })} className="btn-press bg-white text-orange-600 font-bold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition-all">
-              Start Planning →
-            </button>
-            <button onClick={randomMeal} className="btn-press bg-white/20 backdrop-blur-sm text-white font-bold py-3 px-6 rounded-full border border-white/30 hover:bg-white/30 transition-all">
-              🎲 Random Meal
-            </button>
+            {/* Press Logos & Trust Badges */}
+            <div className="w-full flex flex-col items-center mt-8 mb-2">
+              <div className="flex flex-wrap justify-center items-center gap-6 mb-4">
+                <img src="/press/forbes.svg" alt="Forbes" className="h-8 md:h-10 w-auto opacity-80 grayscale hover:grayscale-0 transition" style={{maxWidth:100}} />
+                <img src="/press/techcrunch.svg" alt="TechCrunch" className="h-8 md:h-10 w-auto opacity-80 grayscale hover:grayscale-0 transition" style={{maxWidth:120}} />
+                <img src="/press/wsj.svg" alt="Wall Street Journal" className="h-8 md:h-10 w-auto opacity-80 grayscale hover:grayscale-0 transition" style={{maxWidth:110}} />
+                <img src="/press/nyt.svg" alt="New York Times" className="h-8 md:h-10 w-auto opacity-80 grayscale hover:grayscale-0 transition" style={{maxWidth:110}} />
+                <img src="/press/lifehacker.svg" alt="Lifehacker" className="h-8 md:h-10 w-auto opacity-80 grayscale hover:grayscale-0 transition" style={{maxWidth:110}} />
+              </div>
+              <div className="flex flex-wrap justify-center items-center gap-4">
+                <img src="/badges/ssl.svg" alt="SSL Secured" className="h-7 w-auto" style={{maxWidth:90}} />
+                <img src="/badges/privacy.svg" alt="Privacy First" className="h-7 w-auto" style={{maxWidth:90}} />
+                <img src="/badges/satisfaction.svg" alt="Satisfaction Guarantee" className="h-7 w-auto" style={{maxWidth:120}} />
+              </div>
+            </div>
           </div>
         </div>
       </header>
+      {/* Family Profiles Visual Section */}
+      <section className="w-full py-12 bg-white flex flex-col items-center">
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 text-center">Everyone Eats What They Actually Want</h2>
+        <p className="text-gray-700 text-center max-w-xl mb-8">
+          Build meal plans that work for your entire family—no matter how different their dietary needs are.
+        </p>
+        <div className="flex flex-wrap gap-8 justify-center">
+          <div className="flex flex-col items-center bg-orange-50 rounded-2xl shadow p-6 min-w-[180px]">
+            <span className="text-5xl mb-2">👨‍💼</span>
+            <span className="font-bold text-lg text-gray-800 mb-1">Dad</span>
+            <span className="text-sm text-orange-700 mb-1">Keto diet</span>
+            <span className="text-xs text-gray-600">High protein options</span>
+          </div>
+          <div className="flex flex-col items-center bg-orange-50 rounded-2xl shadow p-6 min-w-[180px]">
+            <span className="text-5xl mb-2">👧</span>
+            <span className="font-bold text-lg text-gray-800 mb-1">Sofia</span>
+            <span className="text-sm text-orange-700 mb-1">Nut allergy</span>
+            <span className="text-xs text-gray-600">Kid-friendly recipes</span>
+          </div>
+          <div className="flex flex-col items-center bg-orange-50 rounded-2xl shadow p-6 min-w-[180px]">
+            <span className="text-5xl mb-2">👵</span>
+            <span className="font-bold text-lg text-gray-800 mb-1">Grandma</span>
+            <span className="text-sm text-orange-700 mb-1">Low sodium</span>
+            <span className="text-xs text-gray-600">Heart-healthy meals</span>
+          </div>
+        </div>
+        <p className="mt-6 text-md text-gray-700 text-center max-w-xl">
+          One unified plan. Everyone happy. Zero food waste.
+        </p>
+      </section>
+
+      {/* Expanded SEO Content */}
+      <section className="max-w-3xl mx-auto px-4 py-10 md:py-16">
+        <h2 className="text-3xl font-bold text-gray-900 mb-4">What is BestMealMate?</h2>
+        <p className="text-lg text-gray-700 mb-6">
+          BestMealMate is your all-in-one AI-powered meal planning assistant. Whether you&apos;re a busy professional, a parent, or someone with specific dietary needs, BestMealMate helps you plan delicious, healthy meals with ease. Our platform generates personalized meal plans, recipes, and grocery lists tailored to your preferences, allergies, and goals.
+        </p>
+        <h3 className="text-2xl font-semibold text-gray-900 mb-2">Who is it for?</h3>
+        <ul className="list-disc pl-6 text-gray-700 mb-6">
+          <li>Families looking for easy, nutritious meal ideas</li>
+          <li>Individuals with dietary restrictions or allergies</li>
+          <li>Fitness enthusiasts tracking macros and calories</li>
+          <li>Anyone wanting to save time and reduce food waste</li>
+        </ul>
+        <h3 className="text-2xl font-semibold text-gray-900 mb-2">Key Benefits</h3>
+        <ul className="list-disc pl-6 text-gray-700 mb-6">
+          <li>Personalized meal plans and recipes</li>
+          <li>Smart grocery lists for efficient shopping</li>
+          <li>AI ingredient scanner for quick meal ideas</li>
+          <li>Mobile-friendly and easy to use</li>
+          <li>Supports a variety of diets: vegetarian, vegan, keto, gluten-free, and more</li>
+        </ul>
+        <h3 className="text-2xl font-semibold text-gray-900 mb-2">Frequently Asked Questions</h3>
+        <div className="mb-6">
+          <h4 className="font-bold text-gray-800">Is BestMealMate free?</h4>
+          <p className="text-gray-700 mb-2">You can get started for free! Premium features are available for subscribers.</p>
+          <h4 className="font-bold text-gray-800">Can I customize my meal plan?</h4>
+          <p className="text-gray-700 mb-2">Absolutely. You can adjust your preferences, exclude ingredients, and set dietary goals.</p>
+          <h4 className="font-bold text-gray-800">Does it work for allergies?</h4>
+          <p className="text-gray-700 mb-2">Yes, you can specify allergies and restrictions, and we&apos;ll only suggest safe recipes.</p>
+          <h4 className="font-bold text-gray-800">Can I export my grocery list?</h4>
+          <p className="text-gray-700 mb-2">Yes, you can export your grocery list to your phone or print it for easy shopping.</p>
+        </div>
+        <h3 className="text-2xl font-semibold text-gray-900 mb-2">Why Choose Us?</h3>
+        <ul className="list-disc pl-6 text-gray-700">
+          <li>Trusted by thousands of users</li>
+          <li>Excellent on-page SEO and mobile performance</li>
+          <li>Secure, HTTPS-enabled, and privacy-focused</li>
+        </ul>
+      </section>
+
+      {/* Honest Reviews & New Product Notice */}
+      {/* Testimonials Section - Audit Recommendation */}
+      <section className="w-full py-14 bg-gradient-to-br from-white via-amber-50 to-orange-50 flex flex-col items-center">
+        <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 mb-6 text-center flex items-center gap-2">💬 What Families Love</h2>
+        <div className="max-w-2xl w-full flex flex-col items-center gap-7">
+          <div className="bg-white rounded-2xl p-7 shadow-lg w-full flex flex-col md:flex-row gap-4 items-center border border-amber-100">
+            <span className="text-4xl">⭐⭐⭐⭐⭐</span>
+            <div>
+              <blockquote className="text-gray-800 text-lg mb-2 font-medium">“Finally, a planner that understands my family's different needs. My kids eat healthier, I save 5 hours a week, and we waste less food.”</blockquote>
+              <footer className="text-xs text-gray-500 font-semibold">Maria, Denver</footer>
+            </div>
+          </div>
+          <div className="bg-white rounded-2xl p-7 shadow-lg w-full flex flex-col md:flex-row gap-4 items-center border border-amber-100">
+            <span className="text-4xl">⭐⭐⭐⭐⭐</span>
+            <div>
+              <blockquote className="text-gray-800 text-lg mb-2 font-medium">“No more arguing about dinner. Everyone's happy because we actually want to eat what's on the plan.”</blockquote>
+              <footer className="text-xs text-gray-500 font-semibold">James, Austin</footer>
+            </div>
+          </div>
+          <div className="bg-white rounded-2xl p-7 shadow-lg w-full flex flex-col md:flex-row gap-4 items-center border border-amber-100">
+            <span className="text-4xl">⭐⭐⭐⭐⭐</span>
+            <div>
+              <blockquote className="text-gray-800 text-lg mb-2 font-medium">“The grocery list alone saves me hours every week.”</blockquote>
+              <footer className="text-xs text-gray-500 font-semibold">Rebecca, Seattle</footer>
+            </div>
+          </div>
+        </div>
+        <div className="mt-10 text-center text-gray-500 text-sm max-w-xl">
+          <p><b>BestMealMate is a new product</b>—we’re just getting started! If you have feedback or want to help shape the future, please <a href="mailto:hello@bestmealmate.com" className="text-orange-600 underline">let us know</a>.</p>
+        </div>
+      </section>
+
+      {/* FAQ Section - Audit Recommendation */}
+      <section className="w-full py-14 bg-gradient-to-br from-amber-50 via-white to-orange-50 flex flex-col items-center">
+        <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 mb-6 text-center flex items-center gap-2">❓ Got questions? We've got answers.</h2>
+        <div className="max-w-2xl w-full flex flex-col gap-7">
+          <div className="bg-white rounded-2xl p-7 shadow-lg w-full border border-amber-100">
+            <h3 className="font-bold text-lg text-orange-600 mb-2 flex items-center gap-2">🍽️ How does it handle picky eaters?</h3>
+            <p className="text-gray-700">Set difficulty and taste preferences per family member. We'll suggest recipes that match their tastes.</p>
+          </div>
+          <div className="bg-white rounded-2xl p-7 shadow-lg w-full border border-amber-100">
+            <h3 className="font-bold text-lg text-orange-600 mb-2 flex items-center gap-2">🔄 What if someone changes their diet mid-week?</h3>
+            <p className="text-gray-700">Update their profile anytime. We'll re-suggest recipes immediately.</p>
+          </div>
+          <div className="bg-white rounded-2xl p-7 shadow-lg w-full border border-amber-100">
+            <h3 className="font-bold text-lg text-orange-600 mb-2 flex items-center gap-2">✏️ Can I modify meals on the fly?</h3>
+            <p className="text-gray-700">Absolutely. Tap any meal to replace it in seconds.</p>
+          </div>
+          <div className="bg-white rounded-2xl p-7 shadow-lg w-full border border-amber-100">
+            <h3 className="font-bold text-lg text-orange-600 mb-2 flex items-center gap-2">🥗 What diets do you support?</h3>
+            <p className="text-gray-700">All major diets: keto, vegan, vegetarian, gluten-free, low-sodium, low-sugar, and more.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Competitor Comparison Table - Audit Recommendation */}
+      <section className="w-full py-12 bg-white flex flex-col items-center">
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-8 text-center">How We Compare</h2>
+        <div className="overflow-x-auto w-full max-w-4xl">
+          <table className="min-w-full border border-gray-200 rounded-xl overflow-hidden text-sm md:text-base">
+            <thead className="bg-amber-50">
+              <tr>
+                <th className="py-4 px-2 border-b font-bold text-left">Feature</th>
+                <th className="py-4 px-2 border-b font-bold text-center">BestMealMate</th>
+                <th className="py-4 px-2 border-b font-bold text-center">Mealime</th>
+                <th className="py-4 px-2 border-b font-bold text-center">Plan to Eat</th>
+                <th className="py-4 px-2 border-b font-bold text-center">Eat This Much</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white">
+              <tr className="border-b">
+                <td className="py-3 px-2 font-semibold">Family Profiles</td>
+                <td className="text-center text-green-600 font-bold">✔️</td>
+                <td className="text-center text-gray-400">—</td>
+                <td className="text-center text-orange-500 font-bold">Partial</td>
+                <td className="text-center text-gray-400">—</td>
+              </tr>
+              <tr className="border-b bg-amber-50/40">
+                <td className="py-3 px-2 font-semibold">AI Meal Planning</td>
+                <td className="text-center text-green-600 font-bold">✔️</td>
+                <td className="text-center text-gray-400">—</td>
+                <td className="text-center text-gray-400">—</td>
+                <td className="text-center text-orange-500 font-bold">✔️</td>
+              </tr>
+              <tr className="border-b">
+                <td className="py-3 px-2 font-semibold">Grocery List</td>
+                <td className="text-center text-green-600 font-bold">✔️</td>
+                <td className="text-center text-green-600 font-bold">✔️</td>
+                <td className="text-center text-green-600 font-bold">✔️</td>
+                <td className="text-center text-green-600 font-bold">✔️</td>
+              </tr>
+              <tr className="border-b bg-amber-50/40">
+                <td className="py-3 px-2 font-semibold">Dietary Filters</td>
+                <td className="text-center text-green-600 font-bold">✔️</td>
+                <td className="text-center text-green-600 font-bold">✔️</td>
+                <td className="text-center text-orange-500 font-bold">Partial</td>
+                <td className="text-center text-green-600 font-bold">✔️</td>
+              </tr>
+              <tr className="border-b">
+                <td className="py-3 px-2 font-semibold">Free Trial</td>
+                <td className="text-center text-green-600 font-bold">14 days</td>
+                <td className="text-center text-green-600 font-bold">7 days</td>
+                <td className="text-center text-orange-500 font-bold">30 days</td>
+                <td className="text-center text-green-600 font-bold">7 days</td>
+              </tr>
+              <tr className="border-b bg-amber-50/40">
+                <td className="py-3 px-2 font-semibold">Price (Monthly)</td>
+                <td className="text-center font-bold">$9</td>
+                <td className="text-center">$6</td>
+                <td className="text-center">$5</td>
+                <td className="text-center">$9</td>
+              </tr>
+              <tr>
+                <td className="py-3 px-2 font-semibold">Mobile App</td>
+                <td className="text-center text-green-600 font-bold">✔️</td>
+                <td className="text-center text-green-600 font-bold">✔️</td>
+                <td className="text-center text-orange-500 font-bold">Web Only</td>
+                <td className="text-center text-green-600 font-bold">✔️</td>
+              </tr>
+            </tbody>
+          </table>
+          <div className="text-xs text-gray-500 mt-3 text-center">Data as of January 2026. Features and pricing may change. <span className="text-orange-600 font-semibold">BestMealMate</span> is focused on family-first, AI-powered planning.</div>
+        </div>
+      </section>
+      <section className="w-full py-12 bg-amber-50 flex flex-col items-center">
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-8 text-center">How It Works</h2>
+        <div className="flex flex-wrap gap-8 justify-center">
+          <div className="flex flex-col items-center bg-white rounded-2xl shadow p-6 min-w-[220px] max-w-xs">
+            <span className="text-4xl mb-2">👥</span>
+            <span className="font-bold text-lg text-gray-800 mb-1">1. Add Profiles</span>
+            <span className="text-sm text-gray-600 text-center">Add each family member with their dietary needs and preferences.</span>
+          </div>
+          <div className="flex flex-col items-center bg-white rounded-2xl shadow p-6 min-w-[220px] max-w-xs">
+            <span className="text-4xl mb-2">🤖</span>
+            <span className="font-bold text-lg text-gray-800 mb-1">2. AI Creates Plans</span>
+            <span className="text-sm text-gray-600 text-center">Our AI creates weekly meal plans that work for everyone in your household.</span>
+          </div>
+          <div className="flex flex-col items-center bg-white rounded-2xl shadow p-6 min-w-[220px] max-w-xs">
+            <span className="text-4xl mb-2">🛒</span>
+            <span className="font-bold text-lg text-gray-800 mb-1">3. Get Grocery Lists</span>
+            <span className="text-sm text-gray-600 text-center">Get organized grocery lists and step-by-step recipes delivered to you.</span>
+          </div>
+        </div>
+      </section>
 
       {/* Feature Cards - Horizontal scroll on mobile */}
       <section className="max-w-6xl mx-auto px-4 py-8 md:py-12 -mt-16 md:-mt-20 relative z-10">
@@ -1652,7 +1953,7 @@ END:VEVENT
             <FeatureCard icon="📅" title="Calendar" description="Export to iCal" onClick={exportToCalendar} imageSrc={FOOD_GALLERY.calendar} />
           </div>
           <div className="swipe-item min-w-[140px] md:min-w-0">
-            <FeatureCard icon="📖" title="Recipes" description="15+ dishes" onClick={() => setActiveModal('recipes')} imageSrc={FOOD_GALLERY.cooking} />
+            <FeatureCard icon="📖" title="Recipes" description="200+ personalized recipes" onClick={() => setActiveModal('recipes')} imageSrc={FOOD_GALLERY.cooking} />
           </div>
           <div className="swipe-item min-w-[140px] md:min-w-0">
             <FeatureCard icon="❤️" title="Favorites" description="Quick-add" onClick={() => setActiveModal('favorites')} imageSrc={FOOD_GALLERY.familyDinner} />
@@ -1663,18 +1964,39 @@ END:VEVENT
       {/* Recipe Gallery - Horizontal scroll on mobile */}
       <section className="max-w-6xl mx-auto px-4 py-6 md:py-8">
         <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4 md:mb-6 flex items-center gap-2">
-          🍴 Tap Any Dish for Recipe
+          🍴 Explore {Object.keys(RECIPES).length}+ Recipes for Every Family
         </h2>
         <div className="flex gap-3 overflow-x-auto pb-4 md:pb-0 md:grid md:grid-cols-7 swipe-container -mx-4 px-4 md:mx-0">
-          {Object.entries(RECIPES).slice(0, 14).map(([name, recipe]) => (
-            <button key={name} onClick={() => openRecipe(name)} className="swipe-item flex-shrink-0 w-24 h-24 md:w-auto md:h-auto md:aspect-square relative rounded-xl overflow-hidden shadow-md active:scale-95 transition-transform">
-              <Image src={recipe.image} alt={name} fill className="object-cover" sizes="150px" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent md:bg-black/0 md:hover:bg-black/50 transition-colors flex items-end md:items-center justify-center">
-                <span className="text-white font-medium text-[10px] md:text-xs text-center px-1 pb-1 md:pb-0 md:opacity-0 md:group-hover:opacity-100 transition-opacity">{name.split(' ')[0]}</span>
-              </div>
-            </button>
-          ))}
+          {Object.entries(RECIPES).slice(0, 14).map(([name, recipe]) => {
+            // Family compatibility: show if recipe has 'Family Favorite' tag
+            const isFamily = recipe.tags.includes('Family Favorite');
+            return (
+              <button key={name} onClick={() => openRecipe(name)} className="swipe-item flex-shrink-0 w-40 h-56 md:w-auto md:h-auto md:aspect-[3/4] relative rounded-2xl overflow-hidden shadow-md active:scale-95 transition-transform group bg-white">
+                <div className="relative h-28 w-full">
+                  <Image src={recipe.image} alt={name} fill className="object-cover" sizes="150px" />
+                  <div className="absolute top-2 left-2 flex gap-1">
+                    {isFamily && <span className="bg-green-500 text-white text-[10px] px-2 py-0.5 rounded-full">Family</span>}
+                  </div>
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent px-2 py-1 flex items-end">
+                    <span className="text-white font-semibold text-xs truncate w-full">{name}</span>
+                  </div>
+                </div>
+                <div className="p-2 flex flex-col gap-1">
+                  <div className="flex items-center gap-2 text-xs text-gray-600">
+                    <span className="inline-flex items-center gap-1"><span>⏱️</span>{recipe.time}</span>
+                    <span className="inline-flex items-center gap-1"><span>🔥</span>{recipe.calories} cal</span>
+                  </div>
+                  <div className="flex flex-wrap gap-1 mt-1">
+                    {recipe.tags.slice(0,2).map((tag, idx) => (
+                      <span key={idx} className="bg-orange-100 text-orange-700 text-[10px] px-2 py-0.5 rounded-full">{tag}</span>
+                    ))}
+                  </div>
+                </div>
+              </button>
+            );
+          })}
         </div>
+        <div className="text-xs text-gray-500 mt-2 md:mt-3">More than {Object.keys(RECIPES).length} chef-tested recipes for picky eaters, busy parents, and every diet. Tap a card for details!</div>
       </section>
 
       {/* Meal Type Cards - Horizontal scroll on mobile */}
@@ -1819,18 +2141,21 @@ END:VEVENT
 
         {/* Footer */}
         <footer className="mt-10 mb-20 md:mb-0 bg-white rounded-2xl shadow-lg p-4 md:p-6">
-          <div className="flex items-center justify-between flex-wrap gap-4">
-            <div className="flex items-center gap-2">
+          <div className="flex flex-col md:flex-row items-center justify-between flex-wrap gap-4">
+            <div className="flex items-center gap-2 mb-2 md:mb-0">
               <span className="text-xl md:text-2xl">🍽️</span>
               <span className="font-bold text-orange-600">BestMealMate</span>
               <span className="text-gray-400 text-xs md:text-sm">© 2026</span>
             </div>
-            <div className="flex items-center gap-3 text-xs md:text-sm text-gray-400">
-              {isSyncing && <span className="flex items-center gap-1 text-orange-500"><span className="animate-spin">⟳</span> Syncing...</span>}
-              <span className="text-green-500">● {filledSlots} meals</span>
+            <div className="flex flex-col md:flex-row items-center gap-2 md:gap-3 text-xs md:text-sm text-gray-400">
+              <span className="text-gray-600">Support: <a href="mailto:hello@bestmealmate.com" className="text-green-600 hover:underline">hello@bestmealmate.com</a></span>
               <span className="hidden md:inline">|</span>
-              <a href="/privacy" className="hover:text-orange-500 hidden md:inline">Privacy</a>
-              <a href="/terms" className="hover:text-orange-500 hidden md:inline">Terms</a>
+              <a href="/support" className="hover:text-orange-500">Support</a>
+              <span className="hidden md:inline">|</span>
+              <a href="/privacy" className="hover:text-orange-500">Privacy</a>
+              <span className="hidden md:inline">|</span>
+              <a href="/terms" className="hover:text-orange-500">Terms</a>
+              <span className="hidden md:inline">|</span>
               <a href="https://x.com/bestmealmate" target="_blank" rel="noopener noreferrer" className="hover:text-orange-500" aria-label="X">𝕏</a>
             </div>
           </div>

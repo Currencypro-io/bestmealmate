@@ -162,7 +162,8 @@ export default function PrivacyPolicy() {
             <ul className="list-none text-gray-600 mt-4 space-y-2">
               <li><strong>Email:</strong> privacy@bestmealmate.com</li>
               <li><strong>Website:</strong> bestmealmate.com</li>
-              <li><strong>Twitter/X:</strong> @bestmealmate</li>
+              <li><strong>Phone:</strong> +1 609-527-8656</li>
+                <li><strong>Twitter/X:</strong> @bestmealmate</li>
             </ul>
           </section>
         </div>
