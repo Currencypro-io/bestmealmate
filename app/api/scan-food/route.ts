@@ -1,11 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Anthropic from '@anthropic-ai/sdk';
+import { rateLimit } from '@/app/lib/rate-limit';
 
 const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 });
 
 export async function POST(request: NextRequest) {
+  // Rate limit: 10 requests per minute
+  const rateLimitResult = rateLimit(request, { limit: 10, window: 60 });
+  if (!rateLimitResult.success) {
+    return NextResponse.json(
+      { error: 'Too many requests. Please try again later.' },
+      {
+        status: 429,
+        headers: {
+          'Retry-After': String(Math.ceil((rateLimitResult.resetAt - Date.now()) / 1000)),
+        },
+      }
+    );
+  }
+
   try {
     const { image, mode } = await request.json();
 
@@ -108,23 +123,30 @@ Be creative but practical. Only return valid JSON, no other text.`
     }
 
     // Parse JSON from response
-    try {
-      const jsonMatch = textContent.text.match(/\{[\s\S]*\}/);
-      if (jsonMatch) {
+    const jsonMatch = textContent.text.match(/\{[\s\S]*\}/);
+    if (jsonMatch) {
+      try {
         const parsed = JSON.parse(jsonMatch[0]);
         return NextResponse.json({ success: true, data: parsed, mode });
+      } catch (parseError) {
+        console.error('JSON parse error:', parseError);
+        // Return 422 Unprocessable Entity when AI response can't be parsed
+        return NextResponse.json(
+          {
+            success: false,
+            error: 'Failed to parse AI response',
+            raw: textContent.text,
+            mode
+          },
+          { status: 422 }
+        );
       }
-    } catch {
-      // If JSON parsing fails, return raw text
-      return NextResponse.json({
-        success: true,
-        data: { raw: textContent.text },
-        mode
-      });
     }
 
+    // No JSON found in response - return raw with warning
     return NextResponse.json({
       success: true,
+      warning: 'Response was not in expected JSON format',
       data: { raw: textContent.text },
       mode
     });

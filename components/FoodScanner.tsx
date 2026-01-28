@@ -51,9 +51,10 @@ interface ScanResult {
 interface FoodScannerProps {
   onClose: () => void;
   onAddToMealPlan?: (mealName: string) => void;
+  onIngredientsScanned?: (ingredients: Ingredient[]) => void;
 }
 
-export default function FoodScanner({ onClose, onAddToMealPlan }: FoodScannerProps) {
+export default function FoodScanner({ onClose, onAddToMealPlan, onIngredientsScanned }: FoodScannerProps) {
   const [mode, setMode] = useState<ScanMode>('identify');
   const [isScanning, setIsScanning] = useState(false);
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
@@ -163,6 +164,13 @@ export default function FoodScanner({ onClose, onAddToMealPlan }: FoodScannerPro
       const data = await response.json();
       if (data.success) {
         setResult(data.data);
+        // Notify parent of scanned ingredients
+        if (onIngredientsScanned && data.data) {
+          const ingredients = data.data.ingredients || data.data.leftovers || [];
+          if (ingredients.length > 0) {
+            onIngredientsScanned(ingredients);
+          }
+        }
       } else {
         setError(data.error || 'Failed to analyze image');
       }
@@ -172,7 +180,7 @@ export default function FoodScanner({ onClose, onAddToMealPlan }: FoodScannerPro
     } finally {
       setIsScanning(false);
     }
-  }, [capturedImage, mode]);
+  }, [capturedImage, mode, onIngredientsScanned]);
 
   const resetScanner = useCallback(() => {
     setCapturedImage(null);
@@ -432,6 +440,20 @@ export default function FoodScanner({ onClose, onAddToMealPlan }: FoodScannerPro
                       </ul>
                     </div>
                   )}
+
+                  {/* Ask AI Chef Button */}
+                  <button
+                    onClick={() => {
+                      if (onIngredientsScanned && result.ingredients) {
+                        onIngredientsScanned(result.ingredients);
+                      }
+                      onClose();
+                    }}
+                    className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-6 rounded-xl transition-colors flex items-center justify-center gap-2"
+                  >
+                    <span>👨‍🍳</span>
+                    <span>Ask AI Chef what to make</span>
+                  </button>
                 </div>
               )}
 

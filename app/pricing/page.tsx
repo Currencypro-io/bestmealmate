@@ -78,8 +78,8 @@ export default function PricingPage() {
         body: JSON.stringify({
           priceId,
           email,
-          // Generate a simple userId if not authenticated
-          userId: `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+          // Generate a secure userId if not authenticated
+          userId: crypto.randomUUID(),
         }),
       });
 

@@ -719,12 +719,6 @@ const MEAL_IMAGES: Record<string, string> = {
 
 // Gallery images with recipes
 
-// Family member profiles for homepage visual section
-const FAMILY_PROFILES = [
-  { name: 'Dad', icon: '👨', diet: 'Keto diet', desc: 'High protein meals' },
-  { name: 'Sofia', icon: '👧', diet: 'Nut allergy', desc: 'Kid-friendly recipes' },
-  { name: 'Grandma', icon: '👵', diet: 'Low sodium', desc: 'Heart-healthy options' },
-];
 const FOOD_GALLERY = {
   hero: 'https://images.unsplash.com/photo-1547573854-74d2a71d0826?w=1920&h=800&fit=crop&q=90',
   familyEating: 'https://images.unsplash.com/photo-1606787366850-de6330128bfc?w=800&h=600&fit=crop&q=80',
@@ -767,18 +761,6 @@ function Toast({ message, type, onClose }: { message: string; type: 'success' | 
   );
 }
 
-// Progress bar
-function ProgressBar({ filled, total }: { filled: number; total: number }) {
-  const percentage = Math.round((filled / total) * 100);
-  return (
-    <div className="w-full bg-gray-200/50 rounded-full h-3 overflow-hidden backdrop-blur-sm">
-      <div 
-        className="progress-bar bg-gradient-to-r from-orange-400 via-amber-400 to-yellow-400 h-full rounded-full"
-        style={{ width: `${percentage}%` }}
-      />
-    </div>
-  );
-}
 
 // Recipe Modal with tabs for detailed info
 function RecipeModal({ recipe, onClose, onAddToMeal }: {
@@ -1125,7 +1107,7 @@ function OnboardingFlow({ onComplete }: { onComplete: (selectedRecipes: string[]
               <b>Step {step} of 2 – Create Your Free Account</b>
             </span>
             <span className="text-xs text-gray-400 text-center mt-1">Takes 1 minute. No payment needed.</span>
-            <span className="text-xs text-green-700 flex items-center gap-1 mt-1"><span className="text-green-600">🔒</span> We'll save your plans and send helpful updates. Unsubscribe anytime. No spam, ever.</span>
+            <span className="text-xs text-green-700 flex items-center gap-1 mt-1"><span className="text-green-600">🔒</span> We&apos;ll save your plans and send helpful updates. Unsubscribe anytime. No spam, ever.</span>
           </div>
         </div>
 
@@ -1135,7 +1117,7 @@ function OnboardingFlow({ onComplete }: { onComplete: (selectedRecipes: string[]
             {/* Family Profile Visual Section (Audit: before form) */}
             <section className="mb-8">
               <h3 className="text-xl font-extrabold text-gray-900 mb-2 flex items-center justify-center gap-2">
-                <span className="text-orange-500">👨‍👩‍👧‍👦</span> Everyone Gets Meals They'll Actually Eat
+                <span className="text-orange-500">👨‍👩‍👧‍👦</span> Everyone Gets Meals They&apos;ll Actually Eat
               </h3>
               <div className="flex flex-wrap gap-4 justify-center mb-3">
                 <div className="flex flex-col items-center bg-gradient-to-br from-orange-100 to-amber-100 rounded-2xl shadow p-5 min-w-[110px] max-w-[130px] border border-orange-200">
@@ -1157,7 +1139,7 @@ function OnboardingFlow({ onComplete }: { onComplete: (selectedRecipes: string[]
                   <span className="text-xs text-gray-600">Heart-healthy</span>
                 </div>
               </div>
-              <p className="text-sm text-gray-500 mt-2 font-medium">One unified plan. Everyone's happy.</p>
+              <p className="text-sm text-gray-500 mt-2 font-medium">One unified plan. Everyone&apos;s happy.</p>
             </section>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-2">Create Your Free Account</h2>
             <p className="text-gray-600 mb-6 text-base sm:text-lg">
@@ -1181,18 +1163,18 @@ function OnboardingFlow({ onComplete }: { onComplete: (selectedRecipes: string[]
               <div className="flex flex-col gap-3 mb-2">
                 <button
                   type="button"
-                  onClick={() => (window as any).signIn ? (window as any).signIn('google') : window.location.assign('/api/auth/signin/google')}
+                  onClick={() => window.location.assign('/api/auth/signin/google')}
                   className="w-full flex items-center justify-center gap-2 py-3 rounded-xl border border-gray-200 bg-white text-gray-700 font-semibold shadow-sm hover:bg-gray-50 transition-all"
                 >
-                  <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" className="w-5 h-5" />
+                  <Image src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" width={20} height={20} />
                   Continue with Google
                 </button>
                 <button
                   type="button"
-                  onClick={() => (window as any).signIn ? (window as any).signIn('apple') : window.location.assign('/api/auth/signin/apple')}
+                  onClick={() => window.location.assign('/api/auth/signin/apple')}
                   className="w-full flex items-center justify-center gap-2 py-3 rounded-xl border border-gray-200 bg-white text-gray-700 font-semibold shadow-sm hover:bg-gray-50 transition-all"
                 >
-                  <img src="https://www.svgrepo.com/show/303128/apple-logo.svg" alt="Apple" className="w-5 h-5" />
+                  <Image src="https://www.svgrepo.com/show/303128/apple-logo.svg" alt="Apple" width={20} height={20} />
                   Continue with Apple
                 </button>
               </div>
@@ -1375,7 +1357,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [recentlyAdded, setRecentlyAdded] = useState<string | null>(null);
   const [inputError, setInputError] = useState(false);
-  const [isSyncing, setIsSyncing] = useState(false);
+  const [, setIsSyncing] = useState(false);
   const [activeModal, setActiveModal] = useState<string | null>(null);
   const [groceryList, setGroceryList] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -1446,7 +1428,6 @@ export default function Home() {
     }
   }, [mealPlan, isLoading]);
 
-  const totalSlots = DAYS.length * MEALS.length;
   const filledSlots = Object.values(mealPlan).reduce((acc, day) => acc + Object.keys(day).length, 0);
 
   const showToast = useCallback((message: string, type: 'success' | 'error' | 'info') => {
@@ -1549,13 +1530,6 @@ export default function Home() {
     showToast(`${recipeName} selected! Choose day and meal type.`, 'info');
   }, [showToast]);
 
-  const randomMeal = useCallback(() => {
-    const allRecipes = Object.keys(RECIPES);
-    const random = allRecipes[Math.floor(Math.random() * allRecipes.length)];
-    setMealInput(random);
-    showToast(`Random pick: ${random}!`, 'success');
-  }, [showToast]);
-
   // Export to calendar (.ics format)
   const exportToCalendar = useCallback(() => {
     const today = new Date();
@@ -1653,6 +1627,10 @@ END:VEVENT
             <span className="font-bold text-lg md:text-xl text-orange-600">BestMealMate</span>
           </Link>
           <div className="flex items-center gap-2 md:gap-4">
+            <Link href="/chef" className="flex items-center gap-1 text-sm font-medium text-orange-600 hover:text-orange-700 bg-orange-50 px-3 py-1.5 rounded-full transition-colors">
+              <span>👨‍🍳</span>
+              <span className="hidden sm:inline">AI Chef</span>
+            </Link>
             <Link href="/pricing" className="text-sm text-gray-600 hover:text-orange-600 hidden md:block">Pricing</Link>
             <button onClick={() => setDarkMode(!darkMode)} className="p-2 rounded-full hover:bg-gray-100 active:bg-gray-200 transition-colors" title="Toggle dark mode">
               {darkMode ? '☀️' : '🌙'}
@@ -1674,7 +1652,7 @@ END:VEVENT
         <div className="absolute inset-0 flex flex-col items-center justify-center text-white px-4">
           <div className="animate-slide-up text-center max-w-2xl mx-auto">
             <h1 className="text-4xl md:text-6xl font-extrabold text-white mb-4 drop-shadow-lg text-center">
-              Dad's keto, kid's allergies, grandma's low-sodium — all in one plan
+              Dad&apos;s keto, kid&apos;s allergies, grandma&apos;s low-sodium — all in one plan
             </h1>
             <p className="text-lg md:text-2xl text-white mb-6 text-center font-medium">
               <span className="font-bold text-orange-300">Build a plan for everyone.</span> <br />
@@ -1706,16 +1684,16 @@ END:VEVENT
             {/* Press Logos & Trust Badges */}
             <div className="w-full flex flex-col items-center mt-8 mb-2">
               <div className="flex flex-wrap justify-center items-center gap-6 mb-4">
-                <img src="/press/forbes.svg" alt="Forbes" className="h-8 md:h-10 w-auto opacity-80 grayscale hover:grayscale-0 transition" style={{maxWidth:100}} />
-                <img src="/press/techcrunch.svg" alt="TechCrunch" className="h-8 md:h-10 w-auto opacity-80 grayscale hover:grayscale-0 transition" style={{maxWidth:120}} />
-                <img src="/press/wsj.svg" alt="Wall Street Journal" className="h-8 md:h-10 w-auto opacity-80 grayscale hover:grayscale-0 transition" style={{maxWidth:110}} />
-                <img src="/press/nyt.svg" alt="New York Times" className="h-8 md:h-10 w-auto opacity-80 grayscale hover:grayscale-0 transition" style={{maxWidth:110}} />
-                <img src="/press/lifehacker.svg" alt="Lifehacker" className="h-8 md:h-10 w-auto opacity-80 grayscale hover:grayscale-0 transition" style={{maxWidth:110}} />
+                <Image src="/press/forbes.svg" alt="Forbes" width={100} height={40} className="opacity-80 grayscale hover:grayscale-0 transition" />
+                <Image src="/press/techcrunch.svg" alt="TechCrunch" width={120} height={40} className="opacity-80 grayscale hover:grayscale-0 transition" />
+                <Image src="/press/wsj.svg" alt="Wall Street Journal" width={110} height={40} className="opacity-80 grayscale hover:grayscale-0 transition" />
+                <Image src="/press/nyt.svg" alt="New York Times" width={110} height={40} className="opacity-80 grayscale hover:grayscale-0 transition" />
+                <Image src="/press/lifehacker.svg" alt="Lifehacker" width={110} height={40} className="opacity-80 grayscale hover:grayscale-0 transition" />
               </div>
               <div className="flex flex-wrap justify-center items-center gap-4">
-                <img src="/badges/ssl.svg" alt="SSL Secured" className="h-7 w-auto" style={{maxWidth:90}} />
-                <img src="/badges/privacy.svg" alt="Privacy First" className="h-7 w-auto" style={{maxWidth:90}} />
-                <img src="/badges/satisfaction.svg" alt="Satisfaction Guarantee" className="h-7 w-auto" style={{maxWidth:120}} />
+                <Image src="/badges/ssl.svg" alt="SSL Secured" width={90} height={28} />
+                <Image src="/badges/privacy.svg" alt="Privacy First" width={90} height={28} />
+                <Image src="/badges/satisfaction.svg" alt="Satisfaction Guarantee" width={120} height={28} />
               </div>
             </div>
           </div>
@@ -1800,21 +1778,21 @@ END:VEVENT
           <div className="bg-white rounded-2xl p-7 shadow-lg w-full flex flex-col md:flex-row gap-4 items-center border border-amber-100">
             <span className="text-4xl">⭐⭐⭐⭐⭐</span>
             <div>
-              <blockquote className="text-gray-800 text-lg mb-2 font-medium">“Finally, a planner that understands my family's different needs. My kids eat healthier, I save 5 hours a week, and we waste less food.”</blockquote>
+              <blockquote className="text-gray-800 text-lg mb-2 font-medium">&quot;Finally, a planner that understands my family&apos;s different needs. My kids eat healthier, I save 5 hours a week, and we waste less food.&quot;</blockquote>
               <footer className="text-xs text-gray-500 font-semibold">Maria, Denver</footer>
             </div>
           </div>
           <div className="bg-white rounded-2xl p-7 shadow-lg w-full flex flex-col md:flex-row gap-4 items-center border border-amber-100">
             <span className="text-4xl">⭐⭐⭐⭐⭐</span>
             <div>
-              <blockquote className="text-gray-800 text-lg mb-2 font-medium">“No more arguing about dinner. Everyone's happy because we actually want to eat what's on the plan.”</blockquote>
+              <blockquote className="text-gray-800 text-lg mb-2 font-medium">&quot;No more arguing about dinner. Everyone&apos;s happy because we actually want to eat what&apos;s on the plan.&quot;</blockquote>
               <footer className="text-xs text-gray-500 font-semibold">James, Austin</footer>
             </div>
           </div>
           <div className="bg-white rounded-2xl p-7 shadow-lg w-full flex flex-col md:flex-row gap-4 items-center border border-amber-100">
             <span className="text-4xl">⭐⭐⭐⭐⭐</span>
             <div>
-              <blockquote className="text-gray-800 text-lg mb-2 font-medium">“The grocery list alone saves me hours every week.”</blockquote>
+              <blockquote className="text-gray-800 text-lg mb-2 font-medium">&quot;The grocery list alone saves me hours every week.&quot;</blockquote>
               <footer className="text-xs text-gray-500 font-semibold">Rebecca, Seattle</footer>
             </div>
           </div>
@@ -1826,15 +1804,15 @@ END:VEVENT
 
       {/* FAQ Section - Audit Recommendation */}
       <section className="w-full py-14 bg-gradient-to-br from-amber-50 via-white to-orange-50 flex flex-col items-center">
-        <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 mb-6 text-center flex items-center gap-2">❓ Got questions? We've got answers.</h2>
+        <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 mb-6 text-center flex items-center gap-2">❓ Got questions? We&apos;ve got answers.</h2>
         <div className="max-w-2xl w-full flex flex-col gap-7">
           <div className="bg-white rounded-2xl p-7 shadow-lg w-full border border-amber-100">
             <h3 className="font-bold text-lg text-orange-600 mb-2 flex items-center gap-2">🍽️ How does it handle picky eaters?</h3>
-            <p className="text-gray-700">Set difficulty and taste preferences per family member. We'll suggest recipes that match their tastes.</p>
+            <p className="text-gray-700">Set difficulty and taste preferences per family member. We&apos;ll suggest recipes that match their tastes.</p>
           </div>
           <div className="bg-white rounded-2xl p-7 shadow-lg w-full border border-amber-100">
             <h3 className="font-bold text-lg text-orange-600 mb-2 flex items-center gap-2">🔄 What if someone changes their diet mid-week?</h3>
-            <p className="text-gray-700">Update their profile anytime. We'll re-suggest recipes immediately.</p>
+            <p className="text-gray-700">Update their profile anytime. We&apos;ll re-suggest recipes immediately.</p>
           </div>
           <div className="bg-white rounded-2xl p-7 shadow-lg w-full border border-amber-100">
             <h3 className="font-bold text-lg text-orange-600 mb-2 flex items-center gap-2">✏️ Can I modify meals on the fly?</h3>
@@ -2211,6 +2189,10 @@ END:VEVENT
           <span>🏠</span>
           <span>Home</span>
         </button>
+        <Link href="/chef" className="mobile-nav-item">
+          <span>👨‍🍳</span>
+          <span>Chef</span>
+        </Link>
         <button onClick={() => setActiveModal('recipes')} className={`mobile-nav-item ${activeModal === 'recipes' ? 'active' : ''}`}>
           <span>📖</span>
           <span>Recipes</span>
@@ -2218,10 +2200,6 @@ END:VEVENT
         <button onClick={generateGroceryList} className={`mobile-nav-item ${activeModal === 'grocery' ? 'active' : ''}`}>
           <span>🛒</span>
           <span>Grocery</span>
-        </button>
-        <button onClick={shareMealPlan} className="mobile-nav-item">
-          <span>📤</span>
-          <span>Share</span>
         </button>
       </nav>
 

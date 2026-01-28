@@ -210,3 +210,101 @@ CREATE TRIGGER update_grocery_lists_updated_at
 
 -- Storage policies for user-uploads bucket
 -- INSERT INTO storage.buckets (id, name, public) VALUES ('user-uploads', 'user-uploads', false);
+
+-- ============================================
+-- 8. FAMILY PROFILES TABLE (for AI Chef)
+-- ============================================
+CREATE TABLE IF NOT EXISTS family_profiles (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id TEXT UNIQUE NOT NULL,
+  family_name TEXT DEFAULT 'My Family',
+  members JSONB DEFAULT '[]'::jsonb, -- Array of {id, name, role, allergies[], restrictions[], likes[], dislikes[], notes}
+  skill_level TEXT DEFAULT 'intermediate', -- 'beginner', 'intermediate', 'advanced'
+  preferences JSONB DEFAULT '{}'::jsonb, -- {cuisineTypes[], mealPrepStyle, budgetLevel, organicPreference}
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_family_profiles_user_id ON family_profiles(user_id);
+
+ALTER TABLE family_profiles ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Users can manage their own family profile" ON family_profiles;
+CREATE POLICY "Users can manage their own family profile"
+  ON family_profiles
+  FOR ALL
+  USING (true)
+  WITH CHECK (true);
+
+DROP TRIGGER IF EXISTS update_family_profiles_updated_at ON family_profiles;
+CREATE TRIGGER update_family_profiles_updated_at
+  BEFORE UPDATE ON family_profiles
+  FOR EACH ROW
+  EXECUTE FUNCTION update_updated_at_column();
+
+-- ============================================
+-- 9. CHEF CONVERSATIONS TABLE (for AI Chef memory)
+-- ============================================
+CREATE TABLE IF NOT EXISTS chef_conversations (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id TEXT UNIQUE NOT NULL,
+  messages JSONB DEFAULT '[]'::jsonb, -- Array of {role: 'user'|'assistant', content: string}
+  family_profile JSONB, -- Snapshot of family profile at conversation time
+  scanned_ingredients JSONB DEFAULT '[]'::jsonb, -- Recent scanned ingredients
+  current_meal_plan JSONB, -- Current week's meal plan context
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_chef_conversations_user_id ON chef_conversations(user_id);
+
+ALTER TABLE chef_conversations ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Users can manage their own chef conversations" ON chef_conversations;
+CREATE POLICY "Users can manage their own chef conversations"
+  ON chef_conversations
+  FOR ALL
+  USING (true)
+  WITH CHECK (true);
+
+DROP TRIGGER IF EXISTS update_chef_conversations_updated_at ON chef_conversations;
+CREATE TRIGGER update_chef_conversations_updated_at
+  BEFORE UPDATE ON chef_conversations
+  FOR EACH ROW
+  EXECUTE FUNCTION update_updated_at_column();
+
+-- ============================================
+-- 10. PANTRY INVENTORY TABLE (for ingredient tracking)
+-- ============================================
+CREATE TABLE IF NOT EXISTS pantry_inventory (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id TEXT NOT NULL,
+  name TEXT NOT NULL,
+  quantity TEXT,
+  category TEXT, -- 'produce', 'protein', 'dairy', 'grain', 'pantry', 'frozen', 'other'
+  freshness TEXT, -- 'fresh', 'good', 'use soon', 'expired'
+  expiry_date DATE,
+  scanned_at TIMESTAMPTZ DEFAULT NOW(),
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+
+  UNIQUE(user_id, name)
+);
+
+CREATE INDEX IF NOT EXISTS idx_pantry_inventory_user_id ON pantry_inventory(user_id);
+CREATE INDEX IF NOT EXISTS idx_pantry_inventory_expiry ON pantry_inventory(expiry_date);
+
+ALTER TABLE pantry_inventory ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Users can manage their own pantry" ON pantry_inventory;
+CREATE POLICY "Users can manage their own pantry"
+  ON pantry_inventory
+  FOR ALL
+  USING (true)
+  WITH CHECK (true);
+
+DROP TRIGGER IF EXISTS update_pantry_inventory_updated_at ON pantry_inventory;
+CREATE TRIGGER update_pantry_inventory_updated_at
+  BEFORE UPDATE ON pantry_inventory
+  FOR EACH ROW
+  EXECUTE FUNCTION update_updated_at_column();

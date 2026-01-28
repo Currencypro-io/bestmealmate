@@ -1,5 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { stripe, PLANS, findOrCreateCustomer } from '@/lib/stripe';
+import { z } from 'zod';
+
+const checkoutSchema = z.object({
+  priceId: z.string().regex(/^price_[a-zA-Z0-9]+$/, 'Invalid Stripe price ID format'),
+  email: z.string().email('Invalid email address'),
+  userId: z.string().uuid().optional(),
+});
 
 export async function POST(request: NextRequest) {
   if (!stripe) {
@@ -10,21 +17,17 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const { priceId, userId, email } = await request.json();
+    const body = await request.json();
 
-    if (!priceId) {
+    const validation = checkoutSchema.safeParse(body);
+    if (!validation.success) {
       return NextResponse.json(
-        { error: 'Price ID is required' },
+        { error: validation.error.issues[0]?.message || 'Invalid request data' },
         { status: 400 }
       );
     }
 
-    if (!email) {
-      return NextResponse.json(
-        { error: 'Email is required' },
-        { status: 400 }
-      );
-    }
+    const { priceId, userId, email } = validation.data;
 
     // Find or create customer to enable receipts and subscription management
     const customerId = await findOrCreateCustomer(email, { userId });
