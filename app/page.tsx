@@ -1036,9 +1036,9 @@ function Modal({ isOpen, onClose, title, children }: { isOpen: boolean; onClose:
 }
 
 // Feature Card
-function FeatureCard({ icon, title, description, onClick, imageSrc }: { icon: string; title: string; description: string; onClick: () => void; imageSrc: string }) {
+function FeatureCard({ icon, title, description, onClick, imageSrc }: { icon: string; title: string; description: string; onClick?: () => void; imageSrc: string }) {
   return (
-    <button onClick={onClick} className="group relative overflow-hidden rounded-2xl bg-white shadow-lg hover:shadow-2xl transition-all duration-300 card-lift text-left w-full">
+    <div onClick={onClick} className="group relative overflow-hidden rounded-2xl bg-white shadow-lg hover:shadow-2xl transition-all duration-300 card-lift text-left w-full cursor-pointer">
       <div className="relative h-32 overflow-hidden">
         <Image src={imageSrc} alt={title} fill className="object-cover group-hover:scale-110 transition-transform duration-500" sizes="300px" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
@@ -1048,7 +1048,7 @@ function FeatureCard({ icon, title, description, onClick, imageSrc }: { icon: st
         <h3 className="font-bold text-gray-800 group-hover:text-orange-600 transition-colors">{title}</h3>
         <p className="text-sm text-gray-500 mt-1">{description}</p>
       </div>
-    </button>
+    </div>
   );
 }
 
@@ -1963,7 +1963,14 @@ END:VEVENT
             <FeatureCard icon="📅" title="Calendar" description="Export to iCal" onClick={exportToCalendar} imageSrc={FOOD_GALLERY.calendar} />
           </div>
           <div className="swipe-item min-w-[140px] md:min-w-0">
-            <FeatureCard icon="📖" title="Recipes" description="200+ personalized recipes" onClick={() => setActiveModal('recipes')} imageSrc={FOOD_GALLERY.cooking} />
+            <Link href="/nutrition">
+              <FeatureCard icon="📊" title="Nutrition" description="Track macros" imageSrc={FOOD_GALLERY.healthyFood} />
+            </Link>
+          </div>
+          <div className="swipe-item min-w-[140px] md:min-w-0">
+            <Link href="/recipes">
+              <FeatureCard icon="📖" title="Recipes" description="200+ personalized recipes" imageSrc={FOOD_GALLERY.cooking} />
+            </Link>
           </div>
           <div className="swipe-item min-w-[140px] md:min-w-0">
             <FeatureCard icon="❤️" title="Favorites" description="Quick-add" onClick={() => setActiveModal('favorites')} imageSrc={FOOD_GALLERY.familyDinner} />
