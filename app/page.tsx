@@ -1510,6 +1510,34 @@ export default function Home() {
     window.print();
   }, []);
 
+  // Random meal picker - suggests a random recipe
+  const pickRandomMeal = useCallback(() => {
+    const recipeNames = Object.keys(RECIPES);
+    const randomIndex = Math.floor(Math.random() * recipeNames.length);
+    const randomRecipe = recipeNames[randomIndex];
+    setMealInput(randomRecipe);
+    setShowSuggestions(false);
+    showToast(`Random pick: ${randomRecipe}!`, 'success');
+  }, [showToast]);
+
+  // Fill entire week with random meals
+  const fillWeekRandomly = useCallback(async () => {
+    const recipeNames = Object.keys(RECIPES);
+    const newPlan: Record<string, Record<string, string>> = {};
+
+    for (const day of DAYS) {
+      newPlan[day] = {};
+      for (const meal of MEALS) {
+        const randomIndex = Math.floor(Math.random() * recipeNames.length);
+        newPlan[day][meal] = recipeNames[randomIndex];
+      }
+    }
+
+    setMealPlan(newPlan);
+    await syncMealPlan(newPlan);
+    showToast('Week filled with random meals!', 'success');
+  }, [showToast]);
+
   const selectSuggestion = useCallback((suggestion: string) => {
     setMealInput(suggestion);
     setShowSuggestions(false);
@@ -1593,7 +1621,7 @@ END:VEVENT
   }, []);
 
   return (
-    <div className={`min-h-screen transition-colors ${darkMode ? 'bg-gray-900' : 'bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50'}`}>
+    <div className={`min-h-screen transition-colors ${darkMode ? 'dark bg-gray-900' : 'bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50'}`}>
       {/* 90-Second Onboarding Flow */}
       {showOnboarding && <OnboardingFlow onComplete={handleOnboardingComplete} />}
 
@@ -1630,6 +1658,10 @@ END:VEVENT
             <Link href="/chef" className="flex items-center gap-1 text-sm font-medium text-orange-600 hover:text-orange-700 bg-orange-50 px-3 py-1.5 rounded-full transition-colors">
               <span>👨‍🍳</span>
               <span className="hidden sm:inline">AI Chef</span>
+            </Link>
+            <Link href="/recipes" className="flex items-center gap-1 text-sm font-medium text-gray-600 hover:text-orange-600 transition-colors">
+              <span>📖</span>
+              <span className="hidden sm:inline">Recipes</span>
             </Link>
             <Link href="/pricing" className="text-sm text-gray-600 hover:text-orange-600 hidden md:block">Pricing</Link>
             <button onClick={() => setDarkMode(!darkMode)} className="p-2 rounded-full hover:bg-gray-100 active:bg-gray-200 transition-colors" title="Toggle dark mode">
@@ -2060,6 +2092,8 @@ END:VEVENT
               </button>
             </form>
             <div className="mt-4 pt-4 border-t border-gray-100 flex flex-wrap gap-2">
+              <button onClick={pickRandomMeal} className="text-sm text-gray-400 hover:text-purple-500 px-3 py-1.5 hover:bg-purple-50 rounded">🎲 Random</button>
+              <button onClick={fillWeekRandomly} className="text-sm text-gray-400 hover:text-blue-500 px-3 py-1.5 hover:bg-blue-50 rounded">✨ Fill Week</button>
               {filledSlots > 0 && <button onClick={clearAllMeals} className="text-sm text-gray-400 hover:text-red-500 px-3 py-1.5 hover:bg-red-50 rounded">🗑️ Clear all</button>}
               <button onClick={generateGroceryList} className="text-sm text-gray-400 hover:text-green-500 px-3 py-1.5 hover:bg-green-50 rounded">🛒 Groceries</button>
             </div>

@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 /* Global styles for Best Meal Mate */
 body {
   margin: 0;
@@ -5,6 +7,54 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
   background: #f8fafc;
   color: #222;
+}
+
+/* Dark mode styles */
+.dark {
+  background: #111827 !important;
+  color: #f9fafb;
+}
+
+.dark body {
+  background: #111827;
+  color: #f9fafb;
+}
+
+.dark nav {
+  background: rgba(17, 24, 39, 0.95) !important;
+}
+
+.dark .bg-white {
+  background: #1f2937 !important;
+}
+
+.dark .bg-gray-50,
+.dark .bg-gray-100 {
+  background: #374151 !important;
+}
+
+.dark .text-gray-800,
+.dark .text-gray-900 {
+  color: #f9fafb !important;
+}
+
+.dark .text-gray-600,
+.dark .text-gray-700 {
+  color: #d1d5db !important;
+}
+
+.dark .text-gray-500 {
+  color: #9ca3af !important;
+}
+
+.dark .border-gray-200,
+.dark .border-gray-100 {
+  border-color: #374151 !important;
+}
+
+.dark .shadow-sm,
+.dark .shadow-lg {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
 }
 
 a {
@@ -28,4 +78,63 @@ button {
 img {
   max-width: 100%;
   height: auto;
+}
+
+/* Print styles */
+@media print {
+  /* Hide non-essential elements */
+  nav,
+  .no-print,
+  button:not(.print-only),
+  .modal,
+  footer,
+  .toast {
+    display: none !important;
+  }
+
+  /* Reset colors for printing */
+  body {
+    background: white !important;
+    color: black !important;
+    font-size: 12pt;
+  }
+
+  .bg-gradient-to-br,
+  .bg-orange-50,
+  .bg-orange-100 {
+    background: white !important;
+  }
+
+  /* Meal plan grid */
+  .meal-plan-grid {
+    display: grid !important;
+    grid-template-columns: repeat(7, 1fr) !important;
+    gap: 8px !important;
+    page-break-inside: avoid;
+  }
+
+  .meal-cell {
+    border: 1px solid #ddd !important;
+    padding: 8px !important;
+    font-size: 10pt !important;
+  }
+
+  /* Page breaks */
+  .page-break {
+    page-break-before: always;
+  }
+
+  /* Header for print */
+  .print-header {
+    display: block !important;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 18pt;
+    font-weight: bold;
+  }
+
+  /* Show URLs for links */
+  a[href]:after {
+    content: none;
+  }
 }
