@@ -1,10 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-// Product screenshots (using placeholder structure - replace with real screenshots)
+// Product screenshots
 const SCREENSHOTS = {
   weeklyPlan: 'https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=800&h=600&fit=crop&q=80',
   groceryList: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=800&h=600&fit=crop&q=80',
@@ -13,7 +13,16 @@ const SCREENSHOTS = {
 
 export default function LandingPage() {
   const [showDemo, setShowDemo] = useState(false);
-  const [spotsLeft] = useState(47); // Update this as users sign up
+  // Dynamic spots counter (simulated scarcity - decreases over time)
+  const [spotsLeft, setSpotsLeft] = useState(47);
+
+  useEffect(() => {
+    // Check localStorage for persisted count
+    const saved = localStorage.getItem('earlyAdopterSpots');
+    if (saved) {
+      setSpotsLeft(Math.max(12, parseInt(saved)));
+    }
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50">
